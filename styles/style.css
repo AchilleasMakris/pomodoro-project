@@ -10,7 +10,7 @@
 
 html {
     scroll-behavior: smooth;
-    height: 100%
+    height: 100vh;
 }
 
 body {
@@ -19,9 +19,11 @@ body {
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    overflow: hidden;
 }
 
 img,
@@ -58,3 +60,45 @@ body::-webkit-scrollbar-thumb {
     background-color: var(--clr-dark);
     outline: 1px solid var(--clr-dark);
 }
+
+
+/* MEDIA QUERIES */
+
+
+/*xs screens */
+
+@media (max-width: 475px) {
+    .timer {
+        font-size: 8rem;
+    }
+}
+
+
+/*sm screens */
+
+
+/* @media (max-width: 640px) {} */
+
+
+/*md screens */
+
+
+/* @media (max-width: 768px) {} */
+
+
+/*lg screens */
+
+
+/* @media (max-width: 1024px) {} */
+
+
+/*xl screens */
+
+
+/* @media (max-width: 1280px) {} */
+
+
+/*2xl screens */
+
+
+/* @media (max-width: 1536px) {} */
