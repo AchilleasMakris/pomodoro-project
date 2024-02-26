@@ -24,7 +24,7 @@
 
 @media (max-width: 475px) {
     .header {
-        max-width: 80%;
+        max-width: 95%;
     }
     .hero {
         grid-template-columns: 1;
