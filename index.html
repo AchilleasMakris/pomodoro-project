@@ -179,7 +179,12 @@
         document.addEventListener('DOMContentLoaded', pomodoroTimer);
         pomodoroTimer();
     </script>
-
+    <script>
+        window.va = window.va || function() {
+            (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <script type="module">
         import { inject } from "@vercel/analytics"; inject();
     </script>
