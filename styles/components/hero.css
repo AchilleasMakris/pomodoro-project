@@ -7,10 +7,37 @@
 
 .hero {
     display: grid;
-    grid-template-columns: 7;
-    grid-template-rows: 4;
+    grid-template-columns: 2;
+    grid-template-rows: 8;
     align-items: center;
     gap: 5rem;
     text-align: center;
     justify-items: center;
+}
+
+
+/* @media (max-width: 1280px) {
+    .hero {
+        gap: 4rem
+    }
+} */
+
+@media (max-width: 475px) {
+    .hero {
+        grid-template-columns: 4;
+        grid-template-rows: 8;
+        row-gap: 3rem;
+    }
+    #container {
+        grid-row-start: 3;
+    }
+    .timer {
+        grid-row-start: 4;
+    }
+    .start {
+        grid-row-start: 5;
+    }
+    iframe {
+        grid-row-start: 7;
+    }
 }
