@@ -8,13 +8,11 @@
     color: var(--clr-dark);
     padding: 0.5em 1em;
     border-radius: 18px;
-    box-shadow: 0 10px 20px rgba(116, 111, 112, 0.5), 0 6px 6px rgba(0, 0, 0, 0.5), 0 0 100px -10px var( --clr-slate800);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(82, 21, 56, 0.22), 0 0 120px -10px var(--clr-dark);
 }
 
 .btn:hover {
