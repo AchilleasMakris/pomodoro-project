@@ -9,7 +9,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
     height: 100vh;
 }
 
@@ -47,7 +47,8 @@ button {
 
 /* Scrollbar */
 
-body::-webkit-scrollbar {
+
+/* body::-webkit-scrollbar {
     width: 8px;
 }
 
@@ -58,7 +59,7 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
     background-color: var(--clr-dark);
     outline: 1px solid var(--clr-dark);
-}
+} */
 
 
 /* MEDIA QUERIES */
