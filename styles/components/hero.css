@@ -23,21 +23,27 @@
 } */
 
 @media (max-width: 475px) {
+    .header {
+        max-width: 80%;
+    }
     .hero {
-        grid-template-columns: 4;
-        grid-template-rows: 8;
+        grid-template-columns: 1;
+        grid-template-rows: 6;
         row-gap: 3rem;
     }
+    .header {
+        justify-content: flex-end;
+    }
     #container {
-        grid-row-start: 3;
+        grid-row-start: 2;
     }
     .timer {
-        grid-row-start: 4;
+        grid-row-start: 3;
     }
     .start {
-        grid-row-start: 5;
+        grid-row-start: 4;
     }
     iframe {
-        grid-row-start: 7;
+        grid-row-start: 5;
     }
 }

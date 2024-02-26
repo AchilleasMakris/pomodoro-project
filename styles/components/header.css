@@ -1,4 +1,5 @@
 .header {
+    max-width: 80%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
