@@ -3,7 +3,8 @@ const pomodoroTimer = () => {
     const shortBreakBtn = document.getElementById('short-break-btn');
     const longBreakBtn = document.getElementById('long-break-btn');
     const startBtn = document.getElementById('start-btn');
-    const timerDisplay = document.querySelector('.timer');
+    const resetBtn = document.getElementById('reset-btn');
+
     let timer;
     let isRunning = false;
     let currentTimer = 'pomodoro'; // Default timer
@@ -17,6 +18,7 @@ const pomodoroTimer = () => {
 
     // Function to set the timer display
     const setTimer = () => {
+        const timerDisplay = document.querySelector('.timer');
         timerDisplay.textContent = formatTime(timeLeft[currentTimer]);
     };
 
@@ -93,7 +95,6 @@ const pomodoroTimer = () => {
     startBtn.addEventListener('click', startTimer);
 
     // Event listener for the reset button
-    const resetBtn = document.getElementById('reset-btn');
     resetBtn.addEventListener('click', resetTimer);
 };
 

@@ -84,7 +84,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Space Grotesk", sans-serif;
-    background-image: url('/public/sakura2.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/public/sakura2.jpg');
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -134,4 +134,9 @@ body {
     /* Full viewport height */
     gap: 20px;
     /* Space between elements */
+}
+
+.spotify {
+    width: 100%;
+    max-width: 450px;
 }
