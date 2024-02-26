@@ -73,11 +73,17 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width: 475px) {
     body {
-        max-width: 475px;
+        /* max-width: 475px; */
         min-height: 100vh;
+    }
+    .header li {
+        font-size: 0.7rem;
     }
     .timer {
         font-size: 8rem;
+    }
+    iframe {
+        width: 300px;
     }
 }
 
