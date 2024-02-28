@@ -36,5 +36,5 @@ Project is still under development.
 ## Author/Contact
 
     M. Achilleas - Initial work
-    Website Preview: https://pomodoro-project-three.vercel.app/
+    Website Preview: https://pomodoro.achilleasmakris.dev/
     
