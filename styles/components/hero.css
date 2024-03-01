@@ -21,7 +21,7 @@
     grid-template-columns: 1;
     grid-template-rows: 10;
     grid-auto-flow: column;
-    row-gap: 2rem;
+    row-gap: 3rem;
 }
 
 #container {
@@ -37,7 +37,7 @@
 }
 
 iframe {
-    grid-row: 10;
+    grid-row: 9;
 }
 
 
