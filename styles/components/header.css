@@ -2,16 +2,14 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    text-align: center;
-    position: fixed;
-    top: 40px;
+    padding: 30px;
 }
 
 .header__menu {
     display: flex;
     align-items: center;
     list-style: none;
-    padding-right: 0.6rem;
+    padding-right: 1.5rem;
     gap: 2em;
 }
 
@@ -25,7 +23,7 @@
 
 .info {
     font-size: 1rem;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     border-radius: 8px;
     padding: 1rem;
 }
