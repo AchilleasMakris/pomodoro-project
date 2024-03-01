@@ -4,8 +4,9 @@
     font-weight: 600;
     text-decoration: none;
     letter-spacing: -0.05em;
-    background-color: var(--clr-light);
-    color: var(--clr-dark);
+    background-color: transparent;
+    color: var(--clr-light);
+    border: 2px solid white;
     padding: 0.5em 1em;
     border-radius: 18px;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -16,7 +17,8 @@
 }
 
 .btn:hover {
-    color: #000;
+    background-color: #fff;
+    color: black;
 }
 
 .container {

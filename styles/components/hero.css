@@ -1,18 +1,43 @@
 .timer {
     font-family: "Space Grotesk", sans-serif;
     color: var(--clr-light);
-    font-size: 10rem;
-    font-weight: 800;
+    font-size: 8.5rem;
+    font-weight: 600;
+    letter-spacing: -0.25rem;
+    font-variant-numeric: tabular-nums;
 }
 
 .hero {
     display: grid;
-    grid-template-columns: 2;
+    grid-template-columns: 1;
     grid-template-rows: 8;
     align-items: center;
-    gap: 5rem;
+    gap: 3rem;
     text-align: center;
     justify-items: center;
+}
+
+.hero {
+    grid-template-columns: 1;
+    grid-template-rows: 10;
+    grid-auto-flow: column;
+    row-gap: 2rem;
+}
+
+#container {
+    grid-row: 6;
+}
+
+.timer {
+    grid-row: 7;
+}
+
+.start {
+    grid-row: 8;
+}
+
+iframe {
+    grid-row: 10;
 }
 
 
@@ -28,22 +53,22 @@
     }
     .hero {
         grid-template-columns: 1;
-        grid-template-rows: 6;
+        grid-template-rows: 8;
         row-gap: 3rem;
     }
     .header {
         justify-content: flex-end;
     }
     #container {
-        grid-row-start: 2;
+        grid-row-start: 6;
     }
     .timer {
-        grid-row-start: 3;
+        grid-row-start: 7;
     }
     .start {
-        grid-row-start: 4;
+        grid-row-start: 8;
     }
     iframe {
-        grid-row-start: 5;
+        grid-row-start: 9;
     }
 }
