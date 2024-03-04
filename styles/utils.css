@@ -1,57 +1,91 @@
 .btn {
-    display: inline-block;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: -0.05em;
-    background-color: transparent;
-    color: var(--clr-light);
-    border: 2px solid white;
-    padding: 0.5em 1em;
-    border-radius: 18px;
-    transition: transform 0.3s, box-shadow 0.3s;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.05em;
+  background-color: transparent;
+  color: var(--clr-light);
+  border: 2px solid white;
+  padding: 0.5em 1em;
+  border-radius: 18px;
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.form-check:hover {
+  transform: translateY(-3px);
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.form-check-label {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.05em;
+  border: 2px solid white;
+  padding: 0.5em 1em;
+  border-radius: 18px;
+  color: var(--clr-light);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+#pomodoro:checked + .form-check-label {
+  background-color: white;
+  color: var(--clr-dark);
+}
+
+#shortbreak:checked + .form-check-label {
+  background-color: white;
+  color: var(--clr-dark);
+}
+
+#longbreak:checked + .form-check-label {
+  background-color: white;
+  color: var(--clr-dark);
 }
 
 .btn:hover {
-    transform: translateY(-3px);
+  transform: translateY(-3px);
+  background-color: #fff;
+  color: black;
 }
-
-.btn:hover {
-    background-color: #fff;
-    color: black;
-}
-
 
 /*xs screens */
 
-@media (max-width: 475px) {}
-
+@media (max-width: 475px) {
+}
 
 /*sm screens */
 
-@media (max-width: 640px) {}
-
+@media (max-width: 640px) {
+}
 
 /*md screens */
 
-@media (max-width: 768px) {}
-
+@media (max-width: 768px) {
+}
 
 /*lg screens */
 
-@media (max-width: 1024px) {}
-
+@media (max-width: 1024px) {
+}
 
 /*xl screens */
 
-@media (max-width: 1280px) {}
-
+@media (max-width: 1280px) {
+}
 
 /*2xl screens */
 
-@media (max-width: 1536px) {}
+@media (max-width: 1536px) {
+}
 
 #banner {
-    text-align: center;
-    background-color: #000;
+  text-align: center;
+  background-color: #000;
 }
