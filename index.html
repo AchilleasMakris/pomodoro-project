@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/styles/components/hero.css" />
     <link rel="stylesheet" href="/styles/components/footer.css" />
     <link rel="stylesheet" href="/styles/components/working.css" />
+    <link rel="stylesheet" href="/styles/components/fullscreen.css" />
     <link rel="stylesheet" href="/styles/style.css" />
     <link rel="stylesheet" href="/styles/utils.css" />
     <meta
@@ -137,26 +138,76 @@
         loading="lazy"
       >
       </iframe>
+      <!-- END OF SPOTIFY -->
     </section>
+    <!-- END OF HERO SECTION -->
+    <!-- toggle fullscreen button -->
+    <section class="fullscreen">
+      <button id="fullscreen-btn">
+        <?xml version="1.0" ?><svg
+          height="32px"
+          version="1.1"
+          viewBox="0 0 14 14"
+          width="32px"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <title />
+          <desc />
+          <defs />
+          <g
+            fill="none"
+            fill-rule="evenodd"
+            id="Page-1"
+            stroke="none"
+            stroke-width="1"
+          >
+            <g
+              fill="#fff"
+              id="Core"
+              transform="translate(-215.000000, -257.000000)"
+            >
+              <g id="fullscreen" transform="translate(215.000000, 257.000000)">
+                <path
+                  d="M2,9 L0,9 L0,14 L5,14 L5,12 L2,12 L2,9 L2,9 Z M0,5 L2,5 L2,2 L5,2 L5,0 L0,0 L0,5 L0,5 Z M12,12 L9,12 L9,14 L14,14 L14,9 L12,9 L12,12 L12,12 Z M9,0 L9,2 L12,2 L12,5 L14,5 L14,0 L9,0 L9,0 Z"
+                  id="Shape"
+                />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </section>
+    <!-- end of toggle fullscreen button -->
+
     <!-- JavaScript Timer -->
     <script src="/sources/player.js"></script>
     <!-- END OF JAVASCRIPT TIMER -->
 
-    <!-- END OF JAVASCRIPT TIMER -->
+    <!-- vercel statistics script -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script type="module">
       import { inject } from "@vercel/analytics";
       inject();
     </script>
+    <!-- end of vercel statistics -->
+    <!-- Fullscreen Button Javascript -->
+    <script src="/sources/fullscreen.js"></script>
+    t
+    <!-- End of Fullscreen Button Javascript -->
     <!-- End of JavaScript -->
-    <!-- END OF SPOTIFY -->
-    <footer class="footer container">
+    <!-- FOOTER SECTION -->
+    <footer class="footer">
       <h3 class="footer__title">~ Achilleas Makris ~</h3>
     </footer>
-    <div id="banner">
+    <!-- END OF FOOTER SECTION -->
+    <!-- UNDER CONSTRUCTION LABEL -->
+    <!-- <div id="banner">
       <div>
         <h3 class="working__title">Site under construction! Stay tuned!</h3>
       </div>
-    </div>
+    </div> -->
+    <!-- END OF UNDER CONSTRUCTION LABEL -->
   </body>
 </html>

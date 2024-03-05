@@ -1,0 +1,8 @@
+.fullscreen {
+  position: fixed;
+  right: 5rem;
+  bottom: 7rem;
+  width: 25px;
+  height: 25px;
+  opacity: 0.8;
+}
