@@ -36,5 +36,5 @@ Finished
 ## Author/Contact
 
     M. Achilleas
-    Website Preview: https://pomodoro.achilleasmakris.dev/
+    Website Preview: https://pomodoro.achilleasmakris.me/
     
