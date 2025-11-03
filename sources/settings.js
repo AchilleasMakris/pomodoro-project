@@ -533,9 +533,7 @@ window.getPomodoroSettings = function() {
 
 // This function can be called to open the music credits tab
 window.openMusicCredits = function() {
-  openSettingsModal();
-  // Assuming a function showTab exists to switch tabs
-  showTab('music');
+  openCreditsModal();
 };
 
 // Export for other modules to save settings
