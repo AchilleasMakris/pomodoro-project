@@ -138,6 +138,12 @@ function applyBackground() {
     existingVideo.remove();
   }
 
+  // Remove any existing video overlay
+  const existingOverlay = document.getElementById('video-overlay');
+  if (existingOverlay) {
+    existingOverlay.remove();
+  }
+
   if (bg.type === 'video') {
     // Create video background element
     const video = document.createElement('video');
