@@ -137,18 +137,19 @@
 .volume-slider-container {
   position: absolute;
   bottom: 55px;
+  width: 18px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(20, 20, 20, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 12px;
-  padding: 1rem 0.75rem;
+  padding: 1.25rem 0.6rem;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  height: 140px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,13 +165,13 @@
 .volume-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 110px;
-  height: 5px;
+  width: 150px;
+  height: 3px;
   background: linear-gradient(to right, 
-    rgba(255, 255, 255, 0.1) 0%, 
-    rgba(255, 255, 255, 0.1) var(--volume-percent, 70%), 
-    rgba(255, 255, 255, 0.05) var(--volume-percent, 70%), 
-    rgba(255, 255, 255, 0.05) 100%);
+    rgba(255, 255, 255, 0.3) 0%, 
+    rgba(255, 255, 255, 0.3) var(--volume-percent, 70%), 
+    rgba(255, 255, 255, 0.08) var(--volume-percent, 70%), 
+    rgba(255, 255, 255, 0.08) 100%);
   border-radius: 10px;
   outline: none;
   cursor: pointer;
@@ -182,52 +183,52 @@
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
   cursor: grab;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 
-              0 0 0 0 rgba(255, 255, 255, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 
+              0 0 0 0 rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
 }
 
 .volume-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 
-              0 0 0 4px rgba(255, 255, 255, 0.1);
+  transform: scale(1.25);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 
+              0 0 0 3px rgba(255, 255, 255, 0.15);
 }
 
 .volume-slider::-webkit-slider-thumb:active {
   cursor: grabbing;
-  transform: scale(1.1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 
+  transform: scale(1.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 
               0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .volume-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
   cursor: grab;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 
-              0 0 0 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 
+              0 0 0 0 rgba(255, 255, 255, 0.2);
 }
 
 .volume-slider::-moz-range-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 
-              0 0 0 4px rgba(255, 255, 255, 0.1);
+  transform: scale(1.25);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 
+              0 0 0 3px rgba(255, 255, 255, 0.15);
 }
 
 .volume-slider::-moz-range-thumb:active {
   cursor: grabbing;
-  transform: scale(1.1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 
+  transform: scale(1.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 
               0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
