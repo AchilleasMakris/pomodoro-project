@@ -132,22 +132,21 @@ function applyBackground() {
 
   const bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
 
-  // Remove any existing video background
+  // Always remove any existing video elements and overlays first
   const existingVideo = document.getElementById('background-video');
   if (existingVideo) {
     existingVideo.remove();
   }
 
-  // Remove any existing video overlay
   const existingOverlay = document.getElementById('video-overlay');
   if (existingOverlay) {
     existingOverlay.remove();
   }
 
+  // Also clear background image to prevent any stacking
+  document.body.style.backgroundImage = 'none';
+
   if (bg.type === 'video') {
-    // Clear any background image first
-    document.body.style.backgroundImage = 'none';
-    
     // Create video background element
     const video = document.createElement('video');
     video.id = 'background-video';
@@ -183,15 +182,7 @@ function applyBackground() {
     // Play video
     video.play().catch(e => console.log('Video autoplay prevented:', e));
   } else {
-    // Remove video overlay if it exists (redundant but safe)
-    const overlay = document.getElementById('video-overlay');
-    if (overlay) {
-      overlay.remove();
-    }
-    
-    // Clear any existing background image to prevent stacking
-    document.body.style.backgroundImage = 'none';
-    
+    // For images and gradients, just set the background image
     if (bg.type === 'image') {
       document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${bg.value}")`;
     } else if (bg.type === 'gradient') {
