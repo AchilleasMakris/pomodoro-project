@@ -45,10 +45,10 @@
 
     <body>
         <!-- HEADER SECTION -->
-        <header class="header container">
+        <header class="header container" id="header-section">
             <nav>
                 <ul class="header__menu">
-                    <li>
+                    <li id="github-link">
                         <a href="https://github.com/AchilleasMakris" target="_blank" title="Github" aria-label="Github link">
                             <svg stroke="Currentcolor" fill="var(--clr-light)" stroke-width="0" viewBox="0 0 496 512" height="1.4em" width="1.4em" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -56,7 +56,7 @@
                 ></path></svg
             ></a>
           </li>
-          <li class="info">
+          <li class="info" id="header-info">
             <h3 class="header__title">Achilleas</h3>
             <p class="header__description">Pomodoro Project</p>
           </li>
@@ -335,7 +335,7 @@
                             </section>
                             <!-- end of toggle fullscreen button -->
 
-                            <!-- Hide fullscreen button in Discord Activity -->
+                            <!-- Hide elements in Discord Activity -->
                             <script>
                               (function() {
                                 // Check if running in Discord Activity iframe
@@ -343,9 +343,22 @@
                                 const isDiscord = inIframe || new URLSearchParams(window.location.search).has('frame_id');
 
                                 if (isDiscord) {
+                                  // Hide fullscreen button
                                   const fullscreenSection = document.getElementById('fullscreen-section');
                                   if (fullscreenSection) {
                                     fullscreenSection.style.display = 'none';
+                                  }
+
+                                  // Hide GitHub link
+                                  const githubLink = document.getElementById('github-link');
+                                  if (githubLink) {
+                                    githubLink.style.display = 'none';
+                                  }
+
+                                  // Hide header info (Achilleas Pomodoro Project)
+                                  const headerInfo = document.getElementById('header-info');
+                                  if (headerInfo) {
+                                    headerInfo.style.display = 'none';
                                   }
                                 }
                               })();
@@ -372,7 +385,7 @@
                             <!-- End of JavaScript -->
                             <!-- FOOTER SECTION -->
                             <footer class="footer">
-                                <h3 class="footer__title">~ Achilleas Makris!! ~</h3>
+                                <h3 class="footer__title">&copy; 2025 Achilleas Makris</h3>
                             </footer>
                             <!-- END OF FOOTER SECTION -->
                             <!-- UNDER CONSTRUCTION LABEL -->
