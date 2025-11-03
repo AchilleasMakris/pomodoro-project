@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Pomodoro Technique is a time management method that improves focus and productivity by breaking work into manageable intervals.">
+    <meta name="keywords" content="Pomodoro timer, productivity tool, time management, work efficiency, study technique, time blocking, focus technique, task management, work method, time tracker, concentration tool, productivity app, time management technique">
+    <meta name="author" content="Achilleas Makris">
+
+    <!-- Open Graph metadata -->
+    <meta property="og:title" content="Pomodoro Timer">
+    <meta property="og:description" content="The Pomodoro Technique is a time management method that improves focus and productivity by breaking work into manageable intervals.">
+    <meta property="og:url" content="https://pomodoro.achilleasmakris.dev/">
+    <meta property="og:site_name" content="Pomodoro Timer">
+    <meta property="og:image" content="https://pomodoro.achilleasmakris.dev/img/svg/pomodoro.svg">
+    <meta property="og:image:alt" content="Pomodoro Timer">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/svg/pomodoro.svg">
+
+    <!-- External Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Internal Stylesheets -->
+    <link rel="stylesheet" href="/styles/components/header.css">
+    <link rel="stylesheet" href="/styles/components/hero.css">
+    <link rel="stylesheet" href="/styles/components/footer.css">
+    <link rel="stylesheet" href="/styles/components/working.css">
+    <link rel="stylesheet" href="/styles/components/fullscreen.css">
+    <link rel="stylesheet" href="/styles/components/settings.css">
+    <link rel="stylesheet" href="/styles/components/music-player.css">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/utils.css">
+
+    <body>
+        <!-- HEADER SECTION -->
+        <header class="header container">
+            <nav>
+                <ul class="header__menu">
+                    <li>
+                        <a href="https://github.com/AchilleasMakris" target="_blank" title="Github" aria-label="Github link">
+                            <svg stroke="Currentcolor" fill="var(--clr-light)" stroke-width="0" viewBox="0 0 496 512" height="1.4em" width="1.4em" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
+                ></path></svg
+            ></a>
+          </li>
+          <li class="info">
+            <h3 class="header__title">Achilleas</h3>
+            <p class="header__description">Pomodoro Project</p>
+          </li>
+          <li>
+            <button id="settings-btn" class="settings-icon-btn" title="Settings" aria-label="Open settings">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div id="container">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="timerType"
+            id="pomodoro"
+            value="pomodoro"
+            checked
+          />
+          <label class="form-check-label" for="pomodoro"> Pomodoro </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="timerType"
+            id="shortbreak"
+            value="shortbreak"
+          />
+          <label class="form-check-label" for="shortbreak"> Short Break </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="timerType"
+            id="longbreak"
+            value="longbreak"
+          />
+          <label class="form-check-label" for="longbreak"> Long Break </label>
+        </div>
+      </div>
+      <div class="timer">25:00</div>
+      <div class="start">
+        <button id="start-btn" class="btn">Start</button>
+        <button id="reset-btn" class="btn">Reset</button>
+      </div>
+
+      <div id="music-player-container" class="music-player">
+        <!-- Music player will be populated by musicPlayer.js -->
+      </div>
+      <!-- END OF MUSIC PLAYER -->
+    </section>
+    <!-- END OF HERO SECTION -->
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="modal-overlay hidden">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2>Settings</h2>
+          <button id="close-settings-btn" class="close-btn" aria-label="Close settings">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-tabs">
+          <button class="tab-btn active" data-tab="timer">Timer</button>
+          <button class="tab-btn" data-tab="appearance">Appearance</button>
+          <button class="tab-btn" data-tab="music">Music</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- TIMER SETTINGS TAB -->
+          <div id="timer-tab" class="tab-content active">
+            <div class="settings-section">
+              <h3>Timer Durations (minutes)</h3>
+              <div class="timer-controls">
+                <div class="timer-control-group">
+                  <label for="pomodoro-duration">Pomodoro</label>
+                  <div class="input-with-btns">
+                    <button class="decrement-btn" data-target="pomodoro-duration">−</button>
+                    <input type="number" id="pomodoro-duration" min="1" max="60" value="25">
+                    <button class="increment-btn" data-target="pomodoro-duration">+</button>
+                  </div>
+                </div>
+
+                <div class="timer-control-group">
+                  <label for="shortbreak-duration">Short Break</label>
+                  <div class="input-with-btns">
+                    <button class="decrement-btn" data-target="shortbreak-duration">−</button>
+                    <input type="number" id="shortbreak-duration" min="1" max="60" value="5">
+                    <button class="increment-btn" data-target="shortbreak-duration">+</button>
+                  </div>
+                </div>
+
+                <div class="timer-control-group">
+                  <label for="longbreak-duration">Long Break</label>
+                  <div class="input-with-btns">
+                    <button class="decrement-btn" data-target="longbreak-duration">−</button>
+                    <input type="number" id="longbreak-duration" min="1" max="60" value="15">
+                    <button class="increment-btn" data-target="longbreak-duration">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Advanced Settings</h3>
+              <div class="setting-row">
+                <label for="pomodoro-count">Pomodoros before long break</label>
+                <input type="number" id="pomodoro-count" min="1" max="10" value="4">
+              </div>
+
+              <div class="setting-row checkbox-row">
+                <label for="auto-start-breaks">
+                  <input type="checkbox" id="auto-start-breaks">
+                  Auto-start breaks
+                </label>
+              </div>
+
+              <div class="setting-row checkbox-row">
+                <label for="auto-start-pomodoros">
+                  <input type="checkbox" id="auto-start-pomodoros">
+                  Auto-start pomodoros
+                </label>
+              </div>
+
+              <div class="setting-row checkbox-row">
+                <label for="sound-enabled">
+                  <input type="checkbox" id="sound-enabled" checked>
+                  Enable sound notifications
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <label for="volume-slider">Alarm Bell Volume</label>
+                <input type="range" id="volume-slider" min="0" max="100" value="50">
+                <span id="volume-value">50%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- APPEARANCE TAB -->
+          <div id="appearance-tab" class="tab-content">
+            <div class="settings-section">
+              <h3>Background</h3>
+              <div class="background-gallery">
+                <div class="background-option" data-background="wood">
+                  <img src="/img/wood.jpg" alt="Wood texture">
+                  <span>Wood</span>
+                </div>
+                <div class="background-option" data-background="sakura">
+                  <img src="/img/sakura4.jpg" alt="Sakura">
+                  <span>Sakura</span>
+                </div>
+                <div class="background-option" data-background="road-video">
+                  <video src="/img/road.mp4" muted loop style="width: 100%; height: 100px; object-fit: cover; pointer-events: none;"></video>
+                  <span>Road</span>
+                </div>
+                <div class="background-option" data-background="room-video">
+                  <video src="/img/room.mp4" muted loop style="width: 100%; height: 100px; object-fit: cover; pointer-events: none;"></video>
+                  <span>Room</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Theme Settings</h3>
+              <div class="setting-row">
+                <label for="timer-size">Timer Size</label>
+                <select id="timer-size">
+                  <option value="small">Small</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="large">Large</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- MUSIC TAB -->
+          <div id="music-tab" class="tab-content">
+            <div class="settings-section">
+              <h3>Music Credits</h3>
+              <p class="info-text">All music tracks are royalty-free and hosted locally for Discord Activity compatibility.</p>
+              <button id="music-credits-btn" class="btn-secondary">View All Music Credits (799 Tracks)</button>
+            </div>
+            <div class="settings-section">
+              <h3>Copyright Notice</h3>
+              <p class="info-text">
+                If you are a copyright holder and believe any song in this collection infringes on your rights, 
+                please contact me and I will remove it immediately.
+              </p>
+              <a href="mailto:lexlarisa@protonmail.com?subject=Pomodoro%20Music%20Copyright%20Request" class="btn-secondary" style="display: inline-block; text-decoration: none; text-align: center;">
+                Contact: lexlarisa@protonmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="reset-settings-btn" class="btn-secondary">Reset to Defaults</button>
+          <button id="save-settings-btn" class="btn">Save Settings</button>
+        </div>
+      </div>
+    </div>
+    <!-- END OF SETTINGS MODAL -->
+
+    <!-- MUSIC CREDITS MODAL -->
+    <div id="credits-modal" class="modal-overlay hidden">
+      <div class="modal-container modal-small">
+        <div class="modal-header">
+          <h2>Music Credits</h2>
+          <button id="close-credits-btn" class="close-btn" aria-label="Close credits">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="credits-content">
+            <!-- Credits will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END OF MUSIC CREDITS MODAL -->
+
+    <!-- toggle fullscreen button -->
+    <section class="fullscreen">
+      <button id="fullscreen-btn">
+        <?xml version="1.0" ?><svg
+          height="32px"
+          version="1.1"
+          viewBox="0 0 14 14"
+          width="32px"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <title />
+          <desc />
+          <defs />
+          <g
+            fill="none"
+            fill-rule="evenodd"
+            id="Page-1"
+            stroke="none"
+            stroke-width="1"
+          >
+            <g
+              fill="#fff"
+              id="Core"
+              transform="translate(-215.000000, -257.000000)"
+            >
+              <g id="fullscreen" transform="translate(215.000000, 257.000000)">
+                <path
+                  d="M2,9 L0,9 L0,14 L5,14 L5,12 L2,12 L2,9 L2,9 Z M0,5 L2,5 L2,2 L5,2 L5,0 L0,0 L0,5 L0,5 Z M12,12 L9,12 L9,14 L14,14 L14,9 L12,9 L12,12 L12,12 Z M9,0 L9,2 L12,2 L12,5 L14,5 L14,0 L9,0 L9,0 Z"
+                  id="Shape"
+                />
+              </g>
+            </g>
+          </g>
+        </svg>
+                            </button>
+                            </section>
+                            <!-- end of toggle fullscreen button -->
+
+                            <!-- JavaScript Timer -->
+                            <script src="/sources/player.js"></script>
+                            <!-- END OF JAVASCRIPT TIMER -->
+
+                            <!-- Music Player Module (Load BEFORE settings so MUSIC_LIBRARY is available) -->
+                            <script src="/sources/musicPlayer.js"></script>
+                            <!-- END OF MUSIC PLAYER MODULE -->
+
+                            <!-- Settings Module -->
+                            <script src="/sources/settings.js"></script>
+                            <!-- END OF SETTINGS MODULE -->
+
+                            <!-- vercel statistics script -->
+                            <script defer src="/_vercel/insights/script.js"></script>
+                            <script type="module">
+                                import { inject } from "@vercel/analytics"; inject();
+                            </script>
+                            <!-- end of vercel statistics -->
+                            <!-- Fullscreen Button Javascript -->
+                            <script src="/sources/fullscreen.js"></script>
+                            <!-- End of Fullscreen Button Javascript -->
+                            <!-- End of JavaScript -->
+                            <!-- FOOTER SECTION -->
+                            <footer class="footer">
+                                <h3 class="footer__title">~ Achilleas Makris ~</h3>
+                            </footer>
+                            <!-- END OF FOOTER SECTION -->
+                            <!-- UNDER CONSTRUCTION LABEL -->
+                            <!-- <div id="banner">
+      <div>
+        <h3 class="working__title">Site under construction! Stay tuned!</h3>
+      </div>
+    </div> -->
+                            <!-- END OF UNDER CONSTRUCTION LABEL -->
+    </body>
+
+</html>
