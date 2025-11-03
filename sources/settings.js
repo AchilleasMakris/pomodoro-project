@@ -164,7 +164,7 @@ function applyBackground() {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.background = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.background = 'rgba(0, 0, 0, 0.3)';
     overlay.style.zIndex = '-1';
     overlay.style.pointerEvents = 'none';
     
@@ -184,7 +184,7 @@ function applyBackground() {
     }
     
     if (bg.type === 'image') {
-      document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${bg.value}")`;
+      document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${bg.value}")`;
     } else if (bg.type === 'gradient') {
       document.body.style.backgroundImage = bg.value;
     }
