@@ -145,6 +145,9 @@ function applyBackground() {
   }
 
   if (bg.type === 'video') {
+    // Clear any background image first
+    document.body.style.backgroundImage = 'none';
+    
     // Create video background element
     const video = document.createElement('video');
     video.id = 'background-video';
@@ -177,17 +180,17 @@ function applyBackground() {
     document.body.prepend(overlay);
     document.body.prepend(video);
     
-    // Clear background image
-    document.body.style.backgroundImage = 'none';
-    
     // Play video
     video.play().catch(e => console.log('Video autoplay prevented:', e));
   } else {
-    // Remove video overlay if it exists
+    // Remove video overlay if it exists (redundant but safe)
     const overlay = document.getElementById('video-overlay');
     if (overlay) {
       overlay.remove();
     }
+    
+    // Clear any existing background image to prevent stacking
+    document.body.style.backgroundImage = 'none';
     
     if (bg.type === 'image') {
       document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${bg.value}")`;
