@@ -5894,10 +5894,16 @@ class MusicPlayer {
     // Volume slider
     const volumeSlider = document.getElementById('music-volume-slider');
     if (volumeSlider) {
+      // Set initial CSS variable for gradient
+      volumeSlider.style.setProperty('--volume-percent', volumeSlider.value + '%');
+      
       // Update volume in real-time while dragging (without saving)
       volumeSlider.addEventListener('input', (e) => {
         const volume = e.target.value / 100;
         this.audio.volume = volume;
+        
+        // Update CSS variable for visual feedback
+        e.target.style.setProperty('--volume-percent', e.target.value + '%');
         
         // Store previous volume if not muting
         if (volume > 0) {
@@ -6221,6 +6227,8 @@ class MusicPlayer {
     const volumeSlider = document.getElementById('music-volume-slider');
     if (volumeSlider) {
       volumeSlider.value = this.audio.volume * 100;
+      // Update CSS variable for gradient
+      volumeSlider.style.setProperty('--volume-percent', (this.audio.volume * 100) + '%');
     }
     this.updateVolumeIcon(this.audio.volume);
   }
