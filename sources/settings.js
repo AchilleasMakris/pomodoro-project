@@ -13,7 +13,7 @@ const DEFAULT_SETTINGS = {
   autoStartPomodoros: false,
   soundEnabled: true,
   volume: 50,
-  background: 'wood',
+  background: 'room-video',
   timerSize: 'medium',
   musicVolume: 70 // Separate volume for music player
 };
@@ -130,7 +130,7 @@ function applyBackground() {
     'room-video': { type: 'video', value: '/r2-backgrounds/room.mp4' }
   };
 
-  const bg = backgroundMap[currentSettings.background] || backgroundMap['wood'];
+  const bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
 
   // Remove any existing video background
   const existingVideo = document.getElementById('background-video');

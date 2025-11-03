@@ -6368,7 +6368,7 @@ class MusicPlayer {
       'room-video': { type: 'video', value: '/r2-backgrounds/room.mp4' }
     };
 
-    const bg = backgroundMap[backgroundName] || backgroundMap['wood'];
+    const bg = backgroundMap[backgroundName] || backgroundMap['room-video'];
 
     // Remove any existing video background
     const existingVideo = document.getElementById('background-video');
