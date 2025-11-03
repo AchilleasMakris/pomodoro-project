@@ -295,8 +295,8 @@
     </div>
     <!-- END OF MUSIC CREDITS MODAL -->
 
-    <!-- toggle fullscreen button -->
-    <section class="fullscreen">
+    <!-- toggle fullscreen button (hidden in Discord Activity) -->
+    <section class="fullscreen" id="fullscreen-section">
       <button id="fullscreen-btn">
         <?xml version="1.0" ?><svg
           height="32px"
@@ -334,6 +334,22 @@
                             </button>
                             </section>
                             <!-- end of toggle fullscreen button -->
+
+                            <!-- Hide fullscreen button in Discord Activity -->
+                            <script>
+                              (function() {
+                                // Check if running in Discord Activity iframe
+                                const inIframe = window.self !== window.top;
+                                const isDiscord = inIframe || new URLSearchParams(window.location.search).has('frame_id');
+
+                                if (isDiscord) {
+                                  const fullscreenSection = document.getElementById('fullscreen-section');
+                                  if (fullscreenSection) {
+                                    fullscreenSection.style.display = 'none';
+                                  }
+                                }
+                              })();
+                            </script>
 
                             <!-- JavaScript Timer -->
                             <script src="/sources/player.js"></script>
