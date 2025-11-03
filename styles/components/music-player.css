@@ -149,7 +149,7 @@
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  height: 180px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,7 +165,7 @@
 .volume-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 150px;
+  width: 140px;
   height: 3px;
   background: linear-gradient(to right, 
     rgba(255, 255, 255, 0.3) 0%, 
