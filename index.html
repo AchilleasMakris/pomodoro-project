@@ -116,16 +116,6 @@
         <!-- Music player will be populated by musicPlayer.js -->
       </div>
       <!-- END OF MUSIC PLAYER -->
-
-      <!-- DEBUG LOG (visible in Discord Activity) -->
-      <div id="debug-log" style="position: fixed; bottom: 0; left: 0; right: 0; max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.9); color: #0f0; font-family: monospace; font-size: 11px; padding: 10px; z-index: 9999; display: none;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-          <strong>🐛 Debug Log</strong>
-          <button onclick="document.getElementById('debug-log').style.display='none'" style="background: #f00; color: #fff; border: none; padding: 2px 8px; cursor: pointer;">Hide</button>
-        </div>
-        <div id="debug-log-content"></div>
-      </div>
-      <!-- END OF DEBUG LOG -->
     </section>
     <!-- END OF HERO SECTION -->
 
@@ -345,102 +335,12 @@
                             </section>
                             <!-- end of toggle fullscreen button -->
 
-                            <!-- Debug Logger (MUST load first to capture all logs) -->
-                            <script>
-                              // Visible debug logger for Discord Activity (no console access)
-                              (function() {
-                                const logContainer = document.getElementById('debug-log');
-                                const logContent = document.getElementById('debug-log-content');
-                                let logCount = 0;
-                                const maxLogs = 50;
-
-                                function addLog(type, args) {
-                                  if (!logContainer || !logContent) return;
-
-                                  logContainer.style.display = 'block';
-                                  const timestamp = new Date().toLocaleTimeString();
-                                  const message = Array.from(args).map(arg => {
-                                    if (typeof arg === 'object') {
-                                      try { return JSON.stringify(arg, null, 2); }
-                                      catch(e) { return String(arg); }
-                                    }
-                                    return String(arg);
-                                  }).join(' ');
-
-                                  const logLine = document.createElement('div');
-                                  logLine.style.marginBottom = '3px';
-                                  logLine.style.borderLeft = type === 'error' ? '3px solid #f00' : type === 'warn' ? '3px solid #ff0' : '3px solid #0f0';
-                                  logLine.style.paddingLeft = '5px';
-                                  logLine.innerHTML = `<span style="color: #888;">[${timestamp}]</span> <span style="color: ${type === 'error' ? '#f00' : type === 'warn' ? '#ff0' : '#0f0'};">${type.toUpperCase()}</span>: ${message}`;
-
-                                  logContent.appendChild(logLine);
-                                  logCount++;
-
-                                  // Keep only last N logs
-                                  if (logCount > maxLogs) {
-                                    logContent.removeChild(logContent.firstChild);
-                                  }
-
-                                  // Auto-scroll to bottom
-                                  logContainer.scrollTop = logContainer.scrollHeight;
-                                }
-
-                                // Intercept console methods
-                                const originalLog = console.log;
-                                const originalError = console.error;
-                                const originalWarn = console.warn;
-
-                                console.log = function() {
-                                  addLog('log', arguments);
-                                  originalLog.apply(console, arguments);
-                                };
-
-                                console.error = function() {
-                                  addLog('error', arguments);
-                                  originalError.apply(console, arguments);
-                                };
-
-                                console.warn = function() {
-                                  addLog('warn', arguments);
-                                  originalWarn.apply(console, arguments);
-                                };
-
-                                // Show debug log in iframe (Discord Activity)
-                                if (window.self !== window.top) {
-                                  setTimeout(() => {
-                                    if (logContainer) {
-                                      logContainer.style.display = 'block';
-                                      console.log('🎮 Running in Discord Activity mode - Debug log enabled');
-                                    }
-                                  }, 500);
-                                }
-
-                                // Add toggle button (triple-click anywhere to show/hide)
-                                let clickCount = 0;
-                                let clickTimer;
-                                document.addEventListener('click', function(e) {
-                                  clickCount++;
-                                  clearTimeout(clickTimer);
-                                  if (clickCount === 3) {
-                                    const currentDisplay = logContainer.style.display;
-                                    logContainer.style.display = currentDisplay === 'none' ? 'block' : 'none';
-                                    clickCount = 0;
-                                  }
-                                  clickTimer = setTimeout(() => { clickCount = 0; }, 500);
-                                });
-
-                                console.log('✅ Debug logger initialized');
-                                console.log('🔧 Code Version: v2.0.0 - Enhanced Error Logging');
-                              })();
-                            </script>
-                            <!-- END OF DEBUG LOGGER -->
-
                             <!-- JavaScript Timer -->
-                            <script src="/sources/player.js?v=2.0.0"></script>
+                            <script src="/sources/player.js"></script>
                             <!-- END OF JAVASCRIPT TIMER -->
 
                             <!-- Music Player Module (Load BEFORE settings so MUSIC_LIBRARY is available) -->
-                            <script src="/sources/musicPlayer.js?v=2.0.0"></script>
+                            <script src="/sources/musicPlayer.js"></script>
                             <!-- END OF MUSIC PLAYER MODULE -->
 
                             <!-- Settings Module -->
