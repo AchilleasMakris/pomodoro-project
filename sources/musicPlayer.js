@@ -6120,6 +6120,8 @@ class MusicPlayer {
 
   handleEnded() {
     // Auto-play next track
+    // Set isPlaying to true before calling nextTrack so the next song auto-plays
+    this.isPlaying = true;
     this.nextTrack();
   }
 
