@@ -116,18 +116,6 @@
         <!-- Music player will be populated by musicPlayer.js -->
       </div>
       <!-- END OF MUSIC PLAYER -->
-
-      <!-- TEMPORARY DEBUG LOG -->
-      <div id="debug-log" style="position: fixed; bottom: 0; left: 0; right: 0; max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.95); color: #0f0; font-family: monospace; font-size: 10px; padding: 8px; z-index: 99999; display: none; border-top: 2px solid #0f0;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 3px; align-items: center;">
-          <strong style="color: #ff0;">🐛 DEBUG</strong>
-          <div>
-            <button onclick="var d=document.getElementById('debug-log'); d.style.maxHeight=d.style.maxHeight==='30px'?'150px':'30px';" style="background: #ff0; color: #000; border: none; padding: 2px 8px; cursor: pointer; font-size: 10px; margin-right: 4px; font-weight: bold;">−</button>
-            <button onclick="document.getElementById('debug-log').style.display='none'" style="background: #f00; color: #fff; border: none; padding: 2px 8px; cursor: pointer; font-size: 10px; font-weight: bold;">✕</button>
-          </div>
-        </div>
-        <div id="debug-content"></div>
-      </div>
     </section>
     <!-- END OF HERO SECTION -->
 
@@ -372,60 +360,16 @@
                                   if (headerInfo) {
                                     headerInfo.style.display = 'none';
                                   }
-
-                                  // Enable debug log in Discord
-                                  const debugLog = document.getElementById('debug-log');
-                                  const debugContent = document.getElementById('debug-content');
-                                  if (debugLog && debugContent) {
-                                    debugLog.style.display = 'block';
-
-                                    function addDebugLine(msg, color = '#0f0') {
-                                      const line = document.createElement('div');
-                                      line.style.color = color;
-                                      line.style.marginBottom = '2px';
-                                      line.textContent = new Date().toLocaleTimeString() + ': ' + msg;
-                                      debugContent.appendChild(line);
-                                      if (debugContent.children.length > 30) {
-                                        debugContent.removeChild(debugContent.firstChild);
-                                      }
-                                      debugLog.scrollTop = debugLog.scrollHeight;
-                                    }
-
-                                    // Intercept console.error
-                                    const originalError = console.error;
-                                    console.error = function() {
-                                      const msg = Array.from(arguments).map(a => {
-                                        if (typeof a === 'object') {
-                                          try { return JSON.stringify(a); } catch(e) { return String(a); }
-                                        }
-                                        return String(a);
-                                      }).join(' ');
-                                      addDebugLine('ERROR: ' + msg, '#f00');
-                                      originalError.apply(console, arguments);
-                                    };
-
-                                    // Intercept console.log for Music Player messages
-                                    const originalLog = console.log;
-                                    console.log = function() {
-                                      const msg = Array.from(arguments).join(' ');
-                                      if (msg.includes('[Music Player]') || msg.includes('🎵')) {
-                                        addDebugLine(msg, '#0ff');
-                                      }
-                                      originalLog.apply(console, arguments);
-                                    };
-
-                                    addDebugLine('Debug log enabled - Discord Activity detected', '#ff0');
-                                  }
                                 }
                               })();
                             </script>
 
                             <!-- JavaScript Timer -->
-                            <script src="/sources/player.js?v=3"></script>
+                            <script src="/sources/player.js"></script>
                             <!-- END OF JAVASCRIPT TIMER -->
 
                             <!-- Music Player Module (Load BEFORE settings so MUSIC_LIBRARY is available) -->
-                            <script src="/sources/musicPlayer.js?v=3"></script>
+                            <script src="/sources/musicPlayer.js"></script>
                             <!-- END OF MUSIC PLAYER MODULE -->
 
                             <!-- Settings Module -->
