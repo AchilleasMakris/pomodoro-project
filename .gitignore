@@ -34,6 +34,10 @@ temp-*.js
 .env.test.local
 .env.production.local
 
+# R2 Upload Scripts (contains sensitive keys)
+upload-music-to-r2.js
+update-music-urls.js
+
 # Build outputs
 dist/
 build/
