@@ -6124,22 +6124,11 @@ class MusicPlayer {
   }
 
   handleError(e) {
-    console.error('[Music Player] ❌ Audio error event:', e);
-    console.error('[Music Player] Audio element error object:', this.audio.error);
-    console.error('[Music Player] Current track:', this.currentTrack);
-    console.error('[Music Player] Audio src:', this.audio.src);
-    console.error('[Music Player] Audio readyState:', this.audio.readyState);
-    console.error('[Music Player] Audio networkState:', this.audio.networkState);
-
-    // Get detailed error information
     const audioError = this.audio.error;
     let errorMessage = 'Error loading audio file';
     let errorCode = 'UNKNOWN';
 
     if (audioError) {
-      console.error('[Music Player] MediaError code:', audioError.code);
-      console.error('[Music Player] MediaError message:', audioError.message);
-
       // Provide specific error messages based on error code
       switch (audioError.code) {
         case 1: // MEDIA_ERR_ABORTED
@@ -6149,11 +6138,6 @@ class MusicPlayer {
         case 2: // MEDIA_ERR_NETWORK
           errorCode = 'MEDIA_ERR_NETWORK';
           errorMessage = '⚠️ Network error loading audio. Check connection.';
-          console.error('[Music Player] NETWORK ERROR - Possible causes:');
-          console.error('  1. URL is returning 404 (file not found)');
-          console.error('  2. Vercel rewrites not working');
-          console.error('  3. R2 bucket is down or inaccessible');
-          console.error('  4. Discord blocking the request');
           break;
         case 3: // MEDIA_ERR_DECODE
           errorCode = 'MEDIA_ERR_DECODE';
@@ -6162,43 +6146,21 @@ class MusicPlayer {
         case 4: // MEDIA_ERR_SRC_NOT_SUPPORTED
           errorCode = 'MEDIA_ERR_SRC_NOT_SUPPORTED';
           errorMessage = '⚠️ Audio source not supported by browser/Discord.';
-          console.error('[Music Player] SRC_NOT_SUPPORTED - CRITICAL ERROR:');
-          console.error('  1. Discord URL mapping may be missing or incorrect');
-          console.error('  2. CORS headers are blocking the request');
-          console.error('  3. URL format is not supported in iframe');
-          console.error('  4. Discord sandbox security blocking media');
           break;
         default:
           errorMessage = `⚠️ Audio error (code ${audioError.code})`;
       }
-    } else {
-      console.error('[Music Player] No audio.error object - error before load');
     }
 
     // Check environment
     const inIframe = window.self !== window.top;
     const isDiscord = inIframe || new URLSearchParams(window.location.search).has('frame_id');
 
-    console.error('[Music Player] Environment:', {
-      inIframe,
-      isDiscord,
-      userAgent: navigator.userAgent,
-      location: window.location.href
-    });
-
     if (isDiscord) {
       errorMessage += ' [Discord Activity]';
     }
 
-    // Log full error summary
-    console.error('[Music Player] ━━━ ERROR SUMMARY ━━━');
-    console.error(`  Error Code: ${errorCode}`);
-    console.error(`  Audio URL: ${this.audio.src}`);
-    console.error(`  Track: ${this.currentTrack?.title || 'Unknown'}`);
-    console.error(`  Network State: ${this.audio.networkState}`);
-    console.error(`  Ready State: ${this.audio.readyState}`);
-    console.error(`  Environment: ${isDiscord ? 'Discord Activity' : 'Browser'}`);
-    console.error('[Music Player] ━━━━━━━━━━━━━━━━━━━━━');
+    console.error('[Music Player] Audio error:', errorCode, '-', this.currentTrack?.title || 'Unknown');
 
     this.showError(errorMessage, 0); // Don't auto-hide error messages
     this.isPlaying = false;
