@@ -5974,11 +5974,13 @@ class MusicPlayer {
 
     console.log('[Music Player] Attempting to play:', this.currentTrack.title);
     console.log('[Music Player] Audio src:', this.audio.src);
+    console.log('[Music Player] Is autoplay:', isAutoplay);
 
     this.audio.play().then(() => {
       console.log('[Music Player] ✅ Playback started successfully');
       this.isPlaying = true;
       this.updatePlayPauseButton(true);
+      this.clearErrorMessage(); // Clear any autoplay messages
     }).catch(err => {
       console.error('[Music Player] ❌ Playback failed:', err);
       console.error('[Music Player] Error name:', err.name);
@@ -5988,16 +5990,18 @@ class MusicPlayer {
 
       const hasMessage = err && typeof err.message === 'string';
       const message = hasMessage ? err.message.toLowerCase() : '';
-      const autoplayBlocked = err && (err.name === 'NotAllowedError' || (message.includes('user') && message.includes('interaction')));
+      const autoplayBlocked = err && (err.name === 'NotAllowedError' || err.name === 'NotSupportedError' || (message.includes('user') && message.includes('interaction')) || message.includes('not allowed'));
 
-      if (isAutoplay && autoplayBlocked) {
-        console.warn('Autoplay was blocked by browser policies:', err);
-        this.scheduleAutoplayOnInteraction();
+      if (autoplayBlocked) {
+        console.warn('Autoplay was blocked by browser/Discord policies:', err);
+        // Show user-friendly message
+        this.showError('🎵 Click the play button again to start music! (Browser security requires this)', 0);
+        // Don't schedule auto-interaction, user needs to click play button
         return;
       }
 
       console.error('Playback error:', err);
-      this.showError('Failed to play audio');
+      this.showError('Failed to play audio. Try reloading the page.');
     });
   }
 
