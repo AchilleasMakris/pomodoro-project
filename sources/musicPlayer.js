@@ -5653,7 +5653,7 @@ class MusicPlayer {
       [this.playlist[i], this.playlist[j]] = [this.playlist[j], this.playlist[i]];
     }
 
-    console.log(`🎵 Shuffled ${this.playlist.length} tracks in random order!`);
+    // Shuffled playlist
   }
 
   // Reshuffle the playlist and restart from first track
@@ -5678,7 +5678,7 @@ class MusicPlayer {
       }
     }
 
-    console.log('🔀 Playlist reshuffled! Starting from track 1.');
+    // Playlist reshuffled
   }
 
   setupAudioEvents() {
@@ -5949,11 +5949,7 @@ class MusicPlayer {
     this.audio.crossOrigin = 'anonymous';
     this.audio.src = track.file;
 
-    console.log('[Music Player] 🎵 Loading track:', track.title);
-    console.log('[Music Player] Track file path:', track.file);
-    console.log('[Music Player] Full audio URL:', this.audio.src);
-    console.log('[Music Player] Track artist:', track.artist);
-    console.log('[Music Player] CrossOrigin:', this.audio.crossOrigin);
+    // Track loaded
     
     this.updateTrackInfo(track.title, track.artist);
 
@@ -5983,14 +5979,8 @@ class MusicPlayer {
   async play(isAutoplay = false) {
     if (!this.currentTrack) return;
 
-    console.log('[Music Player] Attempting to play:', this.currentTrack.title);
-    console.log('[Music Player] Audio src:', this.audio.src);
-    console.log('[Music Player] Is autoplay:', isAutoplay);
-    console.log('[Music Player] Audio readyState:', this.audio.readyState);
-
     // For Discord/iframe contexts, try to load first if needed
     if (this.audio.readyState < 2 && !isAutoplay) {
-      console.log('[Music Player] Loading audio before play...');
       try {
         this.audio.load();
         // Small delay to let it start loading
@@ -6001,36 +5991,14 @@ class MusicPlayer {
     }
 
     this.audio.play().then(() => {
-      console.log('[Music Player] ✅ Playback started successfully');
-      console.log('[Music Player] Audio paused:', this.audio.paused);
-      console.log('[Music Player] Audio volume:', this.audio.volume);
-      console.log('[Music Player] Audio muted:', this.audio.muted);
-      console.log('[Music Player] Audio currentTime:', this.audio.currentTime);
-      
       this.isPlaying = true;
       this.updatePlayPauseButton(true);
-      
+
       // Force clear error messages
       setTimeout(() => {
         this.clearErrorMessage();
-        console.log('[Music Player] Cleared error message');
       }, 100);
     }).catch(err => {
-      console.error('[Music Player] ❌ Playback failed!');
-      console.error('[Music Player] Error type:', typeof err);
-      console.error('[Music Player] Error name:', err?.name || 'NO NAME');
-      console.error('[Music Player] Error message:', err?.message || 'NO MESSAGE');
-      console.error('[Music Player] Error toString:', err?.toString() || 'NO STRING');
-      console.error('[Music Player] Error constructor:', err?.constructor?.name || 'NO CONSTRUCTOR');
-
-      // Log audio element state at time of error
-      console.error('[Music Player] Audio src:', this.audio.src);
-      console.error('[Music Player] Audio readyState:', this.audio.readyState);
-      console.error('[Music Player] Audio networkState:', this.audio.networkState);
-      console.error('[Music Player] Audio error:', this.audio.error);
-      console.error('[Music Player] Audio paused:', this.audio.paused);
-      console.error('[Music Player] Audio currentTime:', this.audio.currentTime);
-
       this.isPlaying = false;
       this.updatePlayPauseButton(false);
 
@@ -6040,14 +6008,12 @@ class MusicPlayer {
       const autoplayBlocked = errorName === 'NotAllowedError' || errorName === 'NotSupportedError' || (message.includes('user') && message.includes('interaction')) || message.includes('not allowed');
 
       if (autoplayBlocked) {
-        console.warn('[Music Player] ⚠️ Autoplay blocked - user interaction required');
         // Don't show error message for autoplay blocking - it's expected behavior
         return;
       }
 
       // If we have an audio.error, it's a media loading error
       if (this.audio.error) {
-        console.error('[Music Player] Media loading error detected, code:', this.audio.error.code);
         const errorMessages = {
           1: 'MEDIA_ERR_ABORTED: Loading aborted',
           2: 'MEDIA_ERR_NETWORK: Network error - check URL/rewrites',
@@ -6055,10 +6021,10 @@ class MusicPlayer {
           4: 'MEDIA_ERR_SRC_NOT_SUPPORTED: Source not supported - check Discord URL mapping'
         };
         const mediaErrorMsg = errorMessages[this.audio.error.code] || `Unknown media error: ${this.audio.error.code}`;
-        console.error('[Music Player]', mediaErrorMsg);
+        console.error('[Music Player] Media error:', mediaErrorMsg);
         this.showError(`❌ ${mediaErrorMsg}`, 0);
       } else {
-        console.error('[Music Player] Play promise rejected:', errorName, message);
+        console.error('[Music Player] Playback failed:', errorName, message);
         this.showError('❌ Failed to play audio. Try again.', 0);
       }
     });
