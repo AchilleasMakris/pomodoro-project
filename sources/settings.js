@@ -132,18 +132,26 @@ function applyBackground() {
 
   const bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
 
-  // Always remove any existing video elements and overlays first
-  const existingVideo = document.getElementById('background-video');
-  if (existingVideo) {
-    existingVideo.remove();
+  // FORCE CLEAN UP - Remove ALL video elements and overlays
+  // Remove video by ID
+  const videoById = document.getElementById('background-video');
+  if (videoById) {
+    videoById.remove();
   }
-
-  const existingOverlay = document.getElementById('video-overlay');
-  if (existingOverlay) {
-    existingOverlay.remove();
+  
+  // Remove ALL videos (in case there are orphaned ones)
+  document.querySelectorAll('video[id="background-video"]').forEach(v => v.remove());
+  
+  // Remove overlay by ID
+  const overlayById = document.getElementById('video-overlay');
+  if (overlayById) {
+    overlayById.remove();
   }
+  
+  // Remove ALL overlays (in case there are orphaned ones)
+  document.querySelectorAll('div[id="video-overlay"]').forEach(o => o.remove());
 
-  // Also clear background image to prevent any stacking
+  // Clear background image
   document.body.style.backgroundImage = 'none';
 
   if (bg.type === 'video') {
