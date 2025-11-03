@@ -5972,10 +5972,17 @@ class MusicPlayer {
   play(isAutoplay = false) {
     if (!this.currentTrack) return;
 
+    console.log('[Music Player] Attempting to play:', this.currentTrack.title);
+    console.log('[Music Player] Audio src:', this.audio.src);
+
     this.audio.play().then(() => {
+      console.log('[Music Player] ✅ Playback started successfully');
       this.isPlaying = true;
       this.updatePlayPauseButton(true);
     }).catch(err => {
+      console.error('[Music Player] ❌ Playback failed:', err);
+      console.error('[Music Player] Error name:', err.name);
+      console.error('[Music Player] Error message:', err.message);
       this.isPlaying = false;
       this.updatePlayPauseButton(false);
 
