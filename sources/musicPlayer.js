@@ -5756,19 +5756,19 @@ class MusicPlayer {
           </button>
           <div class="background-selector-menu">
             <div class="background-option" data-background="wood">
-              <img src="/img/wood.jpg" alt="Wood">
+              <img src="/r2-backgrounds/wood.jpg" alt="Wood">
               <span>Wood</span>
             </div>
             <div class="background-option" data-background="sakura">
-              <img src="/img/sakura4.jpg" alt="Sakura">
+              <img src="/r2-backgrounds/sakura4.jpg" alt="Sakura">
               <span>Sakura</span>
             </div>
             <div class="background-option" data-background="road-video">
-              <video src="/img/road.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
+              <video src="/r2-backgrounds/road.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
               <span>Road</span>
             </div>
             <div class="background-option" data-background="room-video">
-              <video src="/img/room.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
+              <video src="/r2-backgrounds/room.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
               <span>Room</span>
             </div>
           </div>
@@ -6430,14 +6430,14 @@ class MusicPlayer {
 
   applyBackground(backgroundName) {
     const backgroundMap = {
-      'wood': { type: 'image', value: '/img/wood.jpg' },
-      'sakura': { type: 'image', value: '/img/sakura4.jpg' },
+      'wood': { type: 'image', value: '/r2-backgrounds/wood.jpg' },
+      'sakura': { type: 'image', value: '/r2-backgrounds/sakura4.jpg' },
       'dark-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)' },
       'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
       'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
       'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
-      'road-video': { type: 'video', value: '/img/road.mp4' },
-      'room-video': { type: 'video', value: '/img/room.mp4' }
+      'road-video': { type: 'video', value: '/r2-backgrounds/road.mp4' },
+      'room-video': { type: 'video', value: '/r2-backgrounds/room.mp4' }
     };
 
     const bg = backgroundMap[backgroundName] || backgroundMap['wood'];
