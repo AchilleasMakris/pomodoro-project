@@ -6016,25 +6016,51 @@ class MusicPlayer {
         console.log('[Music Player] Cleared error message');
       }, 100);
     }).catch(err => {
-      console.error('[Music Player] ❌ Playback failed:', err);
-      console.error('[Music Player] Error name:', err.name);
-      console.error('[Music Player] Error message:', err.message);
+      console.error('[Music Player] ❌ Playback failed!');
+      console.error('[Music Player] Error type:', typeof err);
+      console.error('[Music Player] Error name:', err?.name || 'NO NAME');
+      console.error('[Music Player] Error message:', err?.message || 'NO MESSAGE');
+      console.error('[Music Player] Error toString:', err?.toString() || 'NO STRING');
+      console.error('[Music Player] Error constructor:', err?.constructor?.name || 'NO CONSTRUCTOR');
+
+      // Log audio element state at time of error
+      console.error('[Music Player] Audio src:', this.audio.src);
+      console.error('[Music Player] Audio readyState:', this.audio.readyState);
+      console.error('[Music Player] Audio networkState:', this.audio.networkState);
+      console.error('[Music Player] Audio error:', this.audio.error);
+      console.error('[Music Player] Audio paused:', this.audio.paused);
+      console.error('[Music Player] Audio currentTime:', this.audio.currentTime);
+
       this.isPlaying = false;
       this.updatePlayPauseButton(false);
 
       const hasMessage = err && typeof err.message === 'string';
       const message = hasMessage ? err.message.toLowerCase() : '';
-      const autoplayBlocked = err && (err.name === 'NotAllowedError' || err.name === 'NotSupportedError' || (message.includes('user') && message.includes('interaction')) || message.includes('not allowed'));
+      const errorName = err?.name || '';
+      const autoplayBlocked = errorName === 'NotAllowedError' || errorName === 'NotSupportedError' || (message.includes('user') && message.includes('interaction')) || message.includes('not allowed');
 
       if (autoplayBlocked) {
-        console.warn('[Music Player] Autoplay was blocked by browser/Discord policies:', err);
-        // For Discord Activity, we need the user to click again
-        this.showError('🎵 Discord blocked autoplay - Click PLAY again to start! 🎵', 0);
+        console.warn('[Music Player] ⚠️ Autoplay blocked - user interaction required');
+        this.showError('🎵 Click PLAY to start music! 🎵', 0);
         return;
       }
 
-      console.error('[Music Player] Playback error:', err);
-      this.showError('Failed to play audio. Try clicking play again or reload the page.');
+      // If we have an audio.error, it's a media loading error
+      if (this.audio.error) {
+        console.error('[Music Player] Media loading error detected, code:', this.audio.error.code);
+        const errorMessages = {
+          1: 'MEDIA_ERR_ABORTED: Loading aborted',
+          2: 'MEDIA_ERR_NETWORK: Network error - check URL/rewrites',
+          3: 'MEDIA_ERR_DECODE: Decode error - file corrupted',
+          4: 'MEDIA_ERR_SRC_NOT_SUPPORTED: Source not supported - check Discord URL mapping'
+        };
+        const mediaErrorMsg = errorMessages[this.audio.error.code] || `Unknown media error: ${this.audio.error.code}`;
+        console.error('[Music Player]', mediaErrorMsg);
+        this.showError(`❌ ${mediaErrorMsg}`, 0);
+      } else {
+        console.error('[Music Player] Play promise rejected:', errorName, message);
+        this.showError('❌ Failed to play audio. Try again.', 0);
+      }
     });
   }
 
