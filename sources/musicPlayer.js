@@ -6041,7 +6041,7 @@ class MusicPlayer {
 
       if (autoplayBlocked) {
         console.warn('[Music Player] ⚠️ Autoplay blocked - user interaction required');
-        this.showError('🎵 Click PLAY to start music! 🎵', 0);
+        // Don't show error message for autoplay blocking - it's expected behavior
         return;
       }
 
