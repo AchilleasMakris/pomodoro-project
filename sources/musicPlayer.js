@@ -5606,7 +5606,8 @@ window.MUSIC_LIBRARY = MUSIC_LIBRARY;
 class MusicPlayer {
   constructor() {
     this.audio = new Audio();
-    this.audio.autoplay = true;
+    this.audio.autoplay = false; // Disable autoplay for Discord compatibility
+    this.audio.preload = 'metadata'; // Only preload metadata, not full audio
     this.currentTrack = null;
     this.currentTrackIndex = -1;
     this.isPlaying = false;
@@ -5943,7 +5944,14 @@ class MusicPlayer {
 
     this.currentTrack = track;
     this.currentTrackIndex = this.playlist.indexOf(track);
+    
+    // Set crossOrigin before setting src for CORS
+    this.audio.crossOrigin = 'anonymous';
     this.audio.src = track.file;
+    
+    console.log('[Music Player] Loading track:', track.title);
+    console.log('[Music Player] Track URL:', track.file);
+    
     this.updateTrackInfo(track.title, track.artist);
 
     // Auto-play if user was already playing music
@@ -5969,12 +5977,25 @@ class MusicPlayer {
     }
   }
 
-  play(isAutoplay = false) {
+  async play(isAutoplay = false) {
     if (!this.currentTrack) return;
 
     console.log('[Music Player] Attempting to play:', this.currentTrack.title);
     console.log('[Music Player] Audio src:', this.audio.src);
     console.log('[Music Player] Is autoplay:', isAutoplay);
+    console.log('[Music Player] Audio readyState:', this.audio.readyState);
+
+    // For Discord/iframe contexts, try to load first if needed
+    if (this.audio.readyState < 2 && !isAutoplay) {
+      console.log('[Music Player] Loading audio before play...');
+      try {
+        this.audio.load();
+        // Small delay to let it start loading
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (loadErr) {
+        console.error('[Music Player] Load error:', loadErr);
+      }
+    }
 
     this.audio.play().then(() => {
       console.log('[Music Player] ✅ Playback started successfully');
@@ -5993,15 +6014,14 @@ class MusicPlayer {
       const autoplayBlocked = err && (err.name === 'NotAllowedError' || err.name === 'NotSupportedError' || (message.includes('user') && message.includes('interaction')) || message.includes('not allowed'));
 
       if (autoplayBlocked) {
-        console.warn('Autoplay was blocked by browser/Discord policies:', err);
-        // Show user-friendly message
-        this.showError('🎵 Click the play button again to start music! (Browser security requires this)', 0);
-        // Don't schedule auto-interaction, user needs to click play button
+        console.warn('[Music Player] Autoplay was blocked by browser/Discord policies:', err);
+        // For Discord Activity, we need the user to click again
+        this.showError('🎵 Discord blocked autoplay - Click PLAY again to start! 🎵', 0);
         return;
       }
 
-      console.error('Playback error:', err);
-      this.showError('Failed to play audio. Try reloading the page.');
+      console.error('[Music Player] Playback error:', err);
+      this.showError('Failed to play audio. Try clicking play again or reload the page.');
     });
   }
 
