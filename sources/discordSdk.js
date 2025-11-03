@@ -1,7 +1,19 @@
 // Discord SDK Module
 // Handles Discord Embedded App SDK initialization and iframe detection
 
-import { DiscordSDK } from '@discord/embedded-app-sdk';
+// Use the global DiscordSDK from CDN
+const { DiscordSDK, patchUrlMappings } = window.DiscordSDK || {};
+
+// Patch URL mappings BEFORE anything else (critical for Discord Activity audio)
+if (patchUrlMappings) {
+  patchUrlMappings([
+    {
+      prefix: '/r2-audio',
+      target: 'pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/music'
+    }
+  ]);
+  console.log('[Discord SDK] ✅ URL mappings patched for /r2-audio');
+}
 
 class DiscordManager {
   constructor() {
@@ -49,6 +61,12 @@ class DiscordManager {
     try {
       console.log('[Discord SDK] Initializing...');
 
+      // Check if SDK is available
+      if (!DiscordSDK) {
+        console.warn('[Discord SDK] SDK not loaded from CDN - skipping initialization');
+        return { success: false, error: 'SDK not loaded' };
+      }
+
       // Detect environment first
       this.detectDiscordEnvironment();
 
@@ -61,6 +79,8 @@ class DiscordManager {
       const urlParams = new URLSearchParams(window.location.search);
       const clientId = urlParams.get('client_id') || '1290824078832418856'; // Your app's client ID
 
+      console.log('[Discord SDK] Using client ID:', clientId);
+
       // Initialize SDK
       this.discordSdk = new DiscordSDK(clientId);
 
@@ -69,10 +89,10 @@ class DiscordManager {
       // Wait for Discord SDK to be ready
       await this.discordSdk.ready();
 
-      console.log('[Discord SDK] Ready! SDK initialized successfully');
+      console.log('[Discord SDK] ✅ Ready! SDK initialized successfully');
       this.isReady = true;
 
-      // Authenticate (required for some Discord features)
+      // Authenticate (optional - some features require it)
       try {
         const { code } = await this.discordSdk.commands.authorize({
           client_id: clientId,
@@ -86,7 +106,7 @@ class DiscordManager {
         });
 
         this.auth = { code };
-        console.log('[Discord SDK] Authentication successful');
+        console.log('[Discord SDK] ✅ Authentication successful');
       } catch (authErr) {
         console.warn('[Discord SDK] Authentication skipped or failed:', authErr);
         // Non-critical - app can still work without auth
@@ -100,7 +120,7 @@ class DiscordManager {
       };
 
     } catch (err) {
-      console.error('[Discord SDK] Initialization failed:', err);
+      console.error('[Discord SDK] ❌ Initialization failed:', err);
       return {
         success: false,
         error: err.message,
@@ -149,14 +169,22 @@ class DiscordManager {
   }
 }
 
-// Export singleton instance
+// Create singleton instance and expose globally
 const discordManager = new DiscordManager();
+window.discordManager = discordManager;
 
-// Auto-initialize when module loads
+// Auto-initialize when script loads
 if (typeof window !== 'undefined') {
-  discordManager.initialize().then(result => {
-    console.log('[Discord SDK] Auto-initialization complete:', result);
-  });
+  // Wait for DOM to be ready, then initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      discordManager.initialize().then(result => {
+        console.log('[Discord SDK] Auto-initialization complete:', result);
+      });
+    });
+  } else {
+    discordManager.initialize().then(result => {
+      console.log('[Discord SDK] Auto-initialization complete:', result);
+    });
+  }
 }
-
-export default discordManager;

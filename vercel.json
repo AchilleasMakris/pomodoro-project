@@ -9,5 +9,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/r2-audio/:path*",
+      "destination": "https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/music/:path*"
+    }
   ]
 }
