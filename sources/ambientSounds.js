@@ -91,25 +91,6 @@ class AmbientSoundsManager {
         };
         mainVolumeSlider.addEventListener('input', updateMainVolume);
         mainVolumeSlider.addEventListener('change', updateMainVolume);
-
-        let isDragging = false;
-        mainVolumeSlider.addEventListener('touchstart', (e) => {
-          isDragging = true;
-        });
-        mainVolumeSlider.addEventListener('touchmove', (e) => {
-          if (isDragging) {
-            const rect = mainVolumeSlider.getBoundingClientRect();
-            const touch = e.touches[0];
-            const offsetX = touch.clientX - rect.left;
-            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
-            const value = Math.round(percentage * 100);
-            mainVolumeSlider.value = value;
-            updateMainVolume({ target: mainVolumeSlider });
-          }
-        });
-        mainVolumeSlider.addEventListener('touchend', (e) => {
-          isDragging = false;
-        });
       }
 
       // Music volume slider
@@ -121,25 +102,6 @@ class AmbientSoundsManager {
         };
         musicVolumeSlider.addEventListener('input', updateMusicVolume);
         musicVolumeSlider.addEventListener('change', updateMusicVolume);
-
-        let isDragging = false;
-        musicVolumeSlider.addEventListener('touchstart', (e) => {
-          isDragging = true;
-        });
-        musicVolumeSlider.addEventListener('touchmove', (e) => {
-          if (isDragging) {
-            const rect = musicVolumeSlider.getBoundingClientRect();
-            const touch = e.touches[0];
-            const offsetX = touch.clientX - rect.left;
-            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
-            const value = Math.round(percentage * 100);
-            musicVolumeSlider.value = value;
-            updateMusicVolume({ target: musicVolumeSlider });
-          }
-        });
-        musicVolumeSlider.addEventListener('touchend', (e) => {
-          isDragging = false;
-        });
       }
 
       // Individual sound sliders
@@ -158,25 +120,6 @@ class AmbientSoundsManager {
 
         slider.addEventListener('input', updateVolume);
         slider.addEventListener('change', updateVolume);
-
-        let isDragging = false;
-        slider.addEventListener('touchstart', (e) => {
-          isDragging = true;
-        });
-        slider.addEventListener('touchmove', (e) => {
-          if (isDragging) {
-            const rect = slider.getBoundingClientRect();
-            const touch = e.touches[0];
-            const offsetX = touch.clientX - rect.left;
-            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
-            const value = Math.round(percentage * 100);
-            slider.value = value;
-            updateVolume({ target: slider });
-          }
-        });
-        slider.addEventListener('touchend', (e) => {
-          isDragging = false;
-        });
       });
 
       console.log('✓ Event listeners set up for sound sliders');
@@ -208,14 +151,24 @@ class AmbientSoundsManager {
     }
 
     sound.volume = Math.max(0, Math.min(1, volume));
-    sound.audio.volume = sound.volume * this.mainVolume;
 
-    // Start playing if volume > 0, stop if volume = 0
-    if (sound.volume > 0 && sound.audio.paused) {
-      sound.audio.play().catch(e => {
-        console.log(`Autoplay prevented for ${soundId} - will play on user interaction`);
-      });
-    } else if (sound.volume === 0 && !sound.audio.paused) {
+    const setVolume = () => {
+      sound.audio.volume = sound.volume * this.mainVolume;
+    };
+
+    if (sound.volume > 0) {
+      if (sound.audio.paused) {
+        // Set volume on 'playing' event for the first play
+        sound.audio.addEventListener('playing', setVolume, { once: true });
+        sound.audio.play().catch(e => {
+          console.log(`Autoplay prevented for ${soundId} - will play on user interaction`);
+          sound.audio.removeEventListener('playing', setVolume);
+        });
+      } else {
+        // If already playing, just set the volume
+        setVolume();
+      }
+    } else {
       sound.audio.pause();
       sound.audio.currentTime = 0; // Reset to start
     }
