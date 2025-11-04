@@ -2,10 +2,75 @@ import { AMBIENT_SOUNDS } from './ambientSoundsConfig.js';
 
 class AmbientSoundsManager {
   constructor() {
-    this.sounds = new Map(); // Map<soundId, {audio: Audio, volume: number, config: object}>
+    this.sounds = new Map(); // Map<soundId, {audio: Audio, sourceNode, gainNode, volume: number, config: object}>
     this.mainVolume = 1.0;
     this.musicVolume = 1.0;
     this.isInitialized = false;
+    this.audioContext = null;
+    this.mainGainNode = null;
+    this.isIOSAudioUnlocked = false;
+  }
+
+  // Detect iOS devices
+  isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  // Initialize Web Audio API (required for iOS volume control)
+  async initAudioContext() {
+    if (this.audioContext) return;
+
+    console.log('🎧 Initializing Web Audio API for iOS compatibility...');
+
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      this.audioContext = new AudioContext();
+
+      // Create master gain node
+      this.mainGainNode = this.audioContext.createGain();
+      this.mainGainNode.gain.value = this.mainVolume;
+      this.mainGainNode.connect(this.audioContext.destination);
+
+      // Resume if suspended (iOS requirement)
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+        console.log('✓ iOS AudioContext resumed from suspended state');
+      }
+
+      this.isIOSAudioUnlocked = true;
+      console.log('✓ Web Audio API initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize Web Audio API:', error);
+    }
+  }
+
+  // Re-initialize existing sounds with Web Audio API
+  reinitializeSoundsWithWebAudio() {
+    if (!this.audioContext) return;
+
+    console.log('🔄 Converting sounds to Web Audio API...');
+
+    this.sounds.forEach((sound, id) => {
+      if (!sound.sourceNode && sound.audio) {
+        try {
+          // Create Web Audio nodes
+          sound.audio.crossOrigin = 'anonymous'; // Required for createMediaElementSource
+          sound.sourceNode = this.audioContext.createMediaElementSource(sound.audio);
+          sound.gainNode = this.audioContext.createGain();
+
+          // Connect: audio → source → gain → mainGain → speakers
+          sound.sourceNode.connect(sound.gainNode);
+          sound.gainNode.connect(this.mainGainNode);
+
+          // Set current volume
+          sound.gainNode.gain.value = sound.volume;
+
+          console.log(`✓ Converted ${id} to Web Audio API`);
+        } catch (error) {
+          console.error(`Failed to convert ${id} to Web Audio API:`, error);
+        }
+      }
+    });
   }
 
   init() {
@@ -20,9 +85,12 @@ class AmbientSoundsManager {
         audio.loop = soundConfig.loop;
         audio.volume = 0; // Start muted
         audio.preload = 'metadata';
+        audio.crossOrigin = 'anonymous'; // Required for Web Audio API on iOS
 
         this.sounds.set(soundConfig.id, {
           audio,
+          sourceNode: null, // Will be created when Web Audio API is initialized
+          gainNode: null,   // Will be created when Web Audio API is initialized
           volume: soundConfig.defaultVolume,
           config: soundConfig
         });
@@ -106,10 +174,17 @@ class AmbientSoundsManager {
 
       // Individual sound sliders
       document.querySelectorAll('.sound-slider[data-sound-id]').forEach(slider => {
-        const updateVolume = (e) => {
+        const updateVolume = async (e) => {
+          // Initialize Web Audio API on first interaction (iOS requirement)
+          if (!this.audioContext) {
+            console.log('🎧 First user interaction detected - initializing Web Audio API...');
+            await this.initAudioContext();
+            this.reinitializeSoundsWithWebAudio();
+          }
+
           const soundId = e.target.dataset.soundId;
           const volume = e.target.value / 100;
-          this.setSoundVolume(soundId, volume);
+          await this.setSoundVolume(soundId, volume);
 
           // Update percentage display
           const percentageEl = document.getElementById(`${soundId}-percentage`);
@@ -128,7 +203,15 @@ class AmbientSoundsManager {
 
   setMainVolume(volume) {
     this.mainVolume = Math.max(0, Math.min(1, volume));
-    this.updateAllVolumes();
+
+    // iOS: Use master GainNode
+    if (this.mainGainNode) {
+      this.mainGainNode.gain.value = this.mainVolume;
+    } else {
+      // Fallback for non-Web Audio API: Update each sound individually
+      this.updateAllVolumes();
+    }
+
     this.saveVolumesToStorage();
   }
 
@@ -143,7 +226,7 @@ class AmbientSoundsManager {
     this.saveVolumesToStorage();
   }
 
-  setSoundVolume(soundId, volume) {
+  async setSoundVolume(soundId, volume) {
     const sound = this.sounds.get(soundId);
     if (!sound) {
       console.warn(`Sound not found: ${soundId}`);
@@ -152,12 +235,22 @@ class AmbientSoundsManager {
 
     sound.volume = Math.max(0, Math.min(1, volume));
 
-    // Always set volume synchronously (fixes mobile autoplay volume bug)
-    sound.audio.volume = sound.volume * this.mainVolume;
+    // iOS: Use GainNode (the ONLY way that works on iOS Safari)
+    if (sound.gainNode) {
+      sound.gainNode.gain.value = sound.volume;
+    }
+    // Fallback for non-iOS: Use audio.volume
+    else {
+      sound.audio.volume = sound.volume * this.mainVolume;
+    }
+
+    // Resume AudioContext if suspended (iOS requirement)
+    if (this.audioContext && this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
+    }
 
     if (sound.volume > 0) {
       if (sound.audio.paused) {
-        // Volume is already set above, just try to play
         sound.audio.play().catch(e => {
           console.log(`Autoplay prevented for ${soundId} - will play on user interaction`);
         });
@@ -179,7 +272,14 @@ class AmbientSoundsManager {
 
     // Update all ambient sounds
     this.sounds.forEach((sound) => {
-      sound.audio.volume = sound.volume * this.mainVolume;
+      // iOS: Use GainNode
+      if (sound.gainNode) {
+        sound.gainNode.gain.value = sound.volume;
+      }
+      // Fallback: Use audio.volume
+      else {
+        sound.audio.volume = sound.volume * this.mainVolume;
+      }
     });
   }
 
@@ -216,7 +316,11 @@ class AmbientSoundsManager {
           const sound = this.sounds.get(id);
           if (sound) {
             sound.volume = volume;
-            sound.audio.volume = volume * this.mainVolume;
+            // Don't set audio.volume here - it will be set via GainNode on iOS
+            // or via setSoundVolume() when user interacts
+            if (sound.gainNode) {
+              sound.gainNode.gain.value = volume;
+            }
           }
         });
       }
