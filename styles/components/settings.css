@@ -745,6 +745,7 @@ input[type="range"]::-moz-range-thumb:hover {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-top: -6px; /* Center the thumb on the track */
 }
 
 .sound-slider::-webkit-slider-thumb:hover {

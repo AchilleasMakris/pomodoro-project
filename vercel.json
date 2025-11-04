@@ -26,6 +26,10 @@
     {
       "source": "/r2-backgrounds/:path*",
       "destination": "https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/:path*"
+    },
+    {
+      "source": "/r2-effects/:path*",
+      "destination": "https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/effects/:path*"
     }
   ]
 }
