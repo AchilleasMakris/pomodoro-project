@@ -78,10 +78,16 @@ class AmbientSoundsManager {
     console.log(`✓ All sounds converted. Main gain: ${this.mainGainNode.gain.value}`);
   }
 
-  init() {
+  async init() {
     if (this.isInitialized) return;
 
     console.log('🎵 Initializing Ambient Sounds Manager...');
+
+    // Initialize Web Audio API eagerly on iOS (required for volume control)
+    // On desktop, we'll use it only if a sound tries to play before initialization
+    if (this.isIOS()) {
+      console.log('📱 iOS detected - will initialize Web Audio API on first interaction');
+    }
 
     // Initialize all audio objects
     Object.values(AMBIENT_SOUNDS).forEach(category => {
@@ -180,9 +186,9 @@ class AmbientSoundsManager {
       // Individual sound sliders
       document.querySelectorAll('.sound-slider[data-sound-id]').forEach(slider => {
         const updateVolume = async (e) => {
-          // Initialize Web Audio API on first interaction (iOS requirement)
-          if (!this.audioContext) {
-            console.log('🎧 First user interaction detected - initializing Web Audio API...');
+          // Initialize Web Audio API on first interaction (iOS requirement ONLY)
+          if (!this.audioContext && this.isIOS()) {
+            console.log('🎧 iOS: First user interaction detected - initializing Web Audio API...');
             await this.initAudioContext();
             this.reinitializeSoundsWithWebAudio();
           }
