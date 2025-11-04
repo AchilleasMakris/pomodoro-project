@@ -455,6 +455,7 @@
 @media (max-width: 480px) {
   /* Spotify-style mobile player optimization */
   .music-player {
+    position: relative;
     width: 100%;
     bottom: 0;
     left: 0;
@@ -468,8 +469,8 @@
     display: grid;
     grid-template-areas:
       "info info info"
-      "controls controls actions";
-    grid-template-columns: 1fr auto minmax(auto, 120px);
+      ". controls .";
+    grid-template-columns: 1fr auto 1fr;
     gap: 12px;
     align-items: center;
   }
@@ -549,13 +550,16 @@
     height: 30px;
   }
 
-  /* Player actions - right aligned */
+  /* Player actions - positioned in top right corner */
   .player-actions {
-    grid-area: actions;
+    position: absolute;
+    top: 16px;
+    right: 12px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 8px;
+    z-index: 10;
   }
 
   /* FIXED: Touch targets meet 44px minimum */
