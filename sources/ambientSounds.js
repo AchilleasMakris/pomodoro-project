@@ -85,24 +85,28 @@ class AmbientSoundsManager {
       // Main volume slider
       const mainVolumeSlider = document.getElementById('main-volume-setting');
       if (mainVolumeSlider) {
-        mainVolumeSlider.addEventListener('input', (e) => {
+        const updateMainVolume = (e) => {
           this.setMainVolume(e.target.value / 100);
           document.getElementById('main-volume-percentage').textContent = e.target.value + '%';
-        });
+        };
+        mainVolumeSlider.addEventListener('input', updateMainVolume);
+        mainVolumeSlider.addEventListener('change', updateMainVolume);
       }
 
       // Music volume slider
       const musicVolumeSlider = document.getElementById('music-volume-setting');
       if (musicVolumeSlider) {
-        musicVolumeSlider.addEventListener('input', (e) => {
+        const updateMusicVolume = (e) => {
           this.setMusicVolume(e.target.value / 100);
           document.getElementById('music-volume-percentage').textContent = e.target.value + '%';
-        });
+        };
+        musicVolumeSlider.addEventListener('input', updateMusicVolume);
+        musicVolumeSlider.addEventListener('change', updateMusicVolume);
       }
 
       // Individual sound sliders
       document.querySelectorAll('.sound-slider[data-sound-id]').forEach(slider => {
-        slider.addEventListener('input', (e) => {
+        const updateVolume = (e) => {
           const soundId = e.target.dataset.soundId;
           const volume = e.target.value / 100;
           this.setSoundVolume(soundId, volume);
@@ -112,7 +116,10 @@ class AmbientSoundsManager {
           if (percentageEl) {
             percentageEl.textContent = e.target.value + '%';
           }
-        });
+        };
+
+        slider.addEventListener('input', updateVolume);
+        slider.addEventListener('change', updateVolume);
       });
 
       console.log('✓ Event listeners set up for sound sliders');
