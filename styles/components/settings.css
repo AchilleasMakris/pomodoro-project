@@ -304,18 +304,19 @@ select {
   background-position: right 0.75rem center;
   padding-right: 2.5rem;
   color-scheme: dark;
+  accent-color: rgba(241, 245, 249, 0.2);
 }
 
 /* Dropdown Options Styling */
 select option {
-  background: rgba(15, 20, 35, 0.98);
-  color: var(--clr-light);
+  background-color: #0f1423;
+  color: #f1f5f9;
   font-family: "Space Grotesk", sans-serif;
 }
 
 select option:checked {
-  background: rgba(241, 245, 249, 0.15);
-  color: var(--clr-light);
+  background-color: rgba(241, 245, 249, 0.2);
+  color: #f1f5f9;
   font-weight: 600;
 }
 

@@ -1,6 +1,7 @@
 :root {
   --clr-dark: #070a13;
   --clr-light: #f1f5f9;
+  color-scheme: dark;
 }
 
 * {
@@ -11,6 +12,7 @@
 html {
   /* scroll-behavior: smooth; */
   height: 100vh;
+  color-scheme: dark;
 }
 
 body {
@@ -26,6 +28,7 @@ body {
   margin: 0;
   overflow: hidden;
   transition: background-image 0.6s ease-in-out;
+  color-scheme: dark;
 }
 
 img,
