@@ -461,7 +461,6 @@
     border-radius: 20px;
     padding: 16px;
     max-height: 30vh;
-    overflow: hidden;
   }
 
   /* Use grid for better layout control */

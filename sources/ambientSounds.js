@@ -91,6 +91,25 @@ class AmbientSoundsManager {
         };
         mainVolumeSlider.addEventListener('input', updateMainVolume);
         mainVolumeSlider.addEventListener('change', updateMainVolume);
+
+        let isDragging = false;
+        mainVolumeSlider.addEventListener('touchstart', (e) => {
+          isDragging = true;
+        });
+        mainVolumeSlider.addEventListener('touchmove', (e) => {
+          if (isDragging) {
+            const rect = mainVolumeSlider.getBoundingClientRect();
+            const touch = e.touches[0];
+            const offsetX = touch.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
+            const value = Math.round(percentage * 100);
+            mainVolumeSlider.value = value;
+            updateMainVolume({ target: mainVolumeSlider });
+          }
+        });
+        mainVolumeSlider.addEventListener('touchend', (e) => {
+          isDragging = false;
+        });
       }
 
       // Music volume slider
@@ -102,6 +121,25 @@ class AmbientSoundsManager {
         };
         musicVolumeSlider.addEventListener('input', updateMusicVolume);
         musicVolumeSlider.addEventListener('change', updateMusicVolume);
+
+        let isDragging = false;
+        musicVolumeSlider.addEventListener('touchstart', (e) => {
+          isDragging = true;
+        });
+        musicVolumeSlider.addEventListener('touchmove', (e) => {
+          if (isDragging) {
+            const rect = musicVolumeSlider.getBoundingClientRect();
+            const touch = e.touches[0];
+            const offsetX = touch.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
+            const value = Math.round(percentage * 100);
+            musicVolumeSlider.value = value;
+            updateMusicVolume({ target: musicVolumeSlider });
+          }
+        });
+        musicVolumeSlider.addEventListener('touchend', (e) => {
+          isDragging = false;
+        });
       }
 
       // Individual sound sliders
@@ -120,6 +158,25 @@ class AmbientSoundsManager {
 
         slider.addEventListener('input', updateVolume);
         slider.addEventListener('change', updateVolume);
+
+        let isDragging = false;
+        slider.addEventListener('touchstart', (e) => {
+          isDragging = true;
+        });
+        slider.addEventListener('touchmove', (e) => {
+          if (isDragging) {
+            const rect = slider.getBoundingClientRect();
+            const touch = e.touches[0];
+            const offsetX = touch.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
+            const value = Math.round(percentage * 100);
+            slider.value = value;
+            updateVolume({ target: slider });
+          }
+        });
+        slider.addEventListener('touchend', (e) => {
+          isDragging = false;
+        });
       });
 
       console.log('✓ Event listeners set up for sound sliders');
