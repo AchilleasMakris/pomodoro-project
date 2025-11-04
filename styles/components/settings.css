@@ -683,3 +683,160 @@ input[type="range"]::-moz-range-thumb:hover {
     padding: 0.5rem;
   }
 }
+
+/* ===== AMBIENT SOUNDS TAB STYLES ===== */
+
+.sound-control-group {
+  margin-bottom: 1.5rem;
+}
+
+.sound-control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.sound-control-header label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--clr-light);
+}
+
+.sound-control-header label svg {
+  flex-shrink: 0;
+  color: rgba(241, 245, 249, 0.6);
+}
+
+.sound-percentage {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(241, 245, 249, 0.7);
+  min-width: 45px;
+  text-align: right;
+}
+
+.sound-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sound-slider:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sound-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--clr-light);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sound-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.sound-slider::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+}
+
+.sound-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--clr-light);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sound-slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.sound-slider::-moz-range-thumb:active {
+  transform: scale(1.1);
+}
+
+/* Gradient fill effect for sliders */
+.sound-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right,
+    rgba(59, 130, 246, 0.4) 0%,
+    rgba(59, 130, 246, 0.4) var(--value, 0%),
+    rgba(255, 255, 255, 0.1) var(--value, 0%),
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  border-radius: 4px;
+  height: 8px;
+}
+
+.sound-slider::-moz-range-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  height: 8px;
+}
+
+.sound-slider::-moz-range-progress {
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 4px;
+  height: 8px;
+}
+
+/* Mobile responsive for sound controls */
+@media (max-width: 640px) {
+  .sound-control-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .sound-control-header {
+    margin-bottom: 0.6rem;
+  }
+
+  .sound-control-header label {
+    font-size: 0.9rem;
+  }
+
+  .sound-percentage {
+    font-size: 0.85rem;
+  }
+
+  .sound-slider {
+    height: 10px;
+  }
+
+  .sound-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+  }
+
+  .sound-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 475px) {
+  .sound-control-header label svg {
+    display: none;
+  }
+}

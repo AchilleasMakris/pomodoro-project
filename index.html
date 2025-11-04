@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="/styles/components/footer.css?v=9">
     <link rel="stylesheet" href="/styles/components/working.css?v=2">
     <link rel="stylesheet" href="/styles/components/fullscreen.css?v=2">
-    <link rel="stylesheet" href="/styles/components/settings.css?v=10">
+    <link rel="stylesheet" href="/styles/components/settings.css?v=11">
     <link rel="stylesheet" href="/styles/components/music-player.css?v=10">
     <link rel="stylesheet" href="/styles/components/ambient-sounds.css?v=1">
     <link rel="stylesheet" href="/styles/style.css?v=9">
@@ -136,6 +136,7 @@
         <div class="modal-tabs">
           <button class="tab-btn active" data-tab="timer">Timer</button>
           <button class="tab-btn" data-tab="appearance">Appearance</button>
+          <button class="tab-btn" data-tab="sounds">Sounds</button>
           <button class="tab-btn" data-tab="music">Music</button>
         </div>
 
@@ -243,6 +244,127 @@
                   <option value="medium" selected>Medium</option>
                   <option value="large">Large</option>
                 </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SOUNDS TAB -->
+          <div id="sounds-tab" class="tab-content">
+            <div class="settings-section">
+              <h3>Volume Controls</h3>
+
+              <!-- Main Volume -->
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="main-volume-setting">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                    </svg>
+                    Main Volume
+                  </label>
+                  <span class="sound-percentage" id="main-volume-percentage">100%</span>
+                </div>
+                <input type="range" id="main-volume-setting" class="sound-slider" min="0" max="100" value="100">
+              </div>
+
+              <!-- Music Volume -->
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="music-volume-setting">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 18V5l12-2v13"></path>
+                      <circle cx="6" cy="18" r="3"></circle>
+                      <circle cx="18" cy="16" r="3"></circle>
+                    </svg>
+                    Music Volume
+                  </label>
+                  <span class="sound-percentage" id="music-volume-percentage">100%</span>
+                </div>
+                <input type="range" id="music-volume-setting" class="sound-slider" min="0" max="100" value="100">
+              </div>
+            </div>
+
+            <!-- Nature Sounds -->
+            <div class="settings-section">
+              <h3>🌲 Sounds From In The Woods</h3>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="rain-volume">Rain</label>
+                  <span class="sound-percentage" id="rain-percentage">0%</span>
+                </div>
+                <input type="range" id="rain-volume" class="sound-slider" data-sound-id="rain" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="birds-volume">Bird Chirping</label>
+                  <span class="sound-percentage" id="birds-percentage">0%</span>
+                </div>
+                <input type="range" id="birds-volume" class="sound-slider" data-sound-id="birds" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="forest-volume">Forest</label>
+                  <span class="sound-percentage" id="forest-percentage">0%</span>
+                </div>
+                <input type="range" id="forest-volume" class="sound-slider" data-sound-id="forest" min="0" max="100" value="0">
+              </div>
+            </div>
+
+            <!-- All Sounds -->
+            <div class="settings-section">
+              <h3>🔊 All Sounds</h3>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="brown-noise-volume">Brown Noise</label>
+                  <span class="sound-percentage" id="brown-noise-percentage">0%</span>
+                </div>
+                <input type="range" id="brown-noise-volume" class="sound-slider" data-sound-id="brown-noise" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="keyboard-volume">Keyboard</label>
+                  <span class="sound-percentage" id="keyboard-percentage">0%</span>
+                </div>
+                <input type="range" id="keyboard-volume" class="sound-slider" data-sound-id="keyboard" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="campfire-volume">Campfire</label>
+                  <span class="sound-percentage" id="campfire-percentage">0%</span>
+                </div>
+                <input type="range" id="campfire-volume" class="sound-slider" data-sound-id="campfire" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="waves-volume">Waves</label>
+                  <span class="sound-percentage" id="waves-percentage">0%</span>
+                </div>
+                <input type="range" id="waves-volume" class="sound-slider" data-sound-id="waves" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="wind-volume">Wind</label>
+                  <span class="sound-percentage" id="wind-percentage">0%</span>
+                </div>
+                <input type="range" id="wind-volume" class="sound-slider" data-sound-id="wind" min="0" max="100" value="0">
+              </div>
+
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="underwater-volume">Underwater</label>
+                  <span class="sound-percentage" id="underwater-percentage">0%</span>
+                </div>
+                <input type="range" id="underwater-volume" class="sound-slider" data-sound-id="underwater" min="0" max="100" value="0">
               </div>
             </div>
           </div>
@@ -375,7 +497,7 @@
 
                             <!-- Ambient Sounds Module -->
                             <script type="module" src="/sources/ambientSoundsConfig.js?v=2"></script>
-                            <script type="module" src="/sources/ambientSounds.js?v=2"></script>
+                            <script type="module" src="/sources/ambientSounds.js?v=3"></script>
                             <!-- END OF AMBIENT SOUNDS MODULE -->
 
                             <!-- Settings Module -->

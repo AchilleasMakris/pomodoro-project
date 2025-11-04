@@ -32,251 +32,91 @@ class AmbientSoundsManager {
     // Load saved volumes from localStorage
     this.loadVolumesFromStorage();
 
-    // Set up UI
-    this.setupUI();
+    // Set up event listeners for sliders in settings panel
     this.setupEventListeners();
+
+    // Make volume button open settings to Sounds tab
+    this.setupVolumeButtonShortcut();
 
     this.isInitialized = true;
     console.log('✓ Ambient Sounds Manager initialized with', this.sounds.size, 'sounds');
   }
 
-  setupUI() {
-    // Create volume controls modal
-    const modal = this.createVolumeControlsModal();
-    document.body.appendChild(modal);
+  setupVolumeButtonShortcut() {
+    // Find the volume button in music player and make it open settings to Sounds tab
+    const checkVolumeButton = () => {
+      const volumeBtn = document.getElementById('ambient-volume-btn');
+      if (volumeBtn) {
+        volumeBtn.addEventListener('click', () => {
+          console.log('🎵 Volume button clicked, opening Settings > Sounds tab...');
 
-    // Add volume button to music player
-    this.addVolumeButtonToPlayer();
-  }
+          // Open settings modal
+          const settingsModal = document.getElementById('settings-modal');
+          if (settingsModal) {
+            settingsModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+          }
 
-  createVolumeControlsModal() {
-    const modal = document.createElement('div');
-    modal.id = 'ambient-volume-modal';
-    modal.className = 'modal-overlay hidden';
+          // Switch to Sounds tab
+          const soundsTab = document.querySelector('.tab-btn[data-tab="sounds"]');
+          if (soundsTab) {
+            // Remove active from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-    modal.innerHTML = `
-      <div class="modal-container modal-medium ambient-controls-modal">
-        <div class="modal-header">
-          <h2>Volume Controls <span class="info-icon" title="Adjust individual sound volumes">ℹ️</span></h2>
-          <button id="close-ambient-volume-btn" class="close-btn" aria-label="Close volume controls">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
+            // Activate Sounds tab
+            soundsTab.classList.add('active');
+            document.getElementById('sounds-tab').classList.add('active');
+          }
+        });
+        console.log('✓ Volume button shortcut configured');
+      } else {
+        // Try again in 500ms
+        setTimeout(checkVolumeButton, 500);
+      }
+    };
 
-        <div class="modal-body ambient-volume-body">
-          <!-- PERSONAL SECTION -->
-          <div class="volume-section">
-            <h3 class="volume-section-title">PERSONAL</h3>
-
-            <div class="volume-control-row">
-              <div class="volume-control-label">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-                </svg>
-                <span>Main Volume</span>
-              </div>
-              <input type="range" id="main-volume-slider" class="volume-slider" min="0" max="100" value="100">
-              <span class="volume-percentage" id="main-volume-value">100%</span>
-            </div>
-          </div>
-
-          <!-- SHARED SECTION -->
-          <div class="volume-section">
-            <h3 class="volume-section-title">SHARED</h3>
-
-            <!-- Music Volume -->
-            <div class="volume-control-row">
-              <div class="volume-control-label">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 18V5l12-2v13"></path>
-                  <circle cx="6" cy="18" r="3"></circle>
-                  <circle cx="18" cy="16" r="3"></circle>
-                </svg>
-                <span>Music Volume</span>
-              </div>
-              <input type="range" id="music-volume-slider" class="volume-slider" min="0" max="100" value="100">
-              <span class="volume-percentage" id="music-volume-value">100%</span>
-            </div>
-
-            ${this.generateSoundCategoriesHTML()}
-          </div>
-        </div>
-      </div>
-    `;
-
-    return modal;
-  }
-
-  generateSoundCategoriesHTML() {
-    let html = '';
-
-    Object.entries(AMBIENT_SOUNDS).forEach(([categoryKey, category]) => {
-      html += `
-        <div class="sound-category">
-          <div class="sound-category-header">
-            <span class="sound-category-icon">${category.icon}</span>
-            <span class="sound-category-title">${category.label}</span>
-            <button class="category-refresh-btn" data-category="${categoryKey}" title="Reset all sounds in this category">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 4 23 10 17 10"></polyline>
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-              </svg>
-            </button>
-          </div>
-
-          <div class="sound-items">
-            ${category.sounds.map(sound => `
-              <div class="volume-control-row sound-row" data-sound-id="${sound.id}">
-                <div class="volume-control-label">
-                  <span>${sound.name}</span>
-                </div>
-                <input type="range"
-                  id="sound-${sound.id}-slider"
-                  class="volume-slider sound-slider"
-                  data-sound-id="${sound.id}"
-                  min="0"
-                  max="100"
-                  value="${sound.defaultVolume}">
-                <span class="volume-percentage" id="sound-${sound.id}-value">${sound.defaultVolume}%</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    });
-
-    return html;
-  }
-
-  addVolumeButtonToPlayer() {
-    // Add volume controls button to music player actions
-    const playerActions = document.querySelector('.player-actions');
-    if (!playerActions) {
-      console.warn('Player actions not found, will retry in 500ms...');
-      setTimeout(() => this.addVolumeButtonToPlayer(), 500);
-      return;
-    }
-
-    // Check if button already exists
-    if (document.getElementById('ambient-volume-btn')) {
-      console.log('✓ Volume button already exists');
-      return;
-    }
-
-    const volumeBtn = document.createElement('button');
-    volumeBtn.id = 'ambient-volume-btn';
-    volumeBtn.className = 'control-btn';
-    volumeBtn.title = 'Volume Controls';
-    volumeBtn.innerHTML = `
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-      </svg>
-    `;
-
-    // Insert before more-options button
-    const moreOptionsBtn = document.getElementById('more-options-btn');
-    if (moreOptionsBtn) {
-      playerActions.insertBefore(volumeBtn, moreOptionsBtn);
-      console.log('✓ Volume button added to music player (before more-options)');
-    } else {
-      playerActions.appendChild(volumeBtn);
-      console.log('✓ Volume button added to music player (appended)');
-    }
-
-    // Add click event listener immediately
-    volumeBtn.addEventListener('click', () => {
-      console.log('🎵 Volume button clicked, opening modal...');
-      this.openVolumeModal();
-    });
+    checkVolumeButton();
   }
 
   setupEventListeners() {
-    // Volume button click
-    const volumeBtn = document.getElementById('ambient-volume-btn');
-    if (volumeBtn) {
-      volumeBtn.addEventListener('click', () => this.openVolumeModal());
-    }
-
-    // Close button
-    const closeBtn = document.getElementById('close-ambient-volume-btn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => this.closeVolumeModal());
-    }
-
-    // Modal overlay click to close
-    const modal = document.getElementById('ambient-volume-modal');
-    if (modal) {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) this.closeVolumeModal();
-      });
-    }
-
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        this.closeVolumeModal();
+    // Wait for DOM to be ready
+    setTimeout(() => {
+      // Main volume slider
+      const mainVolumeSlider = document.getElementById('main-volume-setting');
+      if (mainVolumeSlider) {
+        mainVolumeSlider.addEventListener('input', (e) => {
+          this.setMainVolume(e.target.value / 100);
+          document.getElementById('main-volume-percentage').textContent = e.target.value + '%';
+        });
       }
-    });
 
-    // Main volume slider
-    const mainVolumeSlider = document.getElementById('main-volume-slider');
-    if (mainVolumeSlider) {
-      mainVolumeSlider.addEventListener('input', (e) => {
-        this.setMainVolume(e.target.value / 100);
-        document.getElementById('main-volume-value').textContent = e.target.value + '%';
+      // Music volume slider
+      const musicVolumeSlider = document.getElementById('music-volume-setting');
+      if (musicVolumeSlider) {
+        musicVolumeSlider.addEventListener('input', (e) => {
+          this.setMusicVolume(e.target.value / 100);
+          document.getElementById('music-volume-percentage').textContent = e.target.value + '%';
+        });
+      }
+
+      // Individual sound sliders
+      document.querySelectorAll('.sound-slider[data-sound-id]').forEach(slider => {
+        slider.addEventListener('input', (e) => {
+          const soundId = e.target.dataset.soundId;
+          const volume = e.target.value / 100;
+          this.setSoundVolume(soundId, volume);
+
+          // Update percentage display
+          const percentageEl = document.getElementById(`${soundId}-percentage`);
+          if (percentageEl) {
+            percentageEl.textContent = e.target.value + '%';
+          }
+        });
       });
-    }
 
-    // Music volume slider
-    const musicVolumeSlider = document.getElementById('music-volume-slider');
-    if (musicVolumeSlider) {
-      musicVolumeSlider.addEventListener('input', (e) => {
-        this.setMusicVolume(e.target.value / 100);
-        document.getElementById('music-volume-value').textContent = e.target.value + '%';
-      });
-    }
-
-    // Individual sound sliders
-    document.querySelectorAll('.sound-slider').forEach(slider => {
-      slider.addEventListener('input', (e) => {
-        const soundId = e.target.dataset.soundId;
-        const volume = e.target.value / 100;
-        this.setSoundVolume(soundId, volume);
-        document.getElementById(`sound-${soundId}-value`).textContent = e.target.value + '%';
-      });
-    });
-
-    // Category refresh buttons
-    document.querySelectorAll('.category-refresh-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const category = e.currentTarget.dataset.category;
-        this.resetCategory(category);
-      });
-    });
-
-    console.log('✓ Event listeners set up');
-  }
-
-  openVolumeModal() {
-    const modal = document.getElementById('ambient-volume-modal');
-    if (modal) {
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  closeVolumeModal() {
-    const modal = document.getElementById('ambient-volume-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
+      console.log('✓ Event listeners set up for sound sliders');
+    }, 100);
   }
 
   setMainVolume(volume) {
@@ -298,7 +138,10 @@ class AmbientSoundsManager {
 
   setSoundVolume(soundId, volume) {
     const sound = this.sounds.get(soundId);
-    if (!sound) return;
+    if (!sound) {
+      console.warn(`Sound not found: ${soundId}`);
+      return;
+    }
 
     sound.volume = Math.max(0, Math.min(1, volume));
     sound.audio.volume = sound.volume * this.mainVolume;
@@ -306,7 +149,7 @@ class AmbientSoundsManager {
     // Start playing if volume > 0, stop if volume = 0
     if (sound.volume > 0 && sound.audio.paused) {
       sound.audio.play().catch(e => {
-        console.log('Autoplay prevented for', soundId, '- will play on user interaction');
+        console.log(`Autoplay prevented for ${soundId} - will play on user interaction`);
       });
     } else if (sound.volume === 0 && !sound.audio.paused) {
       sound.audio.pause();
@@ -326,22 +169,6 @@ class AmbientSoundsManager {
     this.sounds.forEach((sound) => {
       sound.audio.volume = sound.volume * this.mainVolume;
     });
-  }
-
-  resetCategory(categoryKey) {
-    const category = AMBIENT_SOUNDS[categoryKey];
-    if (!category) return;
-
-    category.sounds.forEach(soundConfig => {
-      const slider = document.getElementById(`sound-${soundConfig.id}-slider`);
-      if (slider) {
-        slider.value = soundConfig.defaultVolume;
-        document.getElementById(`sound-${soundConfig.id}-value`).textContent = soundConfig.defaultVolume + '%';
-      }
-      this.setSoundVolume(soundConfig.id, soundConfig.defaultVolume / 100);
-    });
-
-    console.log('✓ Reset category:', category.label);
   }
 
   saveVolumesToStorage() {
@@ -384,26 +211,38 @@ class AmbientSoundsManager {
 
       // Update UI sliders after DOM is ready
       setTimeout(() => {
-        const mainSlider = document.getElementById('main-volume-slider');
+        // Main volume
+        const mainSlider = document.getElementById('main-volume-setting');
         if (mainSlider) {
           mainSlider.value = this.mainVolume * 100;
-          document.getElementById('main-volume-value').textContent = Math.round(this.mainVolume * 100) + '%';
+          const percentageEl = document.getElementById('main-volume-percentage');
+          if (percentageEl) {
+            percentageEl.textContent = Math.round(this.mainVolume * 100) + '%';
+          }
         }
 
-        const musicSlider = document.getElementById('music-volume-slider');
+        // Music volume
+        const musicSlider = document.getElementById('music-volume-setting');
         if (musicSlider) {
           musicSlider.value = this.musicVolume * 100;
-          document.getElementById('music-volume-value').textContent = Math.round(this.musicVolume * 100) + '%';
+          const percentageEl = document.getElementById('music-volume-percentage');
+          if (percentageEl) {
+            percentageEl.textContent = Math.round(this.musicVolume * 100) + '%';
+          }
         }
 
+        // Individual sounds
         this.sounds.forEach((sound, id) => {
-          const slider = document.getElementById(`sound-${id}-slider`);
+          const slider = document.getElementById(`${id}-volume`);
           if (slider) {
             slider.value = sound.volume * 100;
-            document.getElementById(`sound-${id}-value`).textContent = Math.round(sound.volume * 100) + '%';
+            const percentageEl = document.getElementById(`${id}-percentage`);
+            if (percentageEl) {
+              percentageEl.textContent = Math.round(sound.volume * 100) + '%';
+            }
           }
         });
-      }, 100);
+      }, 500);
 
       console.log('✓ Loaded saved volumes from localStorage');
 
