@@ -6000,6 +6000,11 @@ class MusicPlayer {
       this.isPlaying = true;
       this.updatePlayPauseButton(true);
 
+      // Resume ambient sounds
+      if (window.ambientSoundsManager) {
+        window.ambientSoundsManager.resumeAll();
+      }
+
       // Force clear error messages
       setTimeout(() => {
         this.clearErrorMessage();
@@ -6040,6 +6045,11 @@ class MusicPlayer {
     this.audio.pause();
     this.isPlaying = false;
     this.updatePlayPauseButton(false);
+
+    // Pause ambient sounds
+    if (window.ambientSoundsManager) {
+      window.ambientSoundsManager.pauseAll();
+    }
   }
 
   previousTrack() {
