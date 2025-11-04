@@ -382,7 +382,7 @@
                 If you are a copyright holder and believe any song in this collection infringes on your rights, 
                 please contact me and I will remove it immediately.
               </p>
-              <a href="mailto:lexlarisa@protonmail.com?subject=Pomodoro%20Music%20Copyright%20Request" class="btn-secondary" style="display: inline-block; text-decoration: none; text-align: center;">
+              <a id="email-contact-link" href="mailto:lexlarisa@protonmail.com?subject=Pomodoro%20Music%20Copyright%20Request" class="btn-secondary" style="display: inline-block; text-decoration: none; text-align: center;">
                 Contact: lexlarisa@protonmail.com
               </a>
             </div>
@@ -503,6 +503,41 @@
                             <!-- Settings Module -->
                             <script src="/sources/settings.js?v=14"></script>
                             <!-- END OF SETTINGS MODULE -->
+
+                            <!-- Discord Activity Detection -->
+                            <script>
+                              // Detect if running inside Discord Activity (iframe)
+                              document.addEventListener('DOMContentLoaded', () => {
+                                const isDiscordActivity = window.self !== window.top;
+
+                                if (isDiscordActivity) {
+                                  const emailLink = document.getElementById('email-contact-link');
+                                  if (emailLink) {
+                                    // Replace mailto link with text and copy functionality
+                                    emailLink.href = '#';
+                                    emailLink.addEventListener('click', (e) => {
+                                      e.preventDefault();
+
+                                      // Copy email to clipboard
+                                      navigator.clipboard.writeText('lexlarisa@protonmail.com').then(() => {
+                                        const originalText = emailLink.textContent;
+                                        emailLink.textContent = '✓ Email copied to clipboard!';
+                                        emailLink.style.opacity = '0.8';
+
+                                        setTimeout(() => {
+                                          emailLink.textContent = originalText;
+                                          emailLink.style.opacity = '1';
+                                        }, 2000);
+                                      }).catch(err => {
+                                        console.log('Could not copy email:', err);
+                                        alert('Email: lexlarisa@protonmail.com');
+                                      });
+                                    });
+                                  }
+                                }
+                              });
+                            </script>
+                            <!-- END OF DISCORD ACTIVITY DETECTION -->
 
                             <!-- vercel statistics script -->
                             <script defer src="/_vercel/insights/script.js"></script>
