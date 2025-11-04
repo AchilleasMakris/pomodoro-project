@@ -5790,6 +5790,7 @@ class MusicPlayer {
           </button>
           <div class="more-options-menu">
             <button id="shuffle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle</button>
+            <button id="settings-btn-menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Settings</button>
             <button id="music-credits-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7C10.07 9.5 8.5 10.92 8.5 12.75h1.5c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h1.5c0-2.25 3-2.5 3-5 .01-1.93-1.56-3.5-3.5-3.5z"/></svg>Credits</button>
           </div>
         </div>
@@ -5832,6 +5833,18 @@ class MusicPlayer {
         // This assumes a global function to open the credits modal/tab
         if (window.openMusicCredits) {
           window.openMusicCredits();
+        }
+        this.closeMoreOptionsMenu();
+      });
+    }
+
+    // Settings button in menu
+    const settingsBtnMenu = document.getElementById('settings-btn-menu');
+    if (settingsBtnMenu) {
+      settingsBtnMenu.addEventListener('click', () => {
+        // This assumes a global function to open the settings modal
+        if (window.openSettingsModal) {
+          window.openSettingsModal();
         }
         this.closeMoreOptionsMenu();
       });
