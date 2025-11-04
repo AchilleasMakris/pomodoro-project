@@ -49,6 +49,8 @@ class AmbientSoundsManager {
     if (!this.audioContext) return;
 
     console.log('🔄 Converting sounds to Web Audio API...');
+    console.log(`Main volume is set to: ${this.mainVolume}`);
+    console.log(`Main gain node value: ${this.mainGainNode.gain.value}`);
 
     this.sounds.forEach((sound, id) => {
       if (!sound.sourceNode && sound.audio) {
@@ -62,15 +64,18 @@ class AmbientSoundsManager {
           sound.sourceNode.connect(sound.gainNode);
           sound.gainNode.connect(this.mainGainNode);
 
-          // Set current volume
+          // Set current volume (individual sound volume)
+          // The mainGainNode will multiply this by mainVolume
           sound.gainNode.gain.value = sound.volume;
 
-          console.log(`✓ Converted ${id} to Web Audio API`);
+          console.log(`✓ Converted ${id} to Web Audio API (volume: ${sound.volume})`);
         } catch (error) {
           console.error(`Failed to convert ${id} to Web Audio API:`, error);
         }
       }
     });
+
+    console.log(`✓ All sounds converted. Main gain: ${this.mainGainNode.gain.value}`);
   }
 
   init() {
