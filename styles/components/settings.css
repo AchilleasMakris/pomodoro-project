@@ -53,9 +53,11 @@
   max-width: 600px;
   width: 100%;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   animation: modalSlideIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-container.modal-small {
@@ -80,6 +82,12 @@
   align-items: center;
   padding: 1.5rem;
   border-bottom: 1px solid rgba(241, 245, 249, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, rgba(15, 20, 35, 0.98), rgba(20, 25, 40, 0.98));
+  backdrop-filter: blur(10px);
+  border-radius: 16px 16px 0 0;
 }
 
 .modal-header h2 {
@@ -114,6 +122,11 @@
   gap: 0.5rem;
   padding: 1rem 1.5rem 0;
   border-bottom: 1px solid rgba(241, 245, 249, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background: linear-gradient(135deg, rgba(15, 20, 35, 0.98), rgba(20, 25, 40, 0.98));
+  backdrop-filter: blur(10px);
 }
 
 .tab-btn {
@@ -143,8 +156,9 @@
 /* Modal Body */
 .modal-body {
   padding: 1.5rem;
-  max-height: 60vh;
+  flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .modal-body::-webkit-scrollbar {
@@ -289,6 +303,27 @@ select {
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   padding-right: 2.5rem;
+  color-scheme: dark;
+}
+
+/* Dropdown Options Styling */
+select option {
+  background: rgba(15, 20, 35, 0.98);
+  color: var(--clr-light);
+  padding: 0.6rem;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+select option:hover,
+select option:focus {
+  background: rgba(241, 245, 249, 0.2);
+  color: var(--clr-light);
+}
+
+select option:checked {
+  background: rgba(241, 245, 249, 0.15);
+  color: var(--clr-light);
+  font-weight: 600;
 }
 
 /* Setting Rows */
@@ -458,6 +493,12 @@ input[type="range"]::-moz-range-thumb:hover {
   gap: 1rem;
   padding: 1.5rem;
   border-top: 1px solid rgba(241, 245, 249, 0.1);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, rgba(15, 20, 35, 0.98), rgba(20, 25, 40, 0.98));
+  backdrop-filter: blur(10px);
+  border-radius: 0 0 16px 16px;
 }
 
 .btn,
