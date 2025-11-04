@@ -183,30 +183,26 @@
               </div>
 
               <div class="setting-row checkbox-row">
-                <label for="auto-start-breaks">
-                  <input type="checkbox" id="auto-start-breaks">
-                  Auto-start breaks
-                </label>
+                <label for="auto-start-breaks">Auto-start breaks</label>
+                <input type="checkbox" id="auto-start-breaks">
               </div>
 
               <div class="setting-row checkbox-row">
-                <label for="auto-start-pomodoros">
-                  <input type="checkbox" id="auto-start-pomodoros">
-                  Auto-start pomodoros
-                </label>
+                <label for="auto-start-pomodoros">Auto-start pomodoros</label>
+                <input type="checkbox" id="auto-start-pomodoros">
               </div>
 
               <div class="setting-row checkbox-row">
-                <label for="sound-enabled">
-                  <input type="checkbox" id="sound-enabled" checked>
-                  Enable sound notifications
-                </label>
+                <label for="sound-enabled">Enable sound notifications</label>
+                <input type="checkbox" id="sound-enabled" checked>
               </div>
 
-              <div class="setting-row">
-                <label for="volume-slider">Alarm Bell Volume</label>
-                <input type="range" id="volume-slider" min="0" max="100" value="50">
-                <span id="volume-value">50%</span>
+              <div class="sound-control-group">
+                <div class="sound-control-header">
+                  <label for="volume-slider">Alarm Bell Volume</label>
+                  <span class="sound-percentage" id="volume-value">50%</span>
+                </div>
+                <input type="range" id="volume-slider" class="sound-slider" min="0" max="100" value="50">
               </div>
             </div>
           </div>

@@ -5897,26 +5897,17 @@ class MusicPlayer {
       // Set initial CSS variable for gradient
       volumeSlider.style.setProperty('--volume-percent', volumeSlider.value + '%');
       
-      // Update volume in real-time while dragging (without saving)
+      // Update volume in real-time while dragging
       volumeSlider.addEventListener('input', (e) => {
-        const volume = e.target.value / 100;
-        this.audio.volume = volume;
-        
-        // Update CSS variable for visual feedback
-        e.target.style.setProperty('--volume-percent', e.target.value + '%');
-        
-        // Store previous volume if not muting
-        if (volume > 0) {
-          this.previousVolume = volume;
-        }
-        
-        this.updateVolumeIcon(volume);
+        const newVolume = parseInt(e.target.value, 10);
+        window.dispatchEvent(new CustomEvent('musicVolumeChanged', { detail: { volume: newVolume } }));
       });
-      
-      // Save settings only when user finishes adjusting
-      volumeSlider.addEventListener('change', (e) => {
-        this.saveVolumeToSettings(e.target.value);
-      });
+
+    window.addEventListener('musicVolumeChanged', (event) => {
+      const newVolume = event.detail.volume;
+      this.audio.volume = newVolume / 100;
+      this.updateVolumeUI();
+    });
     }
 
     // Progress bar seeking
@@ -6102,17 +6093,7 @@ class MusicPlayer {
     this.saveVolumeToSettings(value);
   }
 
-  saveVolumeToSettings(value) {
-    // Save volume to settings
-    if (this.settings) {
-      this.settings.musicVolume = value;
-      window.pomodoroSettings.musicVolume = value; // Directly update global settings
-      // This assumes a global function to save settings
-      if (window.savePomodoroSettings) {
-        window.savePomodoroSettings();
-      }
-    }
-  }
+
 
   // Event Handlers
   handlePlay() {

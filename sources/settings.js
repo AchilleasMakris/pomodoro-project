@@ -45,6 +45,16 @@ function initializeSettings() {
   }
 }
 
+function saveMusicVolume() {
+  try {
+    localStorage.setItem('pomodoroSettings', JSON.stringify(currentSettings));
+    return true;
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+    return false;
+  }
+}
+
 // ===== SETTINGS I/O =====
 function saveSettings() {
   try {
@@ -72,10 +82,15 @@ function loadSettings() {
   document.getElementById('timer-size').value = currentSettings.timerSize;
 
   // Load music volume
-  const musicVolumeSlider = document.getElementById('music-volume-slider');
+  const musicVolumeSlider = document.getElementById('music-volume-setting');
   if (musicVolumeSlider) {
     musicVolumeSlider.value = currentSettings.musicVolume;
   }
+  const musicVolumePercentage = document.getElementById('music-volume-percentage');
+  if (musicVolumePercentage) {
+    musicVolumePercentage.textContent = currentSettings.musicVolume + '%';
+  }
+
 
   // Load background selection
   document.querySelectorAll('.background-option').forEach(option => {
@@ -263,13 +278,27 @@ function setupEventListeners() {
   });
 
   // Music volume slider
-  const musicVolumeSlider = document.getElementById('music-volume-slider');
+  const musicVolumeSlider = document.getElementById('music-volume-setting');
   if (musicVolumeSlider) {
     musicVolumeSlider.addEventListener('input', (e) => {
-      currentSettings.musicVolume = parseInt(e.target.value, 10);
-      // No need to save here, will be saved with main save button
+      const newVolume = parseInt(e.target.value, 10);
+      window.dispatchEvent(new CustomEvent('musicVolumeChanged', { detail: { volume: newVolume } }));
     });
   }
+
+  window.addEventListener('musicVolumeChanged', (event) => {
+    const newVolume = event.detail.volume;
+    currentSettings.musicVolume = newVolume;
+    const musicVolumeSlider = document.getElementById('music-volume-setting');
+    if (musicVolumeSlider) {
+      musicVolumeSlider.value = newVolume;
+    }
+    const musicVolumePercentage = document.getElementById('music-volume-percentage');
+    if (musicVolumePercentage) {
+      musicVolumePercentage.textContent = newVolume + '%';
+    }
+    saveMusicVolume();
+  });
 
   // Save button
   const saveBtn = document.getElementById('save-settings-btn');
@@ -385,7 +414,8 @@ function switchTab(tabName) {
   document.querySelectorAll('.tab-content').forEach(content => {
     if (content.id === `${tabName}-tab`) {
       content.classList.add('active');
-    } else {
+    }
+    else {
       content.classList.remove('active');
     }
   });
