@@ -298,24 +298,46 @@ select:focus {
 
 select {
   cursor: pointer;
+  text-align: left;
+
+  /* Remove native appearance for consistent styling */
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Custom arrow */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23f1f5f9' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   padding-right: 2.5rem;
+
+  /* Dark mode hints for browser */
   color-scheme: dark;
-  accent-color: rgba(241, 245, 249, 0.2);
+
+  /* Force dark background */
+  background-color: #0f1423 !important;
+}
+
+/* Remove IE dropdown arrow */
+select::-ms-expand {
+  display: none;
+}
+
+/* Enhanced focus state for select */
+select:focus {
+  box-shadow: 0 0 0 3px rgba(241, 245, 249, 0.1);
 }
 
 /* Dropdown Options Styling */
 select option {
   background-color: #0f1423;
   color: #f1f5f9;
+  padding: 0.5rem;
   font-family: "Space Grotesk", sans-serif;
 }
 
 select option:checked {
-  background-color: rgba(241, 245, 249, 0.2);
+  background: linear-gradient(rgba(241, 245, 249, 0.2), rgba(241, 245, 249, 0.2));
   color: #f1f5f9;
   font-weight: 600;
 }
