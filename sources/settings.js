@@ -203,11 +203,25 @@ function applyTimerSize() {
   const timerElement = document.querySelector('.timer');
   if (!timerElement) return;
 
-  // Remove existing size classes
+  // Remove existing size classes from timer
   timerElement.classList.remove('timer-small', 'timer-medium', 'timer-large');
 
-  // Add new size class
+  // Add new size class to timer
   timerElement.classList.add(`timer-${currentSettings.timerSize}`);
+
+  // Apply size to all buttons
+  const buttons = document.querySelectorAll('.btn');
+  buttons.forEach(btn => {
+    btn.classList.remove('btn-small', 'btn-medium', 'btn-large');
+    btn.classList.add(`btn-${currentSettings.timerSize}`);
+  });
+
+  // Apply size to form check labels (timer type buttons)
+  const formLabels = document.querySelectorAll('.form-check-label');
+  formLabels.forEach(label => {
+    label.classList.remove('btn-small', 'btn-medium', 'btn-large');
+    label.classList.add(`btn-${currentSettings.timerSize}`);
+  });
 }
 
 // ===== EVENT LISTENERS =====

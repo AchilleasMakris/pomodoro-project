@@ -310,14 +310,7 @@ select {
 select option {
   background: rgba(15, 20, 35, 0.98);
   color: var(--clr-light);
-  padding: 0.6rem;
   font-family: "Space Grotesk", sans-serif;
-}
-
-select option:hover,
-select option:focus {
-  background: rgba(241, 245, 249, 0.2);
-  color: var(--clr-light);
 }
 
 select option:checked {
