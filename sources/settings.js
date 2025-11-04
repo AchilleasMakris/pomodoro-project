@@ -331,11 +331,30 @@ function setupEventListeners() {
 
   // Background selection
   document.querySelectorAll('.background-option').forEach(option => {
-    option.addEventListener('click', () => selectBackground(option.dataset.background));
-    
-    // Play video preview on hover
+    option.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      selectBackground(option.dataset.background);
+    });
+
+    // Prevent video from opening in fullscreen on mobile
     const video = option.querySelector('video');
     if (video) {
+      // Disable all video interactions
+      video.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      video.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      video.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      // Play video preview on hover (desktop only)
       option.addEventListener('mouseenter', () => {
         video.play().catch(e => console.log('Video play prevented:', e));
       });
