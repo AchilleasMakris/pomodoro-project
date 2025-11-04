@@ -157,13 +157,14 @@ class AmbientSoundsManager {
     // Add volume controls button to music player actions
     const playerActions = document.querySelector('.player-actions');
     if (!playerActions) {
-      console.warn('Player actions not found, will retry...');
+      console.warn('Player actions not found, will retry in 500ms...');
       setTimeout(() => this.addVolumeButtonToPlayer(), 500);
       return;
     }
 
     // Check if button already exists
     if (document.getElementById('ambient-volume-btn')) {
+      console.log('✓ Volume button already exists');
       return;
     }
 
@@ -178,15 +179,21 @@ class AmbientSoundsManager {
       </svg>
     `;
 
-    // Insert before settings button or at the beginning
-    const settingsBtn = document.getElementById('settings-btn');
-    if (settingsBtn) {
-      playerActions.insertBefore(volumeBtn, settingsBtn);
+    // Insert before more-options button
+    const moreOptionsBtn = document.getElementById('more-options-btn');
+    if (moreOptionsBtn) {
+      playerActions.insertBefore(volumeBtn, moreOptionsBtn);
+      console.log('✓ Volume button added to music player (before more-options)');
     } else {
       playerActions.appendChild(volumeBtn);
+      console.log('✓ Volume button added to music player (appended)');
     }
 
-    console.log('✓ Volume button added to music player');
+    // Add click event listener immediately
+    volumeBtn.addEventListener('click', () => {
+      console.log('🎵 Volume button clicked, opening modal...');
+      this.openVolumeModal();
+    });
   }
 
   setupEventListeners() {
