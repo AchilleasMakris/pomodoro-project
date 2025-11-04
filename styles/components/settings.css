@@ -662,6 +662,7 @@ input[type="range"]::-moz-range-thumb:hover {
 @media (max-width: 475px) {
   .modal-tabs {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .tab-btn {
@@ -671,5 +672,14 @@ input[type="range"]::-moz-range-thumb:hover {
 
   .background-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .background-option img,
+  .background-option .gradient-preview {
+    height: 120px;
+  }
+
+  .modal-overlay {
+    padding: 0.5rem;
   }
 }

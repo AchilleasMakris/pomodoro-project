@@ -470,8 +470,16 @@
     order: 1;
     width: 100%;
     flex-basis: 100%;
-    justify-content: flex-start;
-    text-align: left;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .track-details h3 {
+    font-size: 0.75rem;
+  }
+
+  .track-details p {
+    font-size: 0.65rem;
   }
 
   .track-icon {
@@ -480,41 +488,59 @@
 
   .player-controls {
     order: 2;
-    flex: 1;
+    flex: 2;
     justify-content: center;
-    gap: 0.25rem;
+    gap: 1rem;
   }
 
   .player-actions {
     order: 3;
-    flex: 1;
+    flex: 0.5;
     justify-content: flex-end;
-    gap: 0.25rem;
+    gap: 0.35rem;
+  }
+
+  /* Hide background button on mobile - access via settings */
+  #background-btn {
+    display: none;
+  }
+
+  /* Make more-options button smaller */
+  .player-actions .control-btn {
+    width: 32px;
+    height: 32px;
+    opacity: 0.7;
   }
 
   .progress-bar-container {
     order: 4;
-    margin-top: 10px;
+    margin-top: 12px;
   }
 
   .control-btn {
-    width: 34px;
-    height: 34px;
+    width: 48px;
+    height: 48px;
   }
 
   .control-btn.play-pause {
-    width: 42px;
-    height: 42px;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .control-btn.play-pause:hover {
+    background: rgba(255, 255, 255, 0.18);
   }
 
   .control-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
   }
 
   .control-btn.play-pause svg {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
   }
 
   /* Hide some non-essential controls on mobile */
@@ -554,28 +580,43 @@
 /* Extra small devices */
 @media (max-width: 360px) {
   .track-details h3 {
-    font-size: 0.8rem;
-  }
-
-  .track-details p {
     font-size: 0.7rem;
   }
 
-  .control-btn {
-    width: 36px;
-    height: 36px;
+  .track-details p {
+    font-size: 0.6rem;
   }
 
-  .control-btn.play-pause {
+  .control-btn {
     width: 44px;
     height: 44px;
   }
 
+  .control-btn.play-pause {
+    width: 56px;
+    height: 56px;
+  }
+
+  .control-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .control-btn.play-pause svg {
+    width: 28px;
+    height: 28px;
+  }
+
   .player-controls {
-    gap: 0.15rem;
+    gap: 0.75rem;
   }
 
   .player-actions {
-    gap: 0.15rem;
+    gap: 0.3rem;
+  }
+
+  .player-actions .control-btn {
+    width: 28px;
+    height: 28px;
   }
 }
