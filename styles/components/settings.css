@@ -740,7 +740,7 @@ input[type="range"]::-moz-range-thumb:hover {
   .modal-footer {
     flex-direction: column;
     padding: 1rem;
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 60px);
     gap: 0.75rem;
     flex-shrink: 0;
   }
@@ -841,7 +841,7 @@ input[type="range"]::-moz-range-thumb:hover {
 
   .modal-footer {
     padding: 0.875rem;
-    padding-bottom: max(0.875rem, env(safe-area-inset-bottom));
+    padding-bottom: calc(max(0.875rem, env(safe-area-inset-bottom)) + 60px);
     flex-shrink: 0;
   }
 }
