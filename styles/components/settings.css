@@ -740,13 +740,16 @@ input[type="range"]::-moz-range-thumb:hover {
   .modal-footer {
     flex-direction: column;
     padding: 1rem;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
     gap: 0.75rem;
+    flex-shrink: 0;
   }
 
   .btn,
   .btn-secondary {
     width: 100%;
     padding: 0.875rem 1.5rem;
+    font-size: 1rem;
   }
 
   .timer-control-group {
@@ -838,6 +841,8 @@ input[type="range"]::-moz-range-thumb:hover {
 
   .modal-footer {
     padding: 0.875rem;
+    padding-bottom: max(0.875rem, env(safe-area-inset-bottom));
+    flex-shrink: 0;
   }
 }
 

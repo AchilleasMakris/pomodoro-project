@@ -459,9 +459,10 @@
     width: 100%;
     bottom: 0;
     left: 0;
-    border-radius: 16px 16px 0 0;
-    padding: 16px 12px max(16px, env(safe-area-inset-bottom));
+    border-radius: 20px;
+    padding: 16px;
     max-height: 30vh;
+    overflow: hidden;
   }
 
   /* Use grid for better layout control */
@@ -479,14 +480,16 @@
   .progress-bar-container {
     order: -1;
     grid-column: 1 / -1;
-    margin: 0 0 8px 0;
-    padding: 8px 0;
-    height: 8px;
+    margin: 0 0 12px 0;
+    padding: 0;
+    height: 4px;
     cursor: pointer;
+    width: 100%;
   }
 
   .progress-fill {
-    height: 8px;
+    height: 4px;
+    border-radius: 2px;
   }
 
   /* Track info */
@@ -661,7 +664,7 @@
 
   /* Reduce progress bar padding */
   .progress-bar-container {
-    padding: 6px 0;
-    margin: 0 0 6px 0;
+    padding: 0;
+    margin: 0;
   }
 }
