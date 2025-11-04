@@ -152,22 +152,17 @@ class AmbientSoundsManager {
 
     sound.volume = Math.max(0, Math.min(1, volume));
 
-    const setVolume = () => {
-      sound.audio.volume = sound.volume * this.mainVolume;
-    };
+    // Always set volume synchronously (fixes mobile autoplay volume bug)
+    sound.audio.volume = sound.volume * this.mainVolume;
 
     if (sound.volume > 0) {
       if (sound.audio.paused) {
-        // Set volume on 'playing' event for the first play
-        sound.audio.addEventListener('playing', setVolume, { once: true });
+        // Volume is already set above, just try to play
         sound.audio.play().catch(e => {
           console.log(`Autoplay prevented for ${soundId} - will play on user interaction`);
-          sound.audio.removeEventListener('playing', setVolume);
         });
-      } else {
-        // If already playing, just set the volume
-        setVolume();
       }
+      // If already playing, volume was just updated above
     } else {
       sound.audio.pause();
       sound.audio.currentTime = 0; // Reset to start
