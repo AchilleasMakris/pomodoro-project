@@ -352,8 +352,7 @@
   position: relative;
 }
 
-#more-options-btn:focus + .more-options-menu,
-.more-options-menu:hover {
+.more-options-menu.active {
   display: flex;
 }
 
