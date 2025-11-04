@@ -26,7 +26,8 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   transition: background-image 0.6s ease-in-out;
   color-scheme: dark;
 }
@@ -63,6 +64,13 @@ button {
   margin-top: 2rem;
 }
 
+/* Container System */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
 /* Scrollbar */
 
 /* body::-webkit-scrollbar {
@@ -80,9 +88,41 @@ body::-webkit-scrollbar-thumb {
 
 /* MEDIA QUERIES */
 
+/*xxs screens - Extra small phones */
+
+@media (max-width: 360px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+  .header {
+    padding: 0;
+  }
+  .header__menu {
+    padding-right: 0.25rem;
+  }
+  .header li {
+    font-size: 0.75rem;
+  }
+  .timer {
+    font-size: 5.5rem;
+  }
+  .working__title {
+    font-size: 0.75rem;
+  }
+  .footer {
+    font-size: 0.7rem;
+  }
+  .fullscreen {
+    display: none;
+  }
+}
+
 /*xs screens */
 
 @media (max-width: 475px) {
+  .container {
+    padding: 0 0.5rem;
+  }
   .header {
     padding: 0;
   }
@@ -93,7 +133,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 0.8rem;
   }
   .timer {
-    font-size: 7rem;
+    font-size: 6rem;
   }
   iframe {
     width: 300px;
@@ -102,7 +142,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 0.8rem;
   }
   .footer {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
   }
   .fullscreen {
     display: none;
@@ -112,6 +152,9 @@ body::-webkit-scrollbar-thumb {
 /*sm screens */
 
 @media (max-width: 640px) {
+  .container {
+    padding: 0 0.75rem;
+  }
   .header {
     padding: 0;
   }
@@ -122,7 +165,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 0.9rem;
   }
   .timer {
-    font-size: 7rem;
+    font-size: 6.5rem;
   }
   iframe {
     width: 300px;
@@ -131,7 +174,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 0.9rem;
   }
   .footer {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
   .fullscreen {
     display: none;
@@ -141,6 +184,9 @@ body::-webkit-scrollbar-thumb {
 /*md screens */
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
   .header {
     padding: 0;
   }
@@ -151,7 +197,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 1rem;
   }
   .timer {
-    font-size: 8rem;
+    font-size: 7rem;
   }
   iframe {
     width: 300px;
@@ -160,7 +206,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 1rem;
   }
   .footer {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
   .fullscreen {
     display: none;

@@ -27,3 +27,99 @@
   border-radius: 8px;
   padding: 1rem 0;
 }
+
+/* Mobile Responsive Styles */
+
+@media (max-width: 360px) {
+  .header {
+    padding: 10px 5px;
+  }
+
+  .header__menu {
+    gap: 0.35em;
+    padding-right: 0.25rem;
+  }
+
+  .header li {
+    font-size: 0.75rem;
+  }
+
+  .info {
+    padding: 0.5rem 0;
+  }
+
+  .info h3 {
+    font-size: 0.75rem;
+  }
+
+  /* Hide description on very small screens to save space */
+  .info p {
+    display: none;
+  }
+
+  .settings-icon-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 475px) {
+  .header {
+    padding: 15px 10px;
+  }
+
+  .header__menu {
+    gap: 0.5em;
+    padding-right: 0.5rem;
+  }
+
+  .header li {
+    font-size: 0.8rem;
+  }
+
+  .info {
+    padding: 0.75rem 0;
+  }
+
+  .info h3 {
+    font-size: 0.85rem;
+  }
+
+  .info p {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 20px 15px;
+  }
+
+  .header__menu {
+    gap: 1em;
+    padding-right: 0.75rem;
+  }
+
+  .header li {
+    font-size: 0.9rem;
+  }
+
+  .info h3 {
+    font-size: 0.9rem;
+  }
+
+  .info p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 25px 20px;
+  }
+
+  .header__menu {
+    gap: 1.5em;
+    padding-right: 1rem;
+  }
+}

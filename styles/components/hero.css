@@ -35,5 +35,82 @@
   display: inline-flex;
 }
 
+/* Button containers for proper spacing */
+#container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.start {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Mobile Responsive Styles */
+
+@media (max-width: 360px) {
+  .hero {
+    padding: 10px;
+    gap: 0.5rem;
+  }
+
+  #container {
+    gap: 0.5rem;
+  }
+
+  .start {
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .start .btn {
+    flex: 1;
+    min-width: 110px;
+  }
+}
+
 @media (max-width: 475px) {
+  .hero {
+    padding: 15px 10px;
+    gap: 0.75rem;
+  }
+
+  #container {
+    gap: 0.6rem;
+  }
+
+  .start {
+    gap: 0.6rem;
+    width: 100%;
+  }
+
+  .start .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 18px 15px;
+  }
+
+  #container {
+    gap: 0.7rem;
+  }
+
+  .start {
+    gap: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 20px;
+  }
 }

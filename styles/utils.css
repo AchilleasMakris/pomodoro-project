@@ -77,19 +77,62 @@ input[type="radio"] {
   border-width: 2.5px;
 }
 
+/*xxs screens */
+
+@media (max-width: 360px) {
+  .btn,
+  .form-check-label {
+    padding: 0.55em 1em;
+    font-size: 0.85rem;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /*xs screens */
 
 @media (max-width: 475px) {
+  .btn,
+  .form-check-label {
+    padding: 0.6em 1.2em;
+    font-size: 0.9rem;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /*sm screens */
 
 @media (max-width: 640px) {
+  .btn,
+  .form-check-label {
+    padding: 0.55em 1.1em;
+    font-size: 0.95rem;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /*md screens */
 
 @media (max-width: 768px) {
+  .btn,
+  .form-check-label {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /*lg screens */
