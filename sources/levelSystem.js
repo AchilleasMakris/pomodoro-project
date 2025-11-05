@@ -57,8 +57,9 @@ function getLevelData() {
 /**
  * Show XP collection popup notification
  * @param {number} xpAmount - Amount of XP gained
+ * @param {boolean} isLevelUp - Whether this is a level up
  */
-function showXPPopup(xpAmount) {
+function showXPPopup(xpAmount, isLevelUp = false) {
   // Remove any existing popup
   const existingPopup = document.querySelector('.xp-popup');
   if (existingPopup) {
@@ -67,10 +68,16 @@ function showXPPopup(xpAmount) {
 
   // Create popup element
   const popup = document.createElement('div');
-  popup.className = 'xp-popup';
-  popup.innerHTML = `+${xpAmount} XP Collected 🍅`;
+  popup.className = isLevelUp ? 'xp-popup level-up' : 'xp-popup';
+  popup.innerHTML = isLevelUp ? 'Level Up! 🏆' : `+${xpAmount} XP Collected 🍅`;
 
-  document.body.appendChild(popup);
+  // Insert popup inside level display container so CSS selectors work
+  const levelContainer = document.querySelector('.level-display-container');
+  if (levelContainer) {
+    levelContainer.appendChild(popup);
+  } else {
+    document.body.appendChild(popup);
+  }
 
   let isHovered = false;
   let fadeTimeout;
@@ -78,7 +85,7 @@ function showXPPopup(xpAmount) {
   // Handle hover to keep popup visible
   popup.addEventListener('mouseenter', () => {
     isHovered = true;
-    popup.style.opacity = '0.8';
+    popup.style.opacity = isLevelUp ? '0.9' : '0.8';
     clearTimeout(fadeTimeout);
   });
 
@@ -205,8 +212,14 @@ function awardXP(minutes) {
     }
   }));
 
-  // Show XP popup notification
-  showXPPopup(xpGained);
+  // Show appropriate popup notification
+  if (levelUps.length > 0) {
+    // Show level-up popup if leveled up
+    showXPPopup(xpGained, true);
+  } else {
+    // Show regular XP collected popup
+    showXPPopup(xpGained, false);
+  }
 
   return {
     xpGained,
