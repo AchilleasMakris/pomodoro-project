@@ -6557,15 +6557,15 @@ class MusicPlayer {
           </button>
           <div class="background-selector-menu">
             <div class="background-option" data-background="road-video">
-              <video src="/r2-backgrounds/road.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
+              <video src="/r2-backgrounds/road.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
               <span>Road</span>
             </div>
             <div class="background-option" data-background="room-video">
-              <video src="/r2-backgrounds/room.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
+              <video src="/r2-backgrounds/room.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
               <span>Room</span>
             </div>
             <div class="background-option" data-background="eyes-video">
-              <video src="/r2-backgrounds/eyes-wallpaper.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
+              <video src="/r2-backgrounds/eyes-wallpaper.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
               <span>Eyes</span>
             </div>
           </div>
