@@ -46,5 +46,13 @@ build/
 # System files
 Thumbs.db
 .DS_Store
+
+# Python helper scripts (may contain credentials)
 migrate_r2_music.py
+upload_to_r2.py
+download_from_har.py
+download_with_metadata.py
+rename_uppbeat_files.py
+create_music_library_from_files.py
+*.har
 .env.migration
