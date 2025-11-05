@@ -1034,7 +1034,6 @@ input[type="range"]::-moz-range-thumb:hover {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.25rem;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -1044,16 +1043,20 @@ input[type="range"]::-moz-range-thumb:hover {
   border-radius: 50%;
 }
 
+.path-toggle-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .elf-icon {
   left: 3px;
-  background: linear-gradient(135deg, #dc2626, #ef4444);
   filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.6));
   opacity: 1;
 }
 
 .human-icon {
   right: 3px;
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
   filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.6));
   opacity: 0.4;
 }

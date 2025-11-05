@@ -425,7 +425,13 @@
               <div class="progress-stats">
                 <div class="stat-item">
                   <span class="stat-label">Current Level</span>
-                  <span class="stat-value" id="stat-level">1</span>
+                  <div class="stat-value-with-toggle">
+                    <span class="stat-value" id="stat-level">1</span>
+                    <button id="path-toggle-btn" class="path-toggle-btn" title="Toggle Level Path">
+                      <img src="/img/svg/elf.svg" alt="Elf Path" class="toggle-icon elf-icon">
+                      <img src="/img/svg/human.svg" alt="Human Path" class="toggle-icon human-icon">
+                    </button>
+                  </div>
                 </div>
                 <div class="stat-item">
                   <span class="stat-label">Current XP</span>
