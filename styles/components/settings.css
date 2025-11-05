@@ -51,7 +51,7 @@
   background: linear-gradient(135deg, rgba(15, 20, 35, 0.95), rgba(20, 25, 40, 0.95));
   border-radius: 16px;
   border: 1px solid rgba(241, 245, 249, 0.1);
-  max-width: 600px;
+  max-width: 540px;
   width: 100%;
   max-height: 90vh;
   overflow: hidden;
@@ -511,8 +511,8 @@ input[type="range"]::-moz-range-thumb:hover {
 /* Modal Footer */
 .modal-footer {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: flex-end;
+  gap: 0.75rem;
   padding: 1.5rem;
   border-top: 1px solid rgba(241, 245, 249, 0.1);
   position: sticky;
@@ -525,9 +525,9 @@ input[type="range"]::-moz-range-thumb:hover {
 
 .btn,
 .btn-secondary {
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   font-family: "Space Grotesk", sans-serif;
   cursor: pointer;
@@ -703,108 +703,53 @@ input[type="range"]::-moz-range-thumb:hover {
 }
 
 @media (max-width: 640px) {
-  /* Full screen modal on mobile */
+  /* Smaller, scrollable modal on mobile */
   .modal-overlay {
-    padding: 0;
-    align-items: stretch;
+    padding: 1rem;
+    align-items: center;
   }
 
   .modal-container {
     max-width: 100%;
     width: 100%;
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
+    max-height: 85vh;
+    border-radius: 16px;
     margin: 0;
   }
 
-  .modal-header {
-    padding: 1rem;
-    border-radius: 0;
-  }
-
-  .modal-header h2 {
-    font-size: 1.25rem;
-  }
-
   .modal-tabs {
-    padding: 0.75rem 1rem 0;
-    gap: 0.5rem;
+    display: none;
   }
 
-  .tab-btn {
-    padding: 0.65rem 1rem;
-    font-size: 0.9rem;
+  .tab-content {
+    display: block !important; /* Override inline style from JS */
+    opacity: 1 !important; /* Override inline style from JS */
+    margin-bottom: 2rem;
   }
 
-  .modal-body {
-    padding: 1rem;
-    overflow-y: auto;
-    flex: 1;
+  .tab-content::before {
+    content: attr(data-title);
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--clr-light);
+  }
+
+  .tab-content.active {
+    display: block !important;
   }
 
   .modal-footer {
-    flex-direction: column;
-    padding: 1rem;
-    padding-bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 60px);
-    gap: 0.75rem;
-    flex-shrink: 0;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 
   .btn,
   .btn-secondary {
-    width: 100%;
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .timer-control-group {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .input-with-btns {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .background-gallery {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.875rem;
-  }
-
-  .background-option img,
-  .background-option .gradient-preview {
-    height: 140px;
-  }
-
-  .background-option span {
-    font-size: 0.875rem;
-    padding: 0.625rem;
-  }
-
-  .setting-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .toast {
-    bottom: 1rem;
-    right: 1rem;
-    left: 1rem;
-    font-size: 0.9rem;
-  }
-
-  /* Settings section spacing */
-  .settings-section {
-    margin-bottom: 1.5rem;
-  }
-
-  .settings-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
+    width: auto;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
   }
 }
 
@@ -855,7 +800,7 @@ input[type="range"]::-moz-range-thumb:hover {
 /* ===== AMBIENT SOUNDS TAB STYLES ===== */
 
 .sound-control-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .sound-control-header {
@@ -869,7 +814,7 @@ input[type="range"]::-moz-range-thumb:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--clr-light);
 }
@@ -880,7 +825,7 @@ input[type="range"]::-moz-range-thumb:hover {
 }
 
 .sound-percentage {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: rgba(241, 245, 249, 0.7);
   min-width: 45px;
