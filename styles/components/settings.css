@@ -497,22 +497,7 @@ input[type="range"]::-moz-range-thumb:hover {
   z-index: 2;
 }
 
-.background-option.selected::after {
-  content: "✓";
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 28px;
-  height: 28px;
-  background: var(--clr-light);
-  color: var(--clr-dark);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
+/* Removed checkmark - border glow is sufficient visual indicator */
 
 /* Info Text */
 .info-text {
