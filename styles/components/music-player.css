@@ -283,11 +283,13 @@
 }
 
 .background-selector-menu .background-option img,
+.background-selector-menu .background-option video,
 .background-selector-menu .background-option .gradient-preview {
   width: 100%;
   height: 60px;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 .background-selector-menu .background-option span {
@@ -298,25 +300,10 @@
   color: var(--clr-light);
   font-size: 0.75rem;
   font-weight: 500;
+  pointer-events: none;
 }
 
-.background-selector-menu .background-option.selected::after {
-  content: "✓";
-  position: absolute;
-  top: 0.4rem;
-  right: 0.4rem;
-  width: 22px;
-  height: 22px;
-  background: var(--clr-light);
-  color: var(--clr-dark);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
+/* Removed checkmark - border glow is sufficient visual indicator */
 
 /* More Options Menu */
 .more-options-menu {

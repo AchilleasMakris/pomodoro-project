@@ -1,0 +1,2 @@
+- Always make it mobile friendly
+- When you want me to use development server just let me know so I can run by myself.

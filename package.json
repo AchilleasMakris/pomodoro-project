@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Enhanced Pomodoro Timer with customizable settings and local music player",
   "scripts": {
-    "dev": "live-server --port=8000",
+    "dev": "live-server --port=8000 --watch=sources,styles,index.html --ignore=node_modules",
     "start": "http-server -p 8000",
     "preview": "http-server -p 3000 -o"
   },
@@ -20,7 +20,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.922.0",
     "@discord/embedded-app-sdk": "^2.4.0",
-    "@vercel/analytics": "^1.2.2"
+    "@vercel/analytics": "^1.2.2",
+    "live-server": "^1.2.2"
   },
   "devDependencies": {
     "http-server": "^14.1.1"

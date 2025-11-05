@@ -38,13 +38,50 @@
     <link rel="stylesheet" href="/styles/components/footer.css?v=9">
     <link rel="stylesheet" href="/styles/components/working.css?v=2">
     <link rel="stylesheet" href="/styles/components/fullscreen.css?v=2">
-    <link rel="stylesheet" href="/styles/components/settings.css?v=17">
-    <link rel="stylesheet" href="/styles/components/music-player.css?v=17">
+    <link rel="stylesheet" href="/styles/components/settings.css?v=19">
+    <link rel="stylesheet" href="/styles/components/music-player.css?v=18">
     <link rel="stylesheet" href="/styles/components/ambient-sounds.css?v=1">
+    <link rel="stylesheet" href="/styles/components/level-display.css?v=1">
     <link rel="stylesheet" href="/styles/style.css?v=9">
     <link rel="stylesheet" href="/styles/utils.css?v=9">
 
     <body>
+        <!-- LEVEL DISPLAY -->
+        <div class="level-display-container">
+            <div class="level-box">
+                <div class="level-celebration"></div>
+                <div class="level-header">
+                    <div class="level-username">
+                        User
+                        <span class="prestige-stars"></span>
+                    </div>
+                    <div class="level-number">Level 1</div>
+                </div>
+                <div class="xp-info">
+                    <div class="xp-text">0 / 100 XP</div>
+                    <div class="xp-progress-bar">
+                        <div class="xp-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badge and Feature Container -->
+            <div class="badge-feature-container">
+                <div class="badge-box">
+                    <div class="badge-icon" id="badge-icon">🍅</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">✨</div>
+                </div>
+            </div>
+
+            <!-- Test XP Button -->
+            <button id="test-xp-btn-main" class="test-xp-btn" title="Award 10 XP for testing">
+                +10 XP
+            </button>
+        </div>
+        <!-- END OF LEVEL DISPLAY -->
+
         <!-- HEADER SECTION -->
         <header class="header container" id="header-section">
             <nav>
@@ -138,6 +175,7 @@
           <button class="tab-btn" data-tab="appearance">Appearance</button>
           <button class="tab-btn" data-tab="sounds">Sounds</button>
           <button class="tab-btn" data-tab="music">Music</button>
+          <button class="tab-btn" data-tab="progress">Progress</button>
         </div>
 
         <div class="modal-body">
@@ -212,21 +250,17 @@
             <div class="settings-section">
               <h3>Background</h3>
               <div class="background-gallery">
-                <div class="background-option" data-background="wood">
-                  <img src="/r2-backgrounds/wood.jpg" alt="Wood texture">
-                  <span>Wood</span>
-                </div>
-                <div class="background-option" data-background="sakura">
-                  <img src="/r2-backgrounds/sakura4.jpg" alt="Sakura">
-                  <span>Sakura</span>
-                </div>
                 <div class="background-option" data-background="road-video">
-                  <video src="/r2-backgrounds/road.mp4" muted loop playsinline webkit-playsinline style="width: 100%; height: 100px; object-fit: cover; pointer-events: none;"></video>
+                  <video src="/r2-backgrounds/road.mp4" muted loop playsinline webkit-playsinline style="width: 100%; height: 120px; object-fit: cover; pointer-events: none;"></video>
                   <span>Road</span>
                 </div>
                 <div class="background-option" data-background="room-video">
-                  <video src="/r2-backgrounds/room.mp4" muted loop playsinline webkit-playsinline style="width: 100%; height: 100px; object-fit: cover; pointer-events: none;"></video>
+                  <video src="/r2-backgrounds/room.mp4" muted loop playsinline webkit-playsinline style="width: 100%; height: 120px; object-fit: cover; pointer-events: none;"></video>
                   <span>Room</span>
+                </div>
+                <div class="background-option" data-background="eyes-video">
+                  <video src="/r2-backgrounds/eyes-wallpaper.mp4" muted loop playsinline webkit-playsinline style="width: 100%; height: 120px; object-fit: cover; pointer-events: none;"></video>
+                  <span>Eyes</span>
                 </div>
               </div>
             </div>
@@ -383,6 +417,67 @@
               </a>
             </div>
           </div>
+
+          <!-- PROGRESS TAB -->
+          <div id="progress-tab" class="tab-content">
+            <div class="settings-section">
+              <h3>Level Progress</h3>
+              <div class="progress-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Current Level</span>
+                  <span class="stat-value" id="stat-level">1</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Current XP</span>
+                  <span class="stat-value" id="stat-xp">0 / 100</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Prestige Level</span>
+                  <span class="stat-value" id="stat-prestige">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Total Pomodoros</span>
+                  <span class="stat-value" id="stat-pomodoros">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Total Study Time</span>
+                  <span class="stat-value" id="stat-study-time">0h 0m</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Current Badge</span>
+                  <span class="stat-value stat-badge" id="stat-badge">🍅</span>
+                </div>
+              </div>
+              <div id="prestige-section" class="prestige-section" style="display: none;">
+                <button id="prestige-btn" class="btn-prestige">
+                  Prestige (Reset to Level 1, Gain a Star)
+                </button>
+                <p class="info-text">You've reached the maximum level! Prestige to reset your level and earn a prestige star.</p>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Username</h3>
+              <p class="info-text">Change your display name. Free once per week, or costs 50 XP if changed earlier.</p>
+              <div class="username-editor">
+                <input type="text" id="username-input" placeholder="Enter username" maxlength="20" />
+                <button id="save-username-btn" class="btn-secondary">Save Username</button>
+              </div>
+              <p class="info-text" id="username-cooldown-text" style="color: rgba(251, 191, 36, 0.9); display: none;"></p>
+            </div>
+
+            <div class="settings-section">
+              <h3>Testing Tools</h3>
+              <p class="info-text">Use this button to test the XP system. Awards 10 XP per click.</p>
+              <button id="test-xp-btn" class="btn-secondary">Award 10 XP (Test)</button>
+            </div>
+
+            <div class="settings-section">
+              <h3>Reset Progress</h3>
+              <p class="info-text">This will reset all your progress including level, XP, prestige, and stats. This action cannot be undone.</p>
+              <button id="reset-progress-btn" class="btn-danger">Reset All Progress</button>
+            </div>
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -488,7 +583,7 @@
                             <!-- END OF JAVASCRIPT TIMER -->
 
                             <!-- Music Player Module (Load BEFORE settings so MUSIC_LIBRARY is available) -->
-                            <script type="module" src="/sources/musicPlayer.js?v=21"></script>
+                            <script type="module" src="/sources/musicPlayer.js?v=23"></script>
                             <!-- END OF MUSIC PLAYER MODULE -->
 
                             <!-- Ambient Sounds Module -->
@@ -497,8 +592,12 @@
                             <!-- END OF AMBIENT SOUNDS MODULE -->
 
                             <!-- Settings Module -->
-                            <script type="module" src="/sources/settings.js?v=16"></script>
+                            <script type="module" src="/sources/settings.js?v=18"></script>
                             <!-- END OF SETTINGS MODULE -->
+
+                            <!-- Level System Module -->
+                            <script src="/sources/levelSystem.js?v=1"></script>
+                            <!-- END OF LEVEL SYSTEM MODULE -->
 
                             <!-- Discord Activity Detection -->
                             <script>
@@ -535,7 +634,9 @@
                             </script>
                             <!-- END OF DISCORD ACTIVITY DETECTION -->
 
-
+                            <!-- vercel statistics script -->
+                            <script defer src="/_vercel/insights/script.js"></script>
+                            <!-- end of vercel statistics -->
                             <!-- Fullscreen Button Javascript -->
                             <script src="/sources/fullscreen.js"></script>
                             <!-- End of Fullscreen Button Javascript -->

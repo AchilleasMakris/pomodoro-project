@@ -17,7 +17,14 @@ const DEFAULT_SETTINGS = {
   volume: 50,
   background: 'room-video',
   timerSize: 'medium',
-  musicVolume: 70 // Separate volume for music player
+  musicVolume: 70, // Separate volume for music player
+  // Level system
+  xp: 0,
+  level: 1,
+  prestigeLevel: 0,
+  totalPomodoros: 0,
+  username: 'User',
+  lastUsernameChange: null
 };
 
 // Current settings (loaded from localStorage or defaults)
@@ -101,6 +108,59 @@ function loadSettings() {
     } else {
       option.classList.remove('selected');
     }
+
+    // Add error handling for images and videos
+    const img = option.querySelector('img');
+    const video = option.querySelector('video');
+
+    if (img) {
+      img.onerror = function() {
+        // Create gradient fallback only for truly failed loads
+        const fallback = document.createElement('div');
+        fallback.className = 'gradient-preview';
+        fallback.style.cssText = `
+          width: 100%;
+          height: 120px;
+          background: linear-gradient(135deg,
+            rgba(59, 130, 246, 0.3),
+            rgba(139, 92, 246, 0.3));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          opacity: 0.7;
+        `;
+        fallback.textContent = '🖼️';
+        img.replaceWith(fallback);
+      };
+    }
+
+    if (video) {
+      // Try to play video as preview
+      video.play().catch(() => {
+        // Silently handle autoplay restrictions
+      });
+
+      video.onerror = function() {
+        // Create gradient fallback only if video truly fails
+        const fallback = document.createElement('div');
+        fallback.className = 'gradient-preview';
+        fallback.style.cssText = `
+          width: 100%;
+          height: 120px;
+          background: linear-gradient(135deg,
+            rgba(236, 72, 153, 0.3),
+            rgba(251, 146, 60, 0.3));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          opacity: 0.7;
+        `;
+        fallback.textContent = '🎬';
+        video.replaceWith(fallback);
+      };
+    }
   });
 }
 
@@ -137,14 +197,13 @@ function applySettings() {
 
 function applyBackground() {
   const backgroundMap = {
-    'wood': { type: 'image', value: `${R2_BACKGROUNDS_BASE_URL}/wood.jpg` },
-    'sakura': { type: 'image', value: `${R2_BACKGROUNDS_BASE_URL}/sakura4.jpg` },
     'dark-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)' },
     'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
     'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
     'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
     'road-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/road.mp4` },
-    'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4` }
+    'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4` },
+    'eyes-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4` }
   };
 
   const bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
@@ -594,6 +653,27 @@ function loadMusicCredits() {
 // This function can be called by other modules to get current settings
 window.getPomodoroSettings = function() {
   return { ...currentSettings };
+};
+
+// This function returns the actual currentSettings object (not a copy)
+// Used by levelSystem.js to read and write level data
+window.loadSettings = function() {
+  return currentSettings;
+};
+
+// This function saves settings to localStorage
+// Used by levelSystem.js to persist level data
+window.saveSettings = function(settings) {
+  if (settings) {
+    currentSettings = settings;
+  }
+  try {
+    localStorage.setItem('pomodoroSettings', JSON.stringify(currentSettings));
+    return true;
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+    return false;
+  }
 };
 
 // This function can be called to open the music credits tab
