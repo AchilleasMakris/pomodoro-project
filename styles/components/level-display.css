@@ -22,6 +22,8 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .level-box:hover {
@@ -47,6 +49,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
+  min-width: 0;
+  max-width: 140px;
 }
 
 .prestige-stars {
@@ -186,6 +190,7 @@
 
   .level-username {
     font-size: 0.9rem;
+    max-width: 110px;
   }
 
   .level-number {
@@ -222,6 +227,7 @@
 
   .level-username {
     font-size: 0.85rem;
+    max-width: 90px;
   }
 
   .level-number {
@@ -258,6 +264,7 @@
 
   .level-username {
     font-size: 0.8rem;
+    max-width: 75px;
   }
 
   .level-number {
@@ -318,6 +325,8 @@
   cursor: default;
   animation: xpPopupSlideIn 0.4s ease-out;
   min-width: 160px;
+  max-width: 250px;
+  word-wrap: break-word;
 }
 
 /* Level Up Popup - Golden style */
