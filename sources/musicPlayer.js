@@ -5,6 +5,32 @@ import { R2_MUSIC_BASE_URL } from './ambientSoundsConfig.js';
 
 // Music library - All tracks from your collection (799 tracks!)
 const MUSIC_LIBRARY = [
+  // Synthwave test tracks (using lofi files temporarily until you add your synthwave tracks)
+  {
+    id: 'synthwave-test-1',
+    title: 'Test Synthwave Track 1',
+    artist: 'Synthwave Artist',
+    file: "/r2-audio/lofi/(01) beyond the oceans (feat. Hoogway).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-test-2',
+    title: 'Test Synthwave Track 2',
+    artist: 'Synthwave Artist',
+    file: "/r2-audio/lofi/(02) ayla.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-test-3',
+    title: 'Test Synthwave Track 3',
+    artist: 'Synthwave Artist',
+    file: "/r2-audio/lofi/(03) seashore thoughts (feat. Hoogway).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  // Lofi tracks
   {
     id: '01-beyond-the-oceans-feat-hoogway',
     title: 'beyond the oceans (feat. Hoogway)',
