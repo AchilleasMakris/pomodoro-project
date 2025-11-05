@@ -6415,6 +6415,8 @@ class MusicPlayer {
     this.autoplayPending = false;
     this.userInteractionHandler = null;
     this.previousVolume = 0.7; // Store previous volume for mute/unmute
+    this.currentGenre = 'lofi'; // Default genre
+    this.availableGenres = ['lofi', 'synthwave']; // Available music genres
 
     // Bind methods
     this.handlePlay = this.handlePlay.bind(this);
@@ -6442,9 +6444,15 @@ class MusicPlayer {
   }
 
   // Shuffle the playlist using Fisher-Yates algorithm
-  shufflePlaylist() {
-    // Create a copy of the library
-    this.playlist = [...MUSIC_LIBRARY];
+  shufflePlaylist(genre = null) {
+    // Use provided genre or current genre
+    const filterGenre = genre || this.currentGenre;
+
+    // Filter library by genre
+    const filteredLibrary = MUSIC_LIBRARY.filter(track => track.genre === filterGenre);
+
+    // Create a copy of the filtered library
+    this.playlist = [...filteredLibrary];
 
     // Fisher-Yates shuffle
     for (let i = this.playlist.length - 1; i > 0; i--) {
@@ -6480,6 +6488,69 @@ class MusicPlayer {
     // Playlist reshuffled
   }
 
+  // Select a music genre and reshuffle playlist
+  selectGenre(genre) {
+    if (!this.availableGenres.includes(genre)) {
+      console.error(`Invalid genre: ${genre}`);
+      return;
+    }
+
+    const wasPlaying = this.isPlaying;
+
+    // Pause current track
+    if (wasPlaying) {
+      this.pause();
+    }
+
+    // Update current genre
+    this.currentGenre = genre;
+
+    // Save genre preference to localStorage
+    localStorage.setItem('musicGenre', genre);
+
+    // Reshuffle playlist with new genre
+    this.shufflePlaylist(genre);
+
+    // Load first track from new genre
+    if (this.playlist.length > 0) {
+      this.loadTrack(this.playlist[0].id);
+
+      // Resume playing if it was playing before
+      if (wasPlaying) {
+        this.play();
+      }
+    }
+
+    // Update genre badge in UI
+    this.updateGenreBadge();
+
+    // Dispatch genre changed event for settings panel
+    window.dispatchEvent(new CustomEvent('genreChanged', { detail: { genre } }));
+  }
+
+  // Update the genre badge in the player UI
+  updateGenreBadge() {
+    const badge = document.querySelector('.genre-badge');
+    if (badge) {
+      // Capitalize first letter
+      const genreText = this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1);
+      badge.textContent = genreText;
+      badge.setAttribute('data-genre', this.currentGenre);
+    }
+
+    // Also update the genre button text in more options menu
+    const genreBtn = document.getElementById('genre-btn-menu');
+    if (genreBtn) {
+      const genreText = this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1);
+      // Keep the SVG and update only the text
+      const svg = genreBtn.querySelector('svg');
+      genreBtn.textContent = `Genre: ${genreText}`;
+      if (svg) {
+        genreBtn.insertBefore(svg, genreBtn.firstChild);
+      }
+    }
+  }
+
   setupAudioEvents() {
     this.audio.addEventListener('play', this.handlePlay);
     this.audio.addEventListener('pause', this.handlePause);
@@ -6495,6 +6566,16 @@ class MusicPlayer {
     // Set volume from settings (use musicVolume if available, fallback to volume)
     const volume = this.settings.musicVolume !== undefined ? this.settings.musicVolume : (this.settings.volume || 70);
     this.audio.volume = volume / 100;
+
+    // Load genre preference from localStorage
+    const savedGenre = localStorage.getItem('musicGenre');
+    if (savedGenre && this.availableGenres.includes(savedGenre)) {
+      this.currentGenre = savedGenre;
+      // Re-shuffle with saved genre
+      this.shufflePlaylist(this.currentGenre);
+      // Update badge if it exists
+      this.updateGenreBadge();
+    }
 
     // Listen for settings changes
     window.addEventListener('settingsChanged', (event) => {
@@ -6534,6 +6615,7 @@ class MusicPlayer {
             <h3 id="track-title">No Track Selected</h3>
             <p id="track-artist">-</p>
           </div>
+          <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
         </div>
 
         <div class="player-controls">
@@ -6589,8 +6671,13 @@ class MusicPlayer {
           </button>
           <div class="more-options-menu">
             <button id="shuffle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle</button>
+            <button id="genre-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-2c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg>Genre: ${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</button>
             <button id="settings-btn-menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Settings</button>
             <button id="music-credits-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7C10.07 9.5 8.5 10.92 8.5 12.75h1.5c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h1.5c0-2.25 3-2.5 3-5 .01-1.93-1.56-3.5-3.5-3.5z"/></svg>Credits</button>
+          </div>
+          <div class="genre-selector-menu">
+            <button class="genre-option" data-genre="lofi">Lofi / Chill Beats</button>
+            <button class="genre-option" data-genre="synthwave">Synthwave / 80's</button>
           </div>
         </div>
       </div>
@@ -6648,6 +6735,35 @@ class MusicPlayer {
         this.closeMoreOptionsMenu();
       });
     }
+
+    // Genre button in menu - toggles genre selector
+    const genreBtnMenu = document.getElementById('genre-btn-menu');
+    if (genreBtnMenu) {
+      genreBtnMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleGenreSelector();
+        this.closeMoreOptionsMenu();
+      });
+    }
+
+    // Genre badge - toggles genre selector
+    const genreBadge = document.querySelector('.genre-badge');
+    if (genreBadge) {
+      genreBadge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleGenreSelector();
+      });
+    }
+
+    // Genre selector options
+    const genreOptions = document.querySelectorAll('.genre-option');
+    genreOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const genre = option.dataset.genre;
+        this.selectGenre(genre);
+        this.closeGenreSelector();
+      });
+    });
 
     // More options button
     const moreOptionsBtn = document.getElementById('more-options-btn');
@@ -6735,6 +6851,9 @@ class MusicPlayer {
       }
       if (!e.target.closest('.background-selector-menu') && !e.target.closest('#background-btn')) {
         this.closeBackgroundSelector();
+      }
+      if (!e.target.closest('.genre-selector-menu') && !e.target.closest('.genre-badge') && !e.target.closest('#genre-btn-menu')) {
+        this.closeGenreSelector();
       }
     });
   }
@@ -7127,6 +7246,16 @@ class MusicPlayer {
 
   closeBackgroundSelector() {
     const menu = document.querySelector('.background-selector-menu');
+    if (menu) menu.classList.remove('active');
+  }
+
+  toggleGenreSelector() {
+    const menu = document.querySelector('.genre-selector-menu');
+    if (menu) menu.classList.toggle('active');
+  }
+
+  closeGenreSelector() {
+    const menu = document.querySelector('.genre-selector-menu');
     if (menu) menu.classList.remove('active');
   }
 
