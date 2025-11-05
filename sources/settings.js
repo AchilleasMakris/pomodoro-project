@@ -115,7 +115,7 @@ function loadSettings() {
 
     if (img) {
       img.onerror = function() {
-        // Create gradient fallback
+        // Create gradient fallback only for truly failed loads
         const fallback = document.createElement('div');
         fallback.className = 'gradient-preview';
         fallback.style.cssText = `
@@ -136,8 +136,13 @@ function loadSettings() {
     }
 
     if (video) {
+      // Try to play video as preview
+      video.play().catch(() => {
+        // Silently handle autoplay restrictions
+      });
+
       video.onerror = function() {
-        // Create gradient fallback
+        // Create gradient fallback only if video truly fails
         const fallback = document.createElement('div');
         fallback.className = 'gradient-preview';
         fallback.style.cssText = `

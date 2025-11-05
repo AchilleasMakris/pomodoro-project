@@ -6672,10 +6672,33 @@ class MusicPlayer {
         const bg = option.getAttribute('data-background');
         this.selectBackground(bg);
       });
-      
+
       // Play video preview on hover
       const video = option.querySelector('video');
       if (video) {
+        // Try to load and show video preview
+        video.load();
+
+        // Add error handling for failed video loads
+        video.addEventListener('error', () => {
+          const fallback = document.createElement('div');
+          fallback.className = 'gradient-preview';
+          fallback.style.cssText = `
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(135deg,
+              rgba(236, 72, 153, 0.3),
+              rgba(251, 146, 60, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            opacity: 0.7;
+          `;
+          fallback.textContent = '🎬';
+          video.replaceWith(fallback);
+        });
+
         option.addEventListener('mouseenter', () => {
           video.play().catch(e => console.log('Video play prevented:', e));
         });
