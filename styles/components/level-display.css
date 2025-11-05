@@ -350,19 +350,28 @@
   }
 }
 
-/* Badge Box */
+/* Badge and Feature Container */
+.badge-feature-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Badge Box - Smaller Square */
 .badge-box {
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(241, 245, 249, 0.2);
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
 }
 
 .badge-box:hover {
@@ -370,19 +379,43 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
-.badge-label {
-  color: rgba(241, 245, 249, 0.7);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 .badge-icon {
   font-size: 2.5rem;
   line-height: 1;
   filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
   animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* Feature Button */
+.feature-btn {
+  flex: 1;
+  background: rgba(168, 85, 247, 0.2);
+  border: 2px solid rgba(168, 85, 247, 0.4);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #c084fc;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-btn:hover {
+  background: rgba(168, 85, 247, 0.3);
+  border-color: rgba(168, 85, 247, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
+}
+
+.feature-btn:active {
+  transform: translateY(0);
 }
 
 @keyframes badgePulse {
@@ -458,22 +491,26 @@
   border-radius: 12px;
 }
 
-/* Responsive Badge and Test Button */
+/* Responsive Badge, Feature Button and Test Button */
 @media (max-width: 768px) {
   .badge-box {
-    padding: 10px 14px;
-  }
-
-  .badge-label {
-    font-size: 0.7rem;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
   }
 
   .badge-icon {
-    font-size: 2.25rem;
+    font-size: 2rem;
+  }
+
+  .feature-btn {
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    min-height: 60px;
   }
 
   .test-xp-btn {
-    top: 350px;
+    top: 320px;
     padding: 8px 14px;
     font-size: 0.8rem;
     min-width: 180px;
@@ -486,20 +523,24 @@
 
 @media (max-width: 475px) {
   .badge-box {
-    padding: 8px 12px;
+    width: 50px;
+    height: 50px;
+    padding: 8px;
     border-radius: 10px;
   }
 
-  .badge-label {
-    font-size: 0.65rem;
+  .badge-icon {
+    font-size: 1.75rem;
   }
 
-  .badge-icon {
-    font-size: 2rem;
+  .feature-btn {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+    min-height: 50px;
   }
 
   .test-xp-btn {
-    top: 320px;
+    top: 280px;
     padding: 6px 12px;
     font-size: 0.75rem;
     min-width: 160px;
@@ -511,12 +552,23 @@
 }
 
 @media (max-width: 360px) {
+  .badge-box {
+    width: 45px;
+    height: 45px;
+  }
+
   .badge-icon {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+  }
+
+  .feature-btn {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    min-height: 45px;
   }
 
   .test-xp-btn {
-    top: 300px;
+    top: 260px;
     min-width: 140px;
   }
 }

@@ -542,6 +542,7 @@ function updateProgressTabStats() {
   const statPrestige = document.getElementById('stat-prestige');
   const statPomodoros = document.getElementById('stat-pomodoros');
   const statStudyTime = document.getElementById('stat-study-time');
+  const statBadge = document.getElementById('stat-badge');
 
   if (statLevel) {
     statLevel.textContent = stats.level;
@@ -565,6 +566,10 @@ function updateProgressTabStats() {
 
   if (statStudyTime) {
     statStudyTime.textContent = stats.totalStudyTime;
+  }
+
+  if (statBadge) {
+    statBadge.textContent = getBadgeIcon(data.level, data.prestigeLevel);
   }
 
   // Update prestige section visibility
