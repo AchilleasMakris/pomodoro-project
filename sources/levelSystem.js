@@ -25,7 +25,7 @@ const LEVEL_NAMES = {
     10: { name: "Tomato Smith", desc: "Forges weapons and sauces with unmatched skill and coolness." },
     11: { name: "Spice Knight", desc: "A brave knight who fights with pepper, courage, and fire." },
     12: { name: "Chef of Chaos", desc: "Turns kitchen chaos into culinary perfection." },
-    13: { name: "Basil Wizard", desc: "A mystic who wields basil magic to bless or curse dishes." },
+    13: { name: "Pepper Sorcerer", desc: "A mystic who wields basil magic to bless or curse dishes." },
     14: { name: "Garden Sentinel", desc: "The silent guardian watching over the green kingdom." },
     15: { name: "Tomageddon", desc: "The ultimate destructive force of sauce and flame." },
     16: { name: "The Ripefather", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
@@ -233,7 +233,7 @@ function awardXP(minutes) {
 
     // Dispatch level up event
     window.dispatchEvent(new CustomEvent('levelUp', {
-      detail: { newLevel: currentLevel, prestigeLevel: currentPrestige }
+      detail: { newLevel: , prestigeLevel: currentPrestige }
     }));
 
     // Trigger tomato celebration
@@ -623,29 +623,17 @@ function updateProgressTabStats() {
     const path = settings.levelPath || 'elf';
     const levelInfo = LEVEL_NAMES[path][stats.level];
 
-    // Get the parent stat-item to update the label
-    const statItem = statLevel.closest('.stat-item');
-    const statLabel = statItem ? statItem.querySelector('.stat-label') : null;
-
     if (levelInfo) {
-      // Set the label to the level name
-      if (statLabel) {
-        statLabel.textContent = levelInfo.name;
-      }
-      // Set the value to "Current Level - X"
-      statLevel.textContent = `- ${stats.level}`;
+      statLevel.textContent = `${stats.level} - ${levelInfo.name}`;
       statLevel.title = levelInfo.desc; // Show description on hover
     } else {
-      if (statLabel) {
-        statLabel.textContent = 'Current Level';
-      }
       statLevel.textContent = stats.level;
     }
   }
 
   if (statXP) {
     if (stats.canPrestige) {
-      statXP.textContent = 'MAX';
+      statXP.textContent = '';
     } else {
       statXP.textContent = `${stats.xp} / ${stats.xpRequired}`;
     }
