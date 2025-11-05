@@ -233,7 +233,7 @@ function awardXP(minutes) {
 
     // Dispatch level up event
     window.dispatchEvent(new CustomEvent('levelUp', {
-      detail: { newLevel: , prestigeLevel: currentPrestige }
+      detail: { newLevel: currentLevel, prestigeLevel: currentPrestige }
     }));
 
     // Trigger tomato celebration
