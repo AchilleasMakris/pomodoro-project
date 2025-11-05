@@ -406,14 +406,13 @@
 
 /* Badge and Feature Container */
 .badge-feature-container {
-  display: grid;
-  grid-template-columns: 75px 75px;
-  gap: 15px;
+  display: flex;
+  gap: 10px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  width: fit-content;
-  justify-content: start;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .badge-feature-container:hover,
@@ -429,6 +428,7 @@
 
 /* Badge Box - Square */
 .badge-box {
+  flex: 1;
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(241, 245, 249, 0.2);
@@ -441,7 +441,6 @@
   justify-content: center;
   aspect-ratio: 1;
   cursor: pointer;
-  width: 75px;
   height: 75px;
   flex-shrink: 0;
   box-sizing: border-box;
@@ -462,6 +461,7 @@
 
 /* Feature Box - Same Style as Badge */
 .feature-box {
+  flex: 1;
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(241, 245, 249, 0.2);
@@ -474,7 +474,6 @@
   justify-content: center;
   aspect-ratio: 1;
   cursor: pointer;
-  width: 75px;
   height: 75px;
   flex-shrink: 0;
   box-sizing: border-box;

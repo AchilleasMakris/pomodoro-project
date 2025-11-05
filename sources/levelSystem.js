@@ -794,6 +794,11 @@ function setupProgressTabListeners() {
       settings.levelPath = settings.levelPath === 'elf' ? 'human' : 'elf';
       window.saveSettings(settings);
 
+      // Dispatch path changed event
+      window.dispatchEvent(new CustomEvent('pathChanged', {
+        detail: { newPath: settings.levelPath }
+      }));
+
       // Update button visual state
       if (settings.levelPath === 'human') {
         pathToggleBtn.classList.add('human');
@@ -825,4 +830,27 @@ document.addEventListener('DOMContentLoaded', () => {
       updateProgressTabStats();
     });
   }
+
+  window.addEventListener('pathChanged', (event) => {
+    const newPath = event.detail.newPath;
+    const message = newPath === 'elf' ? 'You travel with Elves now!' : 'You march with Humans now!';
+    showToast(message);
+  });
 });
+
+function showToast(message) {
+  const existingToast = document.querySelector('.toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
