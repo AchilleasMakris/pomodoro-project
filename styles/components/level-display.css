@@ -21,6 +21,7 @@
   padding: 12px 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .level-box:hover {
@@ -395,6 +396,9 @@
 
 /* Test XP Button */
 .test-xp-btn {
+  position: fixed;
+  top: 380px;
+  left: 20px;
   background: rgba(59, 130, 246, 0.2);
   border: 2px solid rgba(59, 130, 246, 0.4);
   border-radius: 10px;
@@ -407,6 +411,8 @@
   box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  min-width: 200px;
+  text-align: center;
 }
 
 .test-xp-btn:hover {
@@ -418,6 +424,38 @@
 
 .test-xp-btn:active {
   transform: translateY(0);
+}
+
+/* Tomato Celebration Particles */
+.tomato-particle {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  z-index: 1001;
+  animation: tomatoExplode 1s ease-out forwards;
+}
+
+@keyframes tomatoExplode {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Level Up Celebration Container */
+.level-celebration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 /* Responsive Badge and Test Button */
@@ -435,8 +473,14 @@
   }
 
   .test-xp-btn {
+    top: 350px;
     padding: 8px 14px;
     font-size: 0.8rem;
+    min-width: 180px;
+  }
+
+  .tomato-particle {
+    font-size: 1.25rem;
   }
 }
 
@@ -455,13 +499,24 @@
   }
 
   .test-xp-btn {
+    top: 320px;
     padding: 6px 12px;
     font-size: 0.75rem;
+    min-width: 160px;
+  }
+
+  .tomato-particle {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 360px) {
   .badge-icon {
     font-size: 1.75rem;
+  }
+
+  .test-xp-btn {
+    top: 300px;
+    min-width: 140px;
   }
 }

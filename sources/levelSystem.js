@@ -109,6 +109,51 @@ function showXPPopup(xpAmount) {
 }
 
 /**
+ * Create tomato explosion celebration for level-up
+ */
+function createTomatoCelebration() {
+  const celebrationContainer = document.querySelector('.level-celebration');
+  if (!celebrationContainer) return;
+
+  const levelBox = document.querySelector('.level-box');
+  if (!levelBox) return;
+
+  const boxRect = levelBox.getBoundingClientRect();
+  const centerX = boxRect.width / 2;
+  const centerY = boxRect.height / 2;
+
+  // Create 12 tomato particles
+  const numParticles = 12;
+  for (let i = 0; i < numParticles; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'tomato-particle';
+    particle.textContent = '🍅';
+
+    // Calculate random angle and distance
+    const angle = (i / numParticles) * Math.PI * 2;
+    const distance = 60 + Math.random() * 30;
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance;
+
+    // Set CSS custom properties for animation
+    particle.style.setProperty('--tx', `${tx}px`);
+    particle.style.setProperty('--ty', `${ty}px`);
+
+    // Position at center
+    particle.style.left = `${centerX}px`;
+    particle.style.top = `${centerY}px`;
+    particle.style.transform = 'translate(-50%, -50%)';
+
+    celebrationContainer.appendChild(particle);
+
+    // Remove particle after animation
+    setTimeout(() => {
+      particle.remove();
+    }, 1000);
+  }
+}
+
+/**
  * Award XP and handle level ups
  * @param {number} minutes - Study time in minutes
  * @returns {object} - Result with level changes and XP gained
@@ -135,6 +180,9 @@ function awardXP(minutes) {
     window.dispatchEvent(new CustomEvent('levelUp', {
       detail: { newLevel: currentLevel, prestigeLevel: currentPrestige }
     }));
+
+    // Trigger tomato celebration
+    createTomatoCelebration();
   }
 
   // Check for prestige eligibility
