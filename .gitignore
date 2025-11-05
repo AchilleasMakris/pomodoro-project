@@ -46,3 +46,5 @@ build/
 # System files
 Thumbs.db
 .DS_Store
+migrate_r2_music.py
+.env.migration
