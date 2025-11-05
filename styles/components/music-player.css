@@ -655,22 +655,29 @@
   }
 }
 
+/* Genre Selector Container */
+.genre-selector-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
 /* Genre Badge */
 .genre-badge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 6px 12px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--clr-light);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
   white-space: nowrap;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  margin-left: 8px;
 }
 
 .genre-badge:hover {
@@ -694,8 +701,8 @@
   display: none;
   position: absolute;
   bottom: calc(100% + 12px);
-  right: 50%;
-  transform: translateX(50%);
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 12px;
@@ -704,6 +711,20 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   z-index: 1001;
+}
+
+/* Small arrow pointing down to the badge */
+.genre-selector-menu::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.95);
 }
 
 .genre-selector-menu.active {
