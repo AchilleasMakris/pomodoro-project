@@ -380,7 +380,34 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Front-page test XP button
+  const testXpBtnMain = document.getElementById('test-xp-btn-main');
+  if (testXpBtnMain) {
+    testXpBtnMain.addEventListener('click', () => {
+      // Award 10 XP (equivalent to 60 minutes)
+      awardXP(60);
+      updateLevelDisplay();
+    });
+  }
 });
+
+/**
+ * Get badge icon based on level and prestige
+ */
+function getBadgeIcon(level, prestigeLevel) {
+  // Prestige badges (override level badges)
+  if (prestigeLevel >= 5) return '👑'; // King/Queen at 5+ prestige
+  if (prestigeLevel >= 3) return '💎'; // Diamond at 3-4 prestige
+  if (prestigeLevel >= 1) return '⭐'; // Star at 1-2 prestige
+
+  // Level-based badges
+  if (level >= 20) return '🏆'; // Trophy at max level
+  if (level >= 15) return '🔥'; // Fire at level 15-19
+  if (level >= 10) return '⚡'; // Lightning at level 10-14
+  if (level >= 5) return '🌟'; // Glowing star at level 5-9
+  return '🍅'; // Tomato for beginners (level 1-4)
+}
 
 /**
  * Update the level display in the UI
@@ -425,6 +452,12 @@ function updateLevelDisplay() {
     prestigeStars.style.display = 'inline';
   } else if (prestigeStars) {
     prestigeStars.style.display = 'none';
+  }
+
+  // Update badge icon
+  const badgeIcon = document.getElementById('badge-icon');
+  if (badgeIcon) {
+    badgeIcon.textContent = getBadgeIcon(data.level, data.prestigeLevel);
   }
 }
 
