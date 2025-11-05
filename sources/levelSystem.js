@@ -633,7 +633,7 @@ function updateProgressTabStats() {
         statLabel.textContent = levelInfo.name;
       }
       // Set the value to "Current Level - X"
-      statLevel.textContent = `Current Level - ${stats.level}`;
+      statLevel.textContent = `- ${stats.level}`;
       statLevel.title = levelInfo.desc; // Show description on hover
     } else {
       if (statLabel) {
