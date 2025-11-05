@@ -6606,12 +6606,16 @@ class MusicPlayer {
       </div>
       <div class="player-content">
         <div class="track-info">
-          <div class="track-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18V5l12-2v13"></path>
-              <circle cx="6" cy="18" r="3"></circle>
-              <circle cx="18" cy="16" r="3"></circle>
-            </svg>
+          <div class="genre-selector-container">
+            <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
+            <div class="genre-selector-menu">
+              <button class="genre-option" data-genre="lofi">
+                <span>Lofi / Chill Beats</span>
+              </button>
+              <button class="genre-option" data-genre="synthwave">
+                <span>Synthwave / 80's</span>
+              </button>
+            </div>
           </div>
           <div class="track-details">
             <h3 id="track-title">No Track Selected</h3>
@@ -6630,17 +6634,6 @@ class MusicPlayer {
           <button class="control-btn" id="next-btn" title="Next">
             <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0"><path d="M16 18h2V6h-2zm-11-1l8.5-6L5 5z"/></svg>
           </button>
-          <div class="genre-selector-container">
-            <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
-            <div class="genre-selector-menu">
-              <button class="genre-option" data-genre="lofi">
-                <span>Lofi / Chill Beats</span>
-              </button>
-              <button class="genre-option" data-genre="synthwave">
-                <span>Synthwave / 80's</span>
-              </button>
-            </div>
-          </div>
         </div>
 
         <div class="player-actions">
