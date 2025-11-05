@@ -623,10 +623,22 @@ function updateProgressTabStats() {
     const path = settings.levelPath || 'elf';
     const levelInfo = LEVEL_NAMES[path][stats.level];
 
+    // Get the parent stat-item to update the label
+    const statItem = statLevel.closest('.stat-item');
+    const statLabel = statItem ? statItem.querySelector('.stat-label') : null;
+
     if (levelInfo) {
-      statLevel.textContent = `${stats.level} - ${levelInfo.name}`;
+      // Set the label to the level name
+      if (statLabel) {
+        statLabel.textContent = levelInfo.name;
+      }
+      // Set the value to "Current Level - X"
+      statLevel.textContent = `Current Level - ${stats.level}`;
       statLevel.title = levelInfo.desc; // Show description on hover
     } else {
+      if (statLabel) {
+        statLabel.textContent = 'Current Level';
+      }
       statLevel.textContent = stats.level;
     }
   }
