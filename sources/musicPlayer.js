@@ -3,10 +3,10 @@ import { R2_MUSIC_BASE_URL } from './ambientSoundsConfig.js';
 // Music Player Module
 // Handles local audio playback with full controls
 
-// Music library - All tracks from your collection (887 tracks: 799 lofi + 88 synthwave!)
+// Music library - All tracks from your collection (904 tracks: 799 lofi + 105 synthwave!)
 const MUSIC_LIBRARY = [
-  // === SYNTHWAVE TRACKS (88 tracks) ===
-// Synthwave tracks (88 tracks)
+  // === SYNTHWAVE TRACKS (105 tracks) ===
+// Synthwave tracks (105 tracks: 88 original + 17 LEX tracks)
   {
     id: 'synthwave-2050-countach',
     title: 'Countach',
@@ -708,6 +708,144 @@ const MUSIC_LIBRARY = [
     title: 'Hello',
     artist: 'World Moire',
     file: "/r2-audio/synthwave/World Moire - Hello.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  // LEX tracks from LP - 01
+  {
+    id: 'synthwave-lex-purple-protocol',
+    title: 'Purple Protocol (Atmospheric Mecha Intro)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x001h %5C%5C Purple Protocol (Atmospheric Mecha Intro).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-perimeter-breach',
+    title: 'Perimeter Breach (Retrowave Driving Pulse)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x002h %5C%5C Perimeter Breach (Retrowave Driving Pulse).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-neon-firewall',
+    title: 'Neon Firewall (Digital Defense Grid)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x003h %5C%5C Neon Firewall (Digital Defense Grid).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-binary-overdrive',
+    title: 'Binary Overdrive (Coded Velocity)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x004h %5C%5C Binary Overdrive (Coded Velocity).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-cyborg-rebellion',
+    title: 'Cyborg Rebellion (Synthwave Uprising)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x005h %5C%5C Cyborg Rebellion (Synthwave Uprising).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-data-ghosts',
+    title: 'Data Ghosts (Haunted Mainframe)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x006h %5C%5C Data Ghosts (Haunted Mainframe).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-quantum-hack',
+    title: 'Quantum Hack (Glitch in the System)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x007h %5C%5C Quantum Hack (Glitch in the System).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-midnight-algorithms',
+    title: 'Midnight Algorithms (Code in the Dark)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x008h %5C%5C Midnight Algorithms (Code in the Dark).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  // LEX tracks from LP - 02
+  {
+    id: 'synthwave-lex-firewall-breakdown',
+    title: 'Firewall Breakdown (Neon Overload)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x001h %5C%5C Firewall Breakdown (Neon Overload).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-synthwave-cybernet',
+    title: 'Synthwave Cybernet (Electric Pulse)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x002h %5C%5C Synthwave Cybernet (Electric Pulse).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-neon-cyberspace',
+    title: 'Neon Cyberspace (Digital Dreamscape)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x003h %5C%5C Neon Cyberspace (Digital Dreamscape).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-robot-uprising',
+    title: 'Robot Uprising (Mechanical Dawn)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x004h %5C%5C Robot Uprising (Mechanical Dawn).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-ghost-in-the-code',
+    title: 'Ghost in the Code (Encrypted Echoes)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x005h %5C%5C Ghost in the Code (Encrypted Echoes).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-laser-gridlock',
+    title: 'Laser Gridlock (Virtual Showdown)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x006h %5C%5C Laser Gridlock (Virtual Showdown).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-hackers-paradise',
+    title: 'Hacker\'s Paradise (Midnight Protocol)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x007h %5C%5C Hacker's Paradise (Midnight Protocol).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-chrome-matrix',
+    title: 'Chrome Matrix (Synthetic Realities)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x008h %5C%5C Chrome Matrix (Synthetic Realities).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-pixelated-shadows',
+    title: 'Pixelated Shadows (Retro Noir)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x009h %5C%5C Pixelated Shadows (Retro Noir).mp3.mp3",
     credits: 'Synthwave / 80s',
     genre: 'synthwave'
   },
