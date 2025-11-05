@@ -6556,14 +6556,6 @@ class MusicPlayer {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
           </button>
           <div class="background-selector-menu">
-            <div class="background-option" data-background="wood">
-              <img src="/r2-backgrounds/wood.jpg" alt="Wood">
-              <span>Wood</span>
-            </div>
-            <div class="background-option" data-background="sakura">
-              <img src="/r2-backgrounds/sakura4.jpg" alt="Sakura">
-              <span>Sakura</span>
-            </div>
             <div class="background-option" data-background="road-video">
               <video src="/r2-backgrounds/road.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
               <span>Road</span>
@@ -6571,6 +6563,10 @@ class MusicPlayer {
             <div class="background-option" data-background="room-video">
               <video src="/r2-backgrounds/room.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
               <span>Room</span>
+            </div>
+            <div class="background-option" data-background="eyes-video">
+              <video src="/r2-backgrounds/eyes-wallpaper.mp4" muted loop style="width: 100%; height: 60px; object-fit: cover;"></video>
+              <span>Eyes</span>
             </div>
           </div>
           <div class="volume-control">
@@ -7175,14 +7171,13 @@ class MusicPlayer {
 
   applyBackground(backgroundName) {
     const backgroundMap = {
-      'wood': { type: 'image', value: '/r2-backgrounds/wood.jpg' },
-      'sakura': { type: 'image', value: '/r2-backgrounds/sakura4.jpg' },
       'dark-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)' },
       'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
       'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
       'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
       'road-video': { type: 'video', value: '/r2-backgrounds/road.mp4' },
-      'room-video': { type: 'video', value: '/r2-backgrounds/room.mp4' }
+      'room-video': { type: 'video', value: '/r2-backgrounds/room.mp4' },
+      'eyes-video': { type: 'video', value: '/r2-backgrounds/eyes-wallpaper.mp4' }
     };
 
     const bg = backgroundMap[backgroundName] || backgroundMap['room-video'];
