@@ -55,6 +55,60 @@ function getLevelData() {
 }
 
 /**
+ * Show XP collection popup notification
+ * @param {number} xpAmount - Amount of XP gained
+ */
+function showXPPopup(xpAmount) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector('.xp-popup');
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+
+  // Create popup element
+  const popup = document.createElement('div');
+  popup.className = 'xp-popup';
+  popup.innerHTML = `+${xpAmount} XP Collected 🍅`;
+
+  document.body.appendChild(popup);
+
+  let isHovered = false;
+  let fadeTimeout;
+
+  // Handle hover to keep popup visible
+  popup.addEventListener('mouseenter', () => {
+    isHovered = true;
+    popup.style.opacity = '0.8';
+    clearTimeout(fadeTimeout);
+  });
+
+  popup.addEventListener('mouseleave', () => {
+    isHovered = false;
+    // Start fade out after unhover
+    fadeTimeout = setTimeout(() => {
+      popup.style.opacity = '0';
+      setTimeout(() => {
+        if (!isHovered) {
+          popup.remove();
+        }
+      }, 300);
+    }, 100);
+  });
+
+  // Auto fade after 1 second if not hovered
+  fadeTimeout = setTimeout(() => {
+    if (!isHovered) {
+      popup.style.opacity = '0';
+      setTimeout(() => {
+        if (!isHovered) {
+          popup.remove();
+        }
+      }, 300);
+    }
+  }, 1000);
+}
+
+/**
  * Award XP and handle level ups
  * @param {number} minutes - Study time in minutes
  * @returns {object} - Result with level changes and XP gained
@@ -102,6 +156,9 @@ function awardXP(minutes) {
       canPrestige
     }
   }));
+
+  // Show XP popup notification
+  showXPPopup(xpGained);
 
   return {
     xpGained,
@@ -305,6 +362,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update UI initially
   updateLevelDisplay();
+
+  // Make level number clickable to open Progress tab
+  const levelNumber = document.querySelector('.level-number');
+  if (levelNumber) {
+    levelNumber.addEventListener('click', () => {
+      // Open settings modal
+      const settingsModal = document.getElementById('settings-modal');
+      if (settingsModal) {
+        settingsModal.classList.remove('hidden');
+      }
+
+      // Switch to Progress tab
+      const progressTabBtn = document.querySelector('[data-tab="progress"]');
+      if (progressTabBtn) {
+        progressTabBtn.click();
+      }
+    });
+  }
 });
 
 /**
@@ -502,6 +577,17 @@ function setupProgressTabListeners() {
       } else {
         alert(result.message);
       }
+    });
+  }
+
+  // Test XP button
+  const testXpBtn = document.getElementById('test-xp-btn');
+  if (testXpBtn) {
+    testXpBtn.addEventListener('click', () => {
+      // Award 10 XP directly (equivalent to 60 minutes of study)
+      const result = awardXP(60);
+      updateProgressTabStats();
+      updateLevelDisplay();
     });
   }
 
