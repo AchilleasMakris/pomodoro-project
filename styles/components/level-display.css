@@ -217,12 +217,12 @@
   }
 
   .level-box {
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 10px;
   }
 
   .level-header {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .level-username {
@@ -236,15 +236,15 @@
   }
 
   .xp-text {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .xp-progress-bar {
-    height: 5px;
+    height: 4px;
   }
 
   .prestige-stars {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 }
 
@@ -257,7 +257,7 @@
   }
 
   .level-box {
-    padding: 6px 10px;
+    padding: 6px 8px;
     border-radius: 8px;
   }
 
@@ -272,7 +272,11 @@
   }
 
   .xp-text {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  }
+
+  .xp-progress-bar {
+    height: 3px;
   }
 }
 
@@ -582,15 +586,19 @@
 }
 
 @media (max-width: 475px) {
+  .badge-feature-container {
+    gap: 8px;
+  }
+
   .badge-box,
   .feature-box {
-    padding: 8px;
+    padding: 6px;
     border-radius: 10px;
   }
 
   .badge-icon,
   .feature-icon {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
   }
 
   .test-xp-btn {
@@ -604,14 +612,18 @@
 }
 
 @media (max-width: 360px) {
+  .badge-feature-container {
+    gap: 6px;
+  }
+
   .badge-box,
   .feature-box {
-    padding: 6px;
+    padding: 5px;
   }
 
   .badge-icon,
   .feature-icon {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .test-xp-btn {

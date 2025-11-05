@@ -4,6 +4,12 @@
   color-scheme: dark;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 * {
   margin: 0;
   line-height: calc(1em + 0.5rem);
@@ -30,6 +36,7 @@ body {
   overflow-y: auto;
   transition: background-image 0.6s ease-in-out;
   color-scheme: dark;
+  padding-bottom: 0;
 }
 
 img,
@@ -91,6 +98,9 @@ body::-webkit-scrollbar-thumb {
 /*xxs screens - Extra small phones */
 
 @media (max-width: 360px) {
+  body {
+    padding-bottom: 160px;
+  }
   .container {
     padding: 0 0.5rem;
   }
@@ -120,6 +130,9 @@ body::-webkit-scrollbar-thumb {
 /*xs screens */
 
 @media (max-width: 475px) {
+  body {
+    padding-bottom: 180px;
+  }
   .container {
     padding: 0 0.5rem;
   }

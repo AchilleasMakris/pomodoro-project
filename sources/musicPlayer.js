@@ -3,8 +3,853 @@ import { R2_MUSIC_BASE_URL } from './ambientSoundsConfig.js';
 // Music Player Module
 // Handles local audio playback with full controls
 
-// Music library - All tracks from your collection (799 tracks!)
+// Music library - All tracks from your collection (904 tracks: 799 lofi + 105 synthwave!)
 const MUSIC_LIBRARY = [
+  // === SYNTHWAVE TRACKS (105 tracks) ===
+// Synthwave tracks (105 tracks: 88 original + 17 LEX tracks)
+  {
+    id: 'synthwave-2050-countach',
+    title: 'Countach',
+    artist: '2050',
+    file: "/r2-audio/synthwave/2050 - Countach.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-2050-f40',
+    title: 'F40',
+    artist: '2050',
+    file: "/r2-audio/synthwave/2050 - F40.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-2050-playtime',
+    title: 'Playtime',
+    artist: '2050',
+    file: "/r2-audio/synthwave/2050 - Playtime.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-2050-round',
+    title: 'Round',
+    artist: '2050',
+    file: "/r2-audio/synthwave/2050 - Round.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-2050-transmission',
+    title: 'Transmission',
+    artist: '2050',
+    file: "/r2-audio/synthwave/2050 - Transmission.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-77-tonebox-road-runner',
+    title: 'Road Runner',
+    artist: '77 Tonebox',
+    file: "/r2-audio/synthwave/77 Tonebox - Road Runner.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-adam-tell-worrier',
+    title: 'Worrier',
+    artist: 'Adam Tell',
+    file: "/r2-audio/synthwave/Adam Tell - Worrier.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-bach-my-way',
+    title: 'My Way',
+    artist: 'Bach',
+    file: "/r2-audio/synthwave/Bach - My Way.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-bach-sunset-in-junipero',
+    title: 'Sunset in Junipero',
+    artist: 'Bach',
+    file: "/r2-audio/synthwave/Bach - Sunset in Junipero.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-bath-house-loop-me-in',
+    title: 'Loop Me in',
+    artist: 'Bath House',
+    file: "/r2-audio/synthwave/Bath House - Loop Me in.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-bosnow-blockbuster',
+    title: 'Blockbuster',
+    artist: 'Bosnow',
+    file: "/r2-audio/synthwave/Bosnow - Blockbuster.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-braden-deal-vegas',
+    title: 'Vegas',
+    artist: 'Braden Deal',
+    file: "/r2-audio/synthwave/Braden Deal - Vegas.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-breath-aavirall-draw',
+    title: 'Draw',
+    artist: 'Breath Aavirall',
+    file: "/r2-audio/synthwave/Breath Aavirall - Draw.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-club-locran-haunted-strip',
+    title: 'Haunted Strip',
+    artist: 'Club Locran',
+    file: "/r2-audio/synthwave/Club Locran - Haunted Strip.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-corinne-feel-your-touch',
+    title: 'Feel Your Touch',
+    artist: 'Corinne',
+    file: "/r2-audio/synthwave/Corinne - Feel Your Touch.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-d0d-discovery',
+    title: 'Discovery',
+    artist: 'D0d',
+    file: "/r2-audio/synthwave/D0d - Discovery.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-d0d-everlasting',
+    title: 'Everlasting',
+    artist: 'D0d',
+    file: "/r2-audio/synthwave/D0d - Everlasting.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-d0d-firewall',
+    title: 'Firewall',
+    artist: 'D0d',
+    file: "/r2-audio/synthwave/D0d - Firewall.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-dan-phillipson-by-the-night',
+    title: 'By the Night',
+    artist: 'Dan Phillipson',
+    file: "/r2-audio/synthwave/Dan Phillipson - By the Night.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-danijel-zambo-dr-strange',
+    title: 'Dr Strange',
+    artist: 'Danijel Zambo',
+    file: "/r2-audio/synthwave/Danijel Zambo - Dr Strange.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-danijel-zambo-stardust',
+    title: 'Stardust',
+    artist: 'Danijel Zambo',
+    file: "/r2-audio/synthwave/Danijel Zambo - Stardust.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-danijel-zambo-waves',
+    title: 'Waves',
+    artist: 'Danijel Zambo',
+    file: "/r2-audio/synthwave/Danijel Zambo - Waves.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-disintegration-tonebox-launch',
+    title: 'Launch',
+    artist: 'Disintegration Tonebox',
+    file: "/r2-audio/synthwave/Disintegration Tonebox - Launch.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-doug-organ-carpenter',
+    title: 'Carpenter',
+    artist: 'Doug Organ',
+    file: "/r2-audio/synthwave/Doug Organ - Carpenter.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-drifting-2050-slow',
+    title: 'Slow',
+    artist: 'Drifting 2050',
+    file: "/r2-audio/synthwave/Drifting 2050 - Slow.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-drive-moire-night',
+    title: 'Night',
+    artist: 'Drive Moire',
+    file: "/r2-audio/synthwave/Drive Moire - Night.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-fire-neozoic-cold',
+    title: 'Cold',
+    artist: 'Fire Neozoic',
+    file: "/r2-audio/synthwave/Fire Neozoic - Cold.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-form-moire-new',
+    title: 'New',
+    artist: 'Form Moire',
+    file: "/r2-audio/synthwave/Form Moire - New.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-future-forests-the-fallout',
+    title: 'The Fallout',
+    artist: 'Future Forests',
+    file: "/r2-audio/synthwave/Future Forests - The Fallout.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-galera-cybotron',
+    title: 'Cybotron',
+    artist: 'Galera',
+    file: "/r2-audio/synthwave/Galera - Cybotron.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-grid-hartzmann-golden',
+    title: 'Golden',
+    artist: 'Grid Hartzmann',
+    file: "/r2-audio/synthwave/Grid Hartzmann - Golden.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-heaven-hartzmann-space-for',
+    title: 'Space for',
+    artist: 'Heaven Hartzmann',
+    file: "/r2-audio/synthwave/Heaven Hartzmann - Space for.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-hey-pluto-miami-1987',
+    title: 'Miami 1987',
+    artist: 'Hey Pluto',
+    file: "/r2-audio/synthwave/Hey Pluto - Miami 1987.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-highway-tonebox-cloud',
+    title: 'Cloud',
+    artist: 'Highway Tonebox',
+    file: "/r2-audio/synthwave/Highway Tonebox - Cloud.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-ian-aisling-crt-tv',
+    title: 'Crt Tv',
+    artist: 'Ian Aisling',
+    file: "/r2-audio/synthwave/Ian Aisling - Crt Tv.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-ian-aisling-cybergrounds',
+    title: 'Cybergrounds',
+    artist: 'Ian Aisling',
+    file: "/r2-audio/synthwave/Ian Aisling - Cybergrounds.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-ian-aisling-fantabell-avenue',
+    title: 'Fantabell Avenue',
+    artist: 'Ian Aisling',
+    file: "/r2-audio/synthwave/Ian Aisling - Fantabell Avenue.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-ian-aisling-moontown-shores',
+    title: 'Moontown Shores',
+    artist: 'Ian Aisling',
+    file: "/r2-audio/synthwave/Ian Aisling - Moontown Shores.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-inside-torus-deep',
+    title: 'Deep',
+    artist: 'Inside Torus',
+    file: "/r2-audio/synthwave/Inside Torus - Deep.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-kaleidoscope-we-fly-2',
+    title: 'We Fly (2)',
+    artist: 'Kaleidoscope',
+    file: "/r2-audio/synthwave/Kaleidoscope - We Fly (2).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-kaleidoscope-we-fly',
+    title: 'We Fly',
+    artist: 'Kaleidoscope',
+    file: "/r2-audio/synthwave/Kaleidoscope - We Fly.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-knew-cinco-i-thought-i',
+    title: 'I Thought I',
+    artist: 'Knew Cinco',
+    file: "/r2-audio/synthwave/Knew Cinco - I Thought I.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-light-aavirall-speed-of',
+    title: 'Speed of',
+    artist: 'Light Aavirall',
+    file: "/r2-audio/synthwave/Light Aavirall - Speed of.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-love-aavirall-cosmic',
+    title: 'Cosmic',
+    artist: 'Love Aavirall',
+    file: "/r2-audio/synthwave/Love Aavirall - Cosmic.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-mood-maze-cybertruck',
+    title: 'Cybertruck',
+    artist: 'Mood Maze',
+    file: "/r2-audio/synthwave/Mood Maze - Cybertruck.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-mood-maze-nightdrive',
+    title: 'Nightdrive',
+    artist: 'Mood Maze',
+    file: "/r2-audio/synthwave/Mood Maze - Nightdrive.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-mountaineer-follow-my-shadow',
+    title: 'Follow My Shadow',
+    artist: 'Mountaineer',
+    file: "/r2-audio/synthwave/Mountaineer - Follow My Shadow.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-mountaineer-jetlag',
+    title: 'Jetlag',
+    artist: 'Mountaineer',
+    file: "/r2-audio/synthwave/Mountaineer - Jetlag.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-mountaineer-night-ride',
+    title: 'Night Ride',
+    artist: 'Mountaineer',
+    file: "/r2-audio/synthwave/Mountaineer - Night Ride.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-mountaineer-violet',
+    title: 'Violet',
+    artist: 'Mountaineer',
+    file: "/r2-audio/synthwave/Mountaineer - Violet.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-noise-cake-1980-miracle',
+    title: '1980 Miracle',
+    artist: 'Noise Cake',
+    file: "/r2-audio/synthwave/Noise Cake - 1980 Miracle.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-oliver-massa-voyager',
+    title: 'Voyager',
+    artist: 'Oliver Massa',
+    file: "/r2-audio/synthwave/Oliver Massa - Voyager.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-paul-yudin-dance-of-particles',
+    title: 'Dance of Particles',
+    artist: 'Paul Yudin',
+    file: "/r2-audio/synthwave/Paul Yudin - Dance of Particles.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-pecan-pie-i-would-like',
+    title: 'I Would Like',
+    artist: 'Pecan Pie',
+    file: "/r2-audio/synthwave/Pecan Pie - I Would Like.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-pecan-pie-neutron-stars',
+    title: 'Neutron Stars',
+    artist: 'Pecan Pie',
+    file: "/r2-audio/synthwave/Pecan Pie - Neutron Stars.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-prigida-continual',
+    title: 'Continual',
+    artist: 'Prigida',
+    file: "/r2-audio/synthwave/Prigida - Continual.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-prigida-messier',
+    title: 'Messier',
+    artist: 'Prigida',
+    file: "/r2-audio/synthwave/Prigida - Messier.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-prigida-polarity',
+    title: 'Polarity',
+    artist: 'Prigida',
+    file: "/r2-audio/synthwave/Prigida - Polarity.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-prigida-star-champion',
+    title: 'Star Champion',
+    artist: 'Prigida',
+    file: "/r2-audio/synthwave/Prigida - Star Champion.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-prigida-stellar-escape',
+    title: 'Stellar Escape',
+    artist: 'Prigida',
+    file: "/r2-audio/synthwave/Prigida - Stellar Escape.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-rage-tonebox-road',
+    title: 'Road',
+    artist: 'Rage Tonebox',
+    file: "/r2-audio/synthwave/Rage Tonebox - Road.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-ranger-moire-space',
+    title: 'Space',
+    artist: 'Ranger Moire',
+    file: "/r2-audio/synthwave/Ranger Moire - Space.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-sandia-boulevard-sunset',
+    title: 'Boulevard Sunset',
+    artist: 'Sandia',
+    file: "/r2-audio/synthwave/Sandia - Boulevard Sunset.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-simon-folwar-neon-signs',
+    title: 'Neon Signs',
+    artist: 'Simon Folwar',
+    file: "/r2-audio/synthwave/Simon Folwar - Neon Signs.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-simon-folwar-stardrive',
+    title: 'Stardrive',
+    artist: 'Simon Folwar',
+    file: "/r2-audio/synthwave/Simon Folwar - Stardrive.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-simon-folwar-supercars',
+    title: 'Supercars',
+    artist: 'Simon Folwar',
+    file: "/r2-audio/synthwave/Simon Folwar - Supercars.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-sky-cassette-euphoria',
+    title: 'Euphoria',
+    artist: 'Sky Cassette',
+    file: "/r2-audio/synthwave/Sky Cassette - Euphoria.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-soundroll-worktech',
+    title: 'Worktech',
+    artist: 'Soundroll',
+    file: "/r2-audio/synthwave/Soundroll - Worktech.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-spinning-euchmad-feel-the-earth',
+    title: 'Feel the Earth',
+    artist: 'Spinning Euchmad',
+    file: "/r2-audio/synthwave/Spinning Euchmad - Feel the Earth.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-star-matrika-dark',
+    title: 'Dark',
+    artist: 'Star Matrika',
+    file: "/r2-audio/synthwave/Star Matrika - Dark.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-stars-aavirall-above-the',
+    title: 'Above the',
+    artist: 'Stars Aavirall',
+    file: "/r2-audio/synthwave/Stars Aavirall - Above the.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-sundown-tonebox-chromatic',
+    title: 'Chromatic',
+    artist: 'Sundown Tonebox',
+    file: "/r2-audio/synthwave/Sundown Tonebox - Chromatic.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-tatami-journey',
+    title: 'Journey',
+    artist: 'Tatami',
+    file: "/r2-audio/synthwave/Tatami - Journey.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-tatami-lost-dream',
+    title: 'Lost Dream',
+    artist: 'Tatami',
+    file: "/r2-audio/synthwave/Tatami - Lost Dream.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-tatami-midnight-drive',
+    title: 'Midnight Drive',
+    artist: 'Tatami',
+    file: "/r2-audio/synthwave/Tatami - Midnight Drive.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-tatami-outrun',
+    title: 'Outrun',
+    artist: 'Tatami',
+    file: "/r2-audio/synthwave/Tatami - Outrun.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-tecnosine-sunset-horizon',
+    title: 'Sunset Horizon',
+    artist: 'Tecnosine',
+    file: "/r2-audio/synthwave/Tecnosine - Sunset Horizon.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-arcade-ride',
+    title: 'Arcade Ride',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - Arcade Ride.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-city-lights',
+    title: 'City Lights',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - City Lights.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-darkness-and-light',
+    title: 'Darkness and Light',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - Darkness and Light.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-golden-hour',
+    title: 'Golden Hour',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - Golden Hour.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-interstellar',
+    title: 'Interstellar',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - Interstellar.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-late-night-drive',
+    title: 'Late Night Drive',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - Late Night Drive.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-vens-adams-road-to-the-sun',
+    title: 'Road to the Sun',
+    artist: 'Vens Adams',
+    file: "/r2-audio/synthwave/Vens Adams - Road to the Sun.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-walker-fass-dream',
+    title: 'Dream',
+    artist: 'Walker Fass',
+    file: "/r2-audio/synthwave/Walker Fass - Dream.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-weary-pines-the-final-girl',
+    title: 'The Final Girl',
+    artist: 'Weary Pines',
+    file: "/r2-audio/synthwave/Weary Pines - The Final Girl.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-world-matrika-my-tiny',
+    title: 'My Tiny',
+    artist: 'World Matrika',
+    file: "/r2-audio/synthwave/World Matrika - My Tiny.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-world-moire-hello',
+    title: 'Hello',
+    artist: 'World Moire',
+    file: "/r2-audio/synthwave/World Moire - Hello.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  // LEX tracks from LP - 01
+  {
+    id: 'synthwave-lex-purple-protocol',
+    title: 'Purple Protocol (Atmospheric Mecha Intro)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x001h %5C%5C Purple Protocol (Atmospheric Mecha Intro).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-perimeter-breach',
+    title: 'Perimeter Breach (Retrowave Driving Pulse)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x002h %5C%5C Perimeter Breach (Retrowave Driving Pulse).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-neon-firewall',
+    title: 'Neon Firewall (Digital Defense Grid)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x003h %5C%5C Neon Firewall (Digital Defense Grid).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-binary-overdrive',
+    title: 'Binary Overdrive (Coded Velocity)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x004h %5C%5C Binary Overdrive (Coded Velocity).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-cyborg-rebellion',
+    title: 'Cyborg Rebellion (Synthwave Uprising)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x005h %5C%5C Cyborg Rebellion (Synthwave Uprising).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-data-ghosts',
+    title: 'Data Ghosts (Haunted Mainframe)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x006h %5C%5C Data Ghosts (Haunted Mainframe).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-quantum-hack',
+    title: 'Quantum Hack (Glitch in the System)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x007h %5C%5C Quantum Hack (Glitch in the System).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-midnight-algorithms',
+    title: 'Midnight Algorithms (Code in the Dark)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x008h %5C%5C Midnight Algorithms (Code in the Dark).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  // LEX tracks from LP - 02
+  {
+    id: 'synthwave-lex-firewall-breakdown',
+    title: 'Firewall Breakdown (Neon Overload)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x001h %5C%5C Firewall Breakdown (Neon Overload).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-synthwave-cybernet',
+    title: 'Synthwave Cybernet (Electric Pulse)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x002h %5C%5C Synthwave Cybernet (Electric Pulse).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-neon-cyberspace',
+    title: 'Neon Cyberspace (Digital Dreamscape)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x003h %5C%5C Neon Cyberspace (Digital Dreamscape).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-robot-uprising',
+    title: 'Robot Uprising (Mechanical Dawn)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x004h %5C%5C Robot Uprising (Mechanical Dawn).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-ghost-in-the-code',
+    title: 'Ghost in the Code (Encrypted Echoes)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x005h %5C%5C Ghost in the Code (Encrypted Echoes).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-laser-gridlock',
+    title: 'Laser Gridlock (Virtual Showdown)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x006h %5C%5C Laser Gridlock (Virtual Showdown).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-hackers-paradise',
+    title: 'Hacker\'s Paradise (Midnight Protocol)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x007h %5C%5C Hacker's Paradise (Midnight Protocol).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-chrome-matrix',
+    title: 'Chrome Matrix (Synthetic Realities)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x008h %5C%5C Chrome Matrix (Synthetic Realities).mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  {
+    id: 'synthwave-lex-pixelated-shadows',
+    title: 'Pixelated Shadows (Retro Noir)',
+    artist: 'LEX',
+    file: "/r2-audio/synthwave/LEX - 0x009h %5C%5C Pixelated Shadows (Retro Noir).mp3.mp3",
+    credits: 'Synthwave / 80s',
+    genre: 'synthwave'
+  },
+  // === LOFI TRACKS (799 tracks) ===
   {
     id: '01-beyond-the-oceans-feat-hoogway',
     title: 'beyond the oceans (feat. Hoogway)',
@@ -6417,6 +7262,8 @@ class MusicPlayer {
     this.autoplayPending = false;
     this.userInteractionHandler = null;
     this.previousVolume = 0.7; // Store previous volume for mute/unmute
+    this.currentGenre = 'lofi'; // Default genre
+    this.availableGenres = ['lofi', 'synthwave']; // Available music genres
 
     // Bind methods
     this.handlePlay = this.handlePlay.bind(this);
@@ -6444,9 +7291,15 @@ class MusicPlayer {
   }
 
   // Shuffle the playlist using Fisher-Yates algorithm
-  shufflePlaylist() {
-    // Create a copy of the library
-    this.playlist = [...MUSIC_LIBRARY];
+  shufflePlaylist(genre = null) {
+    // Use provided genre or current genre
+    const filterGenre = genre || this.currentGenre;
+
+    // Filter library by genre
+    const filteredLibrary = MUSIC_LIBRARY.filter(track => track.genre === filterGenre);
+
+    // Create a copy of the filtered library
+    this.playlist = [...filteredLibrary];
 
     // Fisher-Yates shuffle
     for (let i = this.playlist.length - 1; i > 0; i--) {
@@ -6482,6 +7335,88 @@ class MusicPlayer {
     // Playlist reshuffled
   }
 
+  // Select a music genre and reshuffle playlist
+  selectGenre(genre) {
+    if (!this.availableGenres.includes(genre)) {
+      console.error(`Invalid genre: ${genre}`);
+      return;
+    }
+
+    const wasPlaying = this.isPlaying;
+
+    // Pause current track
+    if (wasPlaying) {
+      this.pause();
+    }
+
+    // Update current genre
+    this.currentGenre = genre;
+
+    // Save genre preference to localStorage
+    localStorage.setItem('musicGenre', genre);
+
+    // Reshuffle playlist with new genre
+    this.shufflePlaylist(genre);
+
+    // Load first track from new genre
+    if (this.playlist.length > 0) {
+      this.loadTrack(this.playlist[0].id);
+
+      // Resume playing if it was playing before
+      if (wasPlaying) {
+        this.play();
+      }
+    }
+
+    // Update genre badge in UI
+    this.updateGenreBadge();
+
+    // Dispatch genre changed event for settings panel
+    window.dispatchEvent(new CustomEvent('genreChanged', { detail: { genre } }));
+  }
+
+  // Update the genre badge in the player UI
+  updateGenreBadge() {
+    const badge = document.querySelector('.genre-badge');
+    if (badge) {
+      // Capitalize first letter
+      const genreText = this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1);
+      badge.textContent = genreText;
+      badge.setAttribute('data-genre', this.currentGenre);
+    }
+
+    // Also update the genre button text in more options menu
+    const genreBtn = document.getElementById('genre-btn-menu');
+    if (genreBtn) {
+      const genreText = this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1);
+      // Keep the SVG and update only the text
+      const svg = genreBtn.querySelector('svg');
+      genreBtn.textContent = `Genre: ${genreText}`;
+      if (svg) {
+        genreBtn.insertBefore(svg, genreBtn.firstChild);
+      }
+    }
+  }
+
+  // Reposition genre selector outside player on mobile
+  repositionGenreSelectorOnMobile() {
+    const genreSelector = document.querySelector('.genre-selector-container');
+    if (!genreSelector) return;
+
+    if (window.innerWidth <= 480) {
+      // Move it to body (outside player container) if it's not already there
+      if (genreSelector.parentElement !== document.body) {
+        document.body.appendChild(genreSelector);
+      }
+    } else {
+      // On desktop, keep it inside the track info
+      const trackInfo = document.querySelector('.track-info');
+      if (trackInfo && genreSelector.parentElement !== trackInfo) {
+        trackInfo.insertBefore(genreSelector, trackInfo.firstChild);
+      }
+    }
+  }
+
   setupAudioEvents() {
     this.audio.addEventListener('play', this.handlePlay);
     this.audio.addEventListener('pause', this.handlePause);
@@ -6497,6 +7432,16 @@ class MusicPlayer {
     // Set volume from settings (use musicVolume if available, fallback to volume)
     const volume = this.settings.musicVolume !== undefined ? this.settings.musicVolume : (this.settings.volume || 70);
     this.audio.volume = volume / 100;
+
+    // Load genre preference from localStorage
+    const savedGenre = localStorage.getItem('musicGenre');
+    if (savedGenre && this.availableGenres.includes(savedGenre)) {
+      this.currentGenre = savedGenre;
+      // Re-shuffle with saved genre
+      this.shufflePlaylist(this.currentGenre);
+      // Update badge if it exists
+      this.updateGenreBadge();
+    }
 
     // Listen for settings changes
     window.addEventListener('settingsChanged', (event) => {
@@ -6525,12 +7470,16 @@ class MusicPlayer {
       </div>
       <div class="player-content">
         <div class="track-info">
-          <div class="track-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18V5l12-2v13"></path>
-              <circle cx="6" cy="18" r="3"></circle>
-              <circle cx="18" cy="16" r="3"></circle>
-            </svg>
+          <div class="genre-selector-container">
+            <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
+            <div class="genre-selector-menu" id="genre-menu-primary">
+              <button class="genre-option" data-genre="lofi">
+                <span>Lofi / Chill Beats</span>
+              </button>
+              <button class="genre-option" data-genre="synthwave">
+                <span>Synthwave / 80's</span>
+              </button>
+            </div>
           </div>
           <div class="track-details">
             <h3 id="track-title">No Track Selected</h3>
@@ -6587,6 +7536,7 @@ class MusicPlayer {
           </button>
           <div class="more-options-menu">
             <button id="shuffle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle</button>
+            <button id="genre-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-2c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg>Genre: ${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</button>
             <button id="settings-btn-menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Settings</button>
             <button id="music-credits-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7C10.07 9.5 8.5 10.92 8.5 12.75h1.5c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h1.5c0-2.25 3-2.5 3-5 .01-1.93-1.56-3.5-3.5-3.5z"/></svg>Credits</button>
           </div>
@@ -6596,6 +7546,11 @@ class MusicPlayer {
   }
 
   setupEventListeners() {
+    // Move genre selector outside player on mobile (with multiple attempts)
+    setTimeout(() => this.repositionGenreSelectorOnMobile(), 0);
+    setTimeout(() => this.repositionGenreSelectorOnMobile(), 100);
+    setTimeout(() => this.repositionGenreSelectorOnMobile(), 500);
+
     // Play/Pause button
     const playPauseBtn = document.getElementById('play-pause-btn');
     if (playPauseBtn) {
@@ -6646,6 +7601,35 @@ class MusicPlayer {
         this.closeMoreOptionsMenu();
       });
     }
+
+    // Genre button in menu - toggles genre selector
+    const genreBtnMenu = document.getElementById('genre-btn-menu');
+    if (genreBtnMenu) {
+      genreBtnMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleGenreSelector();
+        this.closeMoreOptionsMenu();
+      });
+    }
+
+    // Genre badge - toggles genre selector
+    const genreBadge = document.querySelector('.genre-badge');
+    if (genreBadge) {
+      genreBadge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleGenreSelector();
+      });
+    }
+
+    // Genre selector options
+    const genreOptions = document.querySelectorAll('.genre-option');
+    genreOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const genre = option.dataset.genre;
+        this.selectGenre(genre);
+        this.closeGenreSelector();
+      });
+    });
 
     // More options button
     const moreOptionsBtn = document.getElementById('more-options-btn');
@@ -6757,6 +7741,14 @@ class MusicPlayer {
       if (!e.target.closest('.background-selector-menu') && !e.target.closest('#background-btn')) {
         this.closeBackgroundSelector();
       }
+      if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge') && !e.target.closest('#genre-btn-menu')) {
+        this.closeGenreSelector();
+      }
+    });
+
+    // Handle window resize to reposition genre selector
+    window.addEventListener('resize', () => {
+      this.repositionGenreSelectorOnMobile();
     });
   }
 
@@ -7009,7 +8001,19 @@ class MusicPlayer {
   updateTrackInfo(title, artist) {
     const titleEl = document.getElementById('track-title');
     const artistEl = document.getElementById('track-artist');
-    if (titleEl) titleEl.textContent = title;
+    if (titleEl) {
+      titleEl.textContent = title;
+
+      // Add scrolling class for long titles on mobile
+      setTimeout(() => {
+        const isMobile = window.innerWidth <= 480;
+        if (isMobile && titleEl.scrollWidth > titleEl.clientWidth) {
+          titleEl.classList.add('scrolling');
+        } else {
+          titleEl.classList.remove('scrolling');
+        }
+      }, 100);
+    }
     if (artistEl) artistEl.textContent = artist;
   }
 
@@ -7150,6 +8154,17 @@ class MusicPlayer {
 
   closeBackgroundSelector() {
     const menu = document.querySelector('.background-selector-menu');
+    if (menu) menu.classList.remove('active');
+  }
+
+  toggleGenreSelector() {
+    const menu = document.getElementById('genre-menu-primary');
+    if (menu) menu.classList.toggle('active');
+    this.closeMoreOptionsMenu();
+  }
+
+  closeGenreSelector() {
+    const menu = document.getElementById('genre-menu-primary');
     if (menu) menu.classList.remove('active');
   }
 
