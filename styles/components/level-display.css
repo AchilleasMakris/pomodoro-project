@@ -9,8 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 200px;
-  max-width: 280px;
+  width: 210px;
 }
 
 .level-box {
@@ -183,8 +182,7 @@
   .level-display-container {
     top: 15px;
     left: 15px;
-    min-width: 180px;
-    max-width: 220px;
+    width: 190px;
   }
 
   .level-box {
@@ -215,8 +213,7 @@
   .level-display-container {
     top: 10px;
     left: 10px;
-    min-width: 160px;
-    max-width: 180px;
+    width: 170px;
   }
 
   .level-box {
@@ -256,8 +253,7 @@
   .level-display-container {
     top: 8px;
     left: 8px;
-    min-width: 140px;
-    max-width: 160px;
+    width: 160px;
   }
 
   .level-box {
