@@ -201,66 +201,74 @@
 /* Mobile (475px and below) */
 @media (max-width: 475px) {
   .level-display-container {
-    top: 10px;
-    left: 10px;
-    min-width: 160px;
-    max-width: 180px;
+    top: 8px;
+    left: 8px;
+    min-width: 150px;
+    max-width: 170px;
+    gap: 8px;
   }
 
   .level-box {
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 10px;
   }
 
   .level-header {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .level-username {
-    font-size: 0.85rem;
-  }
-
-  .level-number {
     font-size: 0.8rem;
   }
 
-  .xp-text {
+  .level-number {
     font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .xp-text {
+    font-size: 0.7rem;
   }
 
   .xp-progress-bar {
-    height: 5px;
+    height: 4px;
   }
 
   .prestige-stars {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 }
 
 /* Very small mobile (360px and below) */
 @media (max-width: 360px) {
   .level-display-container {
-    top: 8px;
-    left: 8px;
-    min-width: 140px;
-    max-width: 160px;
+    top: 6px;
+    left: 6px;
+    min-width: 130px;
+    max-width: 150px;
+    gap: 6px;
   }
 
   .level-box {
-    padding: 6px 10px;
+    padding: 6px 8px;
     border-radius: 8px;
   }
 
   .level-username {
-    font-size: 0.8rem;
-  }
-
-  .level-number {
     font-size: 0.75rem;
   }
 
-  .xp-text {
+  .level-number {
     font-size: 0.7rem;
+    padding: 0.15rem 0.35rem;
+  }
+
+  .xp-text {
+    font-size: 0.65rem;
+  }
+
+  .xp-progress-bar {
+    height: 3px;
   }
 }
 
@@ -342,11 +350,21 @@
 
 @media (max-width: 475px) {
   .xp-popup {
-    top: 100px;
-    left: 10px;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
-    min-width: 120px;
+    top: 90px;
+    left: 8px;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.75rem;
+    min-width: 110px;
+  }
+}
+
+@media (max-width: 360px) {
+  .xp-popup {
+    top: 80px;
+    left: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.7rem;
+    min-width: 100px;
   }
 }
 
@@ -512,22 +530,27 @@
 }
 
 @media (max-width: 475px) {
+  .badge-feature-container {
+    gap: 8px;
+  }
+
   .badge-box,
   .feature-box {
-    padding: 8px;
+    padding: 6px;
     border-radius: 10px;
   }
 
   .badge-icon,
   .feature-icon {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
   }
 
   .test-xp-btn {
-    top: 250px;
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    min-width: 160px;
+    top: 230px;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    min-width: 150px;
+    left: 8px;
   }
 
   .tomato-particle {
@@ -536,18 +559,23 @@
 }
 
 @media (max-width: 360px) {
+  .badge-feature-container {
+    gap: 6px;
+  }
+
   .badge-box,
   .feature-box {
-    padding: 6px;
+    padding: 5px;
   }
 
   .badge-icon,
   .feature-icon {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .test-xp-btn {
-    top: 230px;
-    min-width: 140px;
+    top: 210px;
+    min-width: 130px;
+    left: 6px;
   }
 }

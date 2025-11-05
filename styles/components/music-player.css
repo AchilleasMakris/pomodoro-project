@@ -442,31 +442,30 @@
 @media (max-width: 480px) {
   /* Spotify-style mobile player optimization */
   .music-player {
-    position: relative;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    border-radius: 20px;
-    padding: 16px;
+    position: fixed;
+    width: calc(100% - 16px);
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 16px;
+    padding: 14px 12px;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
     max-height: 30vh;
   }
 
-  /* Use grid for better layout control */
+  /* Use flex for better layout control */
   .player-content {
-    display: grid;
-    grid-template-areas:
-      "info info info"
-      ". controls .";
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
-    align-items: center;
+    align-items: stretch;
+    position: relative;
   }
 
   /* Progress bar at TOP (Spotify pattern) */
   .progress-bar-container {
     order: -1;
-    grid-column: 1 / -1;
-    margin: 0 0 12px 0;
+    margin: 0 0 8px 0;
     padding: 0;
     height: 4px;
     cursor: pointer;
@@ -478,12 +477,23 @@
     border-radius: 2px;
   }
 
-  /* Track info */
+  /* Genre selector - position absolutely to left */
+  .genre-selector-container {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    z-index: 10;
+  }
+
+  /* Track info - centered without genre badge interference */
   .track-info {
-    grid-area: info;
+    display: flex;
     justify-content: center;
+    align-items: center;
     text-align: center;
     min-width: 0;
+    padding: 0 80px;
+    order: 1;
   }
 
   .track-icon {
@@ -498,19 +508,25 @@
   .track-details h3 {
     font-size: 0.85rem;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .track-details p {
     font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Player controls - center aligned */
   .player-controls {
-    grid-area: controls;
+    order: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
   }
 
   .control-btn {
@@ -645,7 +661,19 @@
 
   /* Slightly reduce player padding */
   .music-player {
-    padding: 14px 10px max(14px, env(safe-area-inset-bottom));
+    padding: 12px 8px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    width: calc(100% - 12px);
+    bottom: 6px;
+  }
+
+  .track-info {
+    padding: 0 70px;
+  }
+
+  .genre-badge {
+    font-size: 0.65rem;
+    padding: 4px 8px;
   }
 
   /* Reduce progress bar padding */
@@ -778,16 +806,24 @@
 /* Mobile Adjustments for Genre Badge */
 @media (max-width: 480px) {
   .genre-badge {
-    font-size: 0.75rem;
-    padding: 6px 10px;
-    margin-left: 4px;
+    font-size: 0.7rem;
+    padding: 5px 9px;
+    margin: 0;
+    border-radius: 12px;
   }
 
   .genre-selector-menu {
-    right: 0;
-    left: auto;
+    left: 0;
+    right: auto;
+    transform: none;
+    bottom: calc(100% + 8px);
     min-width: 180px;
     padding: 10px;
+  }
+
+  .genre-selector-menu::after {
+    left: 24px;
+    transform: none;
   }
 
   .genre-option {
