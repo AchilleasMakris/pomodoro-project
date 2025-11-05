@@ -67,6 +67,9 @@
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   background: rgba(96, 165, 250, 0.1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .level-number:hover {
@@ -187,6 +190,7 @@
 
   .level-number {
     font-size: 0.85rem;
+    max-width: 140px;
   }
 
   .xp-text {
@@ -222,6 +226,7 @@
 
   .level-number {
     font-size: 0.8rem;
+    max-width: 120px;
   }
 
   .xp-text {
@@ -257,6 +262,7 @@
 
   .level-number {
     font-size: 0.75rem;
+    max-width: 100px;
   }
 
   .xp-text {

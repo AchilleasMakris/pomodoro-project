@@ -13,48 +13,48 @@ const PRESTIGE_THRESHOLD = MAX_LEVEL;
 // Level Names and Descriptions
 const LEVEL_NAMES = {
   elf: {
-    1: { name: "Tomato Seed 🌱", desc: "A tiny seed dreaming of becoming something greater." },
-    2: { name: "Green Tomato 🍃", desc: "Still unripe, but full of energy and determination to grow." },
-    3: { name: "Tomato 🍅", desc: "Fully ripe and juicy — the first true stage of power." },
-    4: { name: "Toma-Do 💪", desc: "The tomato that takes action — no longer just a fruit, but a fighter." },
-    5: { name: "Lord Tomato 👑", desc: "The noble ruler of the garden, respected by all vegetables." },
-    6: { name: "Salad Paladin 🥗⚔️", desc: "A knight devoted to the sacred art of salad balance." },
-    7: { name: "Tomato Guarder 🛡️🍅", desc: "Protector and healer of wounded plants in the veggie kingdom." },
-    8: { name: "Saucenator 🥫🤖", desc: "A battle machine powered by pure tomato sauce energy." },
-    9: { name: "Pasta Crusader 🍝⚔️", desc: "Warrior of the Holy Spaghetti Order, defender of the sacred sauce." },
-    10: { name: "Tomato Smith 😎", desc: "Forges weapons and sauces with unmatched skill and coolness." },
-    11: { name: "Spice Knight 🌶️", desc: "A brave knight who fights with pepper, courage, and fire." },
-    12: { name: "Chef of Chaos 👨‍🍳🔥", desc: "Turns kitchen chaos into culinary perfection." },
-    13: { name: "Basil Wizard 🌿🧙", desc: "A mystic who wields basil magic to bless or curse dishes." },
-    14: { name: "Garden Sentinel 🌾", desc: "The silent guardian watching over the green kingdom." },
-    15: { name: "Tomageddon ☄️🍅", desc: "The ultimate destructive force of sauce and flame." },
-    16: { name: "The Ripefather 🎩", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
-    17: { name: "Master Ketchup 🧴", desc: "Supreme leader of all condiments and sauce disciples." },
-    18: { name: "Crimson Overcook 🔥", desc: "So powerful that even time burns in his kitchen." },
-    19: { name: "Veggie Saint 🌽🌟", desc: "Holy protector of all crops and gardens." },
-    20: { name: "Tomato Emperor 👑🍅", desc: "Eternal ruler of the red kingdom — timeless and all-powerful." }
+    1: { name: "Tomato Seed", desc: "A tiny seed dreaming of becoming something greater." },
+    2: { name: "Green Tomato", desc: "Still unripe, but full of energy and determination to grow." },
+    3: { name: "Tomato", desc: "Fully ripe and juicy — the first true stage of power." },
+    4: { name: "Toma-Do", desc: "The tomato that takes action — no longer just a fruit, but a fighter." },
+    5: { name: "Lord Tomato", desc: "The noble ruler of the garden, respected by all vegetables." },
+    6: { name: "Salad Paladin", desc: "A knight devoted to the sacred art of salad balance." },
+    7: { name: "Tomato Guarder", desc: "Protector and healer of wounded plants in the veggie kingdom." },
+    8: { name: "Saucenator", desc: "A battle machine powered by pure tomato sauce energy." },
+    9: { name: "Pasta Crusader", desc: "Warrior of the Holy Spaghetti Order, defender of the sacred sauce." },
+    10: { name: "Tomato Smith", desc: "Forges weapons and sauces with unmatched skill and coolness." },
+    11: { name: "Spice Knight", desc: "A brave knight who fights with pepper, courage, and fire." },
+    12: { name: "Chef of Chaos", desc: "Turns kitchen chaos into culinary perfection." },
+    13: { name: "Basil Wizard", desc: "A mystic who wields basil magic to bless or curse dishes." },
+    14: { name: "Garden Sentinel", desc: "The silent guardian watching over the green kingdom." },
+    15: { name: "Tomageddon", desc: "The ultimate destructive force of sauce and flame." },
+    16: { name: "The Ripefather", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
+    17: { name: "Master Ketchup", desc: "Supreme leader of all condiments and sauce disciples." },
+    18: { name: "Crimson Overcook", desc: "So powerful that even time burns in his kitchen." },
+    19: { name: "Veggie Saint", desc: "Holy protector of all crops and gardens." },
+    20: { name: "Tomato Emperor", desc: "Eternal ruler of the red kingdom — timeless and all-powerful." }
   },
   human: {
-    1: { name: "Tomato Seed 🌱", desc: "A tiny seed dreaming of becoming something greater." },
-    2: { name: "Green Tomato 🍃", desc: "Still unripe, but full of energy and determination to grow." },
-    3: { name: "Tomato 🍅", desc: "Fully ripe and juicy — the first true stage of power." },
-    4: { name: "Toma-Do 💪", desc: "The tomato that takes action — no longer just a fruit, but a fighter." },
-    5: { name: "Lord Tomato 👑", desc: "The noble ruler of the garden, respected by all vegetables." },
-    6: { name: "Salad Mage 🥗✨", desc: "A mage devoted to the sacred art of salad balance." },
-    7: { name: "Tomato Healer 💚🍅", desc: "Healer of wounded plants in the veggie kingdom." },
-    8: { name: "Saucenator 🥫🤖", desc: "A battle machine powered by pure tomato sauce energy." },
-    9: { name: "Pasta Crusader 🍝⚔️", desc: "Warrior of the Holy Spaghetti Order, defender of the sacred sauce." },
-    10: { name: "Tomato Smith 😎", desc: "Forges weapons and sauces with unmatched skill and coolness." },
-    11: { name: "Spice Knight 🌶️", desc: "A brave knight who fights with pepper, courage, and fire." },
-    12: { name: "Chef of Chaos 👨‍🍳🔥", desc: "Turns kitchen chaos into culinary perfection." },
-    13: { name: "Basil Wizard 🌿🧙", desc: "A mystic who wields basil magic to bless or curse dishes." },
-    14: { name: "Garden Sentinel 🌾", desc: "The silent guardian watching over the green kingdom." },
-    15: { name: "Tomageddon ☄️🍅", desc: "The ultimate destructive force of sauce and flame." },
-    16: { name: "The Ripefather 🎩", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
-    17: { name: "Master Ketchup 🧴", desc: "Supreme leader of all condiments and sauce disciples." },
-    18: { name: "Crimson Overcook 🔥", desc: "So powerful that even time burns in his kitchen." },
-    19: { name: "Veggie Saint 🌽🌟", desc: "Holy protector of all crops and gardens." },
-    20: { name: "Tomato Emperor 👑🍅", desc: "Eternal ruler of the red kingdom — timeless and all-powerful." }
+    1: { name: "Tomato Seed", desc: "A tiny seed dreaming of becoming something greater." },
+    2: { name: "Green Tomato", desc: "Still unripe, but full of energy and determination to grow." },
+    3: { name: "Tomato", desc: "Fully ripe and juicy — the first true stage of power." },
+    4: { name: "Toma-Do", desc: "The tomato that takes action — no longer just a fruit, but a fighter." },
+    5: { name: "Lord Tomato", desc: "The noble ruler of the garden, respected by all vegetables." },
+    6: { name: "Salad Mage", desc: "A mage devoted to the sacred art of salad balance." },
+    7: { name: "Tomato Healer", desc: "Healer of wounded plants in the veggie kingdom." },
+    8: { name: "Saucenator", desc: "A battle machine powered by pure tomato sauce energy." },
+    9: { name: "Pasta Crusader", desc: "Warrior of the Holy Spaghetti Order, defender of the sacred sauce." },
+    10: { name: "Tomato Smith", desc: "Forges weapons and sauces with unmatched skill and coolness." },
+    11: { name: "Spice Knight", desc: "A brave knight who fights with pepper, courage, and fire." },
+    12: { name: "Chef of Chaos", desc: "Turns kitchen chaos into culinary perfection." },
+    13: { name: "Basil Wizard", desc: "A mystic who wields basil magic to bless or curse dishes." },
+    14: { name: "Garden Sentinel", desc: "The silent guardian watching over the green kingdom." },
+    15: { name: "Tomageddon", desc: "The ultimate destructive force of sauce and flame." },
+    16: { name: "The Ripefather", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
+    17: { name: "Master Ketchup", desc: "Supreme leader of all condiments and sauce disciples." },
+    18: { name: "Crimson Overcook", desc: "So powerful that even time burns in his kitchen." },
+    19: { name: "Veggie Saint", desc: "Holy protector of all crops and gardens." },
+    20: { name: "Tomato Emperor", desc: "Eternal ruler of the red kingdom — timeless and all-powerful." }
   }
 };
 
@@ -494,8 +494,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const testXpBtnMain = document.getElementById('test-xp-btn-main');
   if (testXpBtnMain) {
     testXpBtnMain.addEventListener('click', () => {
-      // Award 10 XP (equivalent to 60 minutes)
-      awardXP(60);
+      // Award 100 XP (equivalent to 600 minutes)
+      awardXP(600);
       updateLevelDisplay();
     });
   }
@@ -753,8 +753,8 @@ function setupProgressTabListeners() {
   const testXpBtn = document.getElementById('test-xp-btn');
   if (testXpBtn) {
     testXpBtn.addEventListener('click', () => {
-      // Award 10 XP directly (equivalent to 60 minutes of study)
-      const result = awardXP(60);
+      // Award 100 XP directly (equivalent to 600 minutes of study)
+      const result = awardXP(600);
       updateProgressTabStats();
       updateLevelDisplay();
     });
