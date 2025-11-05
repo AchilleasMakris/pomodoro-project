@@ -710,8 +710,10 @@ const MUSIC_LIBRARY = [
     file: "/r2-audio/synthwave/World Moire - Hello.mp3",
     credits: 'Synthwave / 80s',
     genre: 'synthwave'
-  }
+  },
   // === LOFI TRACKS (799 tracks) ===
+  {
+    id: '01-beyond-the-oceans-feat-hoogway',
     title: 'beyond the oceans (feat. Hoogway)',
     artist: 'Various Artists',
     file: "/r2-audio/lofi/(01) beyond the oceans (feat. Hoogway).mp3",
