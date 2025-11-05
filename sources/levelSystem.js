@@ -119,13 +119,15 @@ function showXPPopup(xpAmount, isLevelUp = false) {
   popup.className = isLevelUp ? 'xp-popup level-up' : 'xp-popup';
   popup.innerHTML = isLevelUp ? 'Level Up! 🏆' : `+${xpAmount} XP Collected 🍅`;
 
-  // Insert popup inside level display container so CSS selectors work
-  const levelContainer = document.querySelector('.level-display-container');
-  if (levelContainer) {
-    levelContainer.appendChild(popup);
-  } else {
-    document.body.appendChild(popup);
+  const levelBox = document.querySelector('.level-box');
+  if (levelBox) {
+    const rect = levelBox.getBoundingClientRect();
+    popup.style.left = `${rect.left}px`;
+    popup.style.top = `${rect.bottom + 10}px`; // 10px below the level-box
+    popup.style.width = `${rect.width}px`;
   }
+
+  document.body.appendChild(popup);
 
   let isHovered = false;
   let fadeTimeout;

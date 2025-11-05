@@ -37,57 +37,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-}
-
-.level-username {
-  color: var(--clr-light);
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
-  min-width: 0;
-  max-width: 140px;
-}
-
-.prestige-stars {
-  color: #fbbf24;
-  font-size: 0.875rem;
-  margin-left: 4px;
-  display: none;
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
-}
-
-.level-number {
-  color: #60a5fa;
-  font-size: 0.9rem;
-  font-weight: 600;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  background: rgba(96, 165, 250, 0.1);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 180px;
-}
-
-.level-number:hover {
-  color: #93c5fd;
-  background: rgba(96, 165, 250, 0.2);
-  transform: translateY(-1px);
 }
 
 .xp-info {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.xp-text-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .xp-text {
@@ -326,7 +287,6 @@
   transition: top 0.3s ease, opacity 0.3s ease;
   pointer-events: auto;
   cursor: default;
-  animation: xpPopupSlideIn 0.4s ease-out;
   width: 165px;
   box-sizing: border-box;
   word-wrap: break-word;
