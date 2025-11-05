@@ -144,14 +144,13 @@ function applySettings() {
 
 function applyBackground() {
   const backgroundMap = {
-    'wood': { type: 'image', value: `${R2_BACKGROUNDS_BASE_URL}/wood.jpg` },
-    'sakura': { type: 'image', value: `${R2_BACKGROUNDS_BASE_URL}/sakura4.jpg` },
     'dark-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)' },
     'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
     'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
     'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
     'road-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/road.mp4` },
-    'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4` }
+    'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4` },
+    'eyes-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4` }
   };
 
   const bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
