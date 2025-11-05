@@ -28,7 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const timerDisplay = document.querySelector(".timer");
   const startBtn = document.getElementById("start-btn");
   const resetBtn = document.getElementById("reset-btn");
-  const audio = new Audio("/r2-effects/bell.mp3");
+  import { R2_EFFECTS_BASE_URL } from './ambientSoundsConfig.js';
+
+const audio = new Audio(`${R2_EFFECTS_BASE_URL}/bell.mp3`);
 
   // Set the volume from settings
   audio.volume = settings.volume / 100;

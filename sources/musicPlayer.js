@@ -1,3 +1,5 @@
+import { R2_MUSIC_BASE_URL } from './ambientSoundsConfig.js';
+
 // Music Player Module
 // Handles local audio playback with full controls
 
@@ -6756,7 +6758,9 @@ class MusicPlayer {
 
     // Set crossOrigin before setting src for CORS
     this.audio.crossOrigin = 'anonymous';
-    this.audio.src = track.file;
+    this.audio.src = track.file.startsWith('/r2-audio/')
+      ? `${R2_MUSIC_BASE_URL}${track.file.replace('/r2-audio', '')}`
+      : track.file;
 
     // Track loaded
     
