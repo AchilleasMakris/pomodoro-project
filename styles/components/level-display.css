@@ -352,12 +352,12 @@
 
 /* Badge and Feature Container */
 .badge-feature-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
-  align-items: center;
 }
 
-/* Badge Box - Smaller Square */
+/* Badge Box - Square */
 .badge-box {
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(10px);
@@ -369,14 +369,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 70px;
-  flex-shrink: 0;
+  aspect-ratio: 1;
+  cursor: pointer;
 }
 
 .badge-box:hover {
   border-color: rgba(241, 245, 249, 0.4);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 .badge-icon {
@@ -386,36 +386,32 @@
   animation: badgePulse 2s ease-in-out infinite;
 }
 
-/* Feature Button */
-.feature-btn {
-  flex: 1;
-  background: rgba(168, 85, 247, 0.2);
-  border: 2px solid rgba(168, 85, 247, 0.4);
+/* Feature Box - Same Style as Badge */
+.feature-box {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(241, 245, 249, 0.2);
   border-radius: 12px;
-  padding: 12px 16px;
-  color: #c084fc;
-  font-size: 0.875rem;
-  font-weight: 700;
-  cursor: pointer;
+  padding: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1;
+  cursor: pointer;
 }
 
-.feature-btn:hover {
-  background: rgba(168, 85, 247, 0.3);
-  border-color: rgba(168, 85, 247, 0.6);
+.feature-box:hover {
+  border-color: rgba(241, 245, 249, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
 }
 
-.feature-btn:active {
-  transform: translateY(0);
+.feature-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
 }
 
 @keyframes badgePulse {
@@ -491,26 +487,20 @@
   border-radius: 12px;
 }
 
-/* Responsive Badge, Feature Button and Test Button */
+/* Responsive Badge, Feature Box and Test Button */
 @media (max-width: 768px) {
-  .badge-box {
-    width: 60px;
-    height: 60px;
+  .badge-box,
+  .feature-box {
     padding: 10px;
   }
 
-  .badge-icon {
+  .badge-icon,
+  .feature-icon {
     font-size: 2rem;
   }
 
-  .feature-btn {
-    font-size: 0.8rem;
-    padding: 10px 14px;
-    min-height: 60px;
-  }
-
   .test-xp-btn {
-    top: 320px;
+    top: 290px;
     padding: 8px 14px;
     font-size: 0.8rem;
     min-width: 180px;
@@ -522,25 +512,19 @@
 }
 
 @media (max-width: 475px) {
-  .badge-box {
-    width: 50px;
-    height: 50px;
+  .badge-box,
+  .feature-box {
     padding: 8px;
     border-radius: 10px;
   }
 
-  .badge-icon {
+  .badge-icon,
+  .feature-icon {
     font-size: 1.75rem;
   }
 
-  .feature-btn {
-    font-size: 0.75rem;
-    padding: 8px 12px;
-    min-height: 50px;
-  }
-
   .test-xp-btn {
-    top: 280px;
+    top: 250px;
     padding: 6px 12px;
     font-size: 0.75rem;
     min-width: 160px;
@@ -552,23 +536,18 @@
 }
 
 @media (max-width: 360px) {
-  .badge-box {
-    width: 45px;
-    height: 45px;
+  .badge-box,
+  .feature-box {
+    padding: 6px;
   }
 
-  .badge-icon {
+  .badge-icon,
+  .feature-icon {
     font-size: 1.5rem;
   }
 
-  .feature-btn {
-    font-size: 0.7rem;
-    padding: 6px 10px;
-    min-height: 45px;
-  }
-
   .test-xp-btn {
-    top: 260px;
+    top: 230px;
     min-width: 140px;
   }
 }
