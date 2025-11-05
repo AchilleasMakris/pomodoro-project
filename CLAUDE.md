@@ -1,0 +1,1 @@
+- Always make it mobile friendly
