@@ -1,16 +1,17 @@
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   padding: 30px;
+  position: relative;
 }
 
 .header__menu {
   display: flex;
   align-items: center;
   list-style: none;
-  padding-right: 1.5rem;
-  gap: 2em;
+  padding: 0;
+  gap: 0;
 }
 
 .header li {
@@ -37,7 +38,7 @@
 
   .header__menu {
     gap: 0.35em;
-    padding-right: 0.25rem;
+    padding: 0;
   }
 
   .header li {
@@ -58,8 +59,8 @@
   }
 
   .settings-icon-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
   }
 }
 
@@ -70,7 +71,7 @@
 
   .header__menu {
     gap: 0.5em;
-    padding-right: 0.5rem;
+    padding: 0;
   }
 
   .header li {
@@ -97,7 +98,7 @@
 
   .header__menu {
     gap: 1em;
-    padding-right: 0.75rem;
+    padding: 0;
   }
 
   .header li {
@@ -120,6 +121,6 @@
 
   .header__menu {
     gap: 1.5em;
-    padding-right: 1rem;
+    padding: 0;
   }
 }

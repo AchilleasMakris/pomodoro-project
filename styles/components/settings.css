@@ -5,20 +5,21 @@
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  opacity: 0.9;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  opacity: 1;
   color: var(--clr-light);
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
 }
 
 .settings-icon-btn:hover {
   transform: rotate(45deg);
-  opacity: 1;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
 }
 
 .settings-icon-btn svg {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 }
 
 /* Modal Overlay */
