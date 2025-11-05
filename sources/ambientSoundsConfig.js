@@ -1,8 +1,10 @@
-// Ambient Sounds Configuration
-// Effects are hosted on R2 bucket in /effects/ folder
+// Base URL for R2 assets
+const R2_BASE_URL = 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev';
 
 // Base URL for R2 effects folder
-const R2_EFFECTS_BASE_URL = '/r2-effects';
+export const R2_EFFECTS_BASE_URL = `${R2_BASE_URL}/effects`;
+export const R2_MUSIC_BASE_URL = `${R2_BASE_URL}/music`;
+export const R2_BACKGROUNDS_BASE_URL = `${R2_BASE_URL}/backgrounds`;
 
 export const AMBIENT_SOUNDS = {
   nature: {
