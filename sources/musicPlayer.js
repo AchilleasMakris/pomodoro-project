@@ -7398,6 +7398,25 @@ class MusicPlayer {
     }
   }
 
+  // Reposition genre selector outside player on mobile
+  repositionGenreSelectorOnMobile() {
+    const genreSelector = document.querySelector('.genre-selector-container');
+    if (!genreSelector) return;
+
+    if (window.innerWidth <= 480) {
+      // Move it to body (outside player container) if it's not already there
+      if (genreSelector.parentElement !== document.body) {
+        document.body.appendChild(genreSelector);
+      }
+    } else {
+      // On desktop, keep it inside the track info
+      const trackInfo = document.querySelector('.track-info');
+      if (trackInfo && genreSelector.parentElement !== trackInfo) {
+        trackInfo.insertBefore(genreSelector, trackInfo.firstChild);
+      }
+    }
+  }
+
   setupAudioEvents() {
     this.audio.addEventListener('play', this.handlePlay);
     this.audio.addEventListener('pause', this.handlePause);
@@ -7453,7 +7472,7 @@ class MusicPlayer {
         <div class="track-info">
           <div class="genre-selector-container">
             <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
-            <div class="genre-selector-menu">
+            <div class="genre-selector-menu" id="genre-menu-primary">
               <button class="genre-option" data-genre="lofi">
                 <span>Lofi / Chill Beats</span>
               </button>
@@ -7521,16 +7540,17 @@ class MusicPlayer {
             <button id="settings-btn-menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Settings</button>
             <button id="music-credits-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7C10.07 9.5 8.5 10.92 8.5 12.75h1.5c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h1.5c0-2.25 3-2.5 3-5 .01-1.93-1.56-3.5-3.5-3.5z"/></svg>Credits</button>
           </div>
-          <div class="genre-selector-menu">
-            <button class="genre-option" data-genre="lofi">Lofi / Chill Beats</button>
-            <button class="genre-option" data-genre="synthwave">Synthwave / 80's</button>
-          </div>
         </div>
       </div>
     `;
   }
 
   setupEventListeners() {
+    // Move genre selector outside player on mobile (with multiple attempts)
+    setTimeout(() => this.repositionGenreSelectorOnMobile(), 0);
+    setTimeout(() => this.repositionGenreSelectorOnMobile(), 100);
+    setTimeout(() => this.repositionGenreSelectorOnMobile(), 500);
+
     // Play/Pause button
     const playPauseBtn = document.getElementById('play-pause-btn');
     if (playPauseBtn) {
@@ -7721,9 +7741,14 @@ class MusicPlayer {
       if (!e.target.closest('.background-selector-menu') && !e.target.closest('#background-btn')) {
         this.closeBackgroundSelector();
       }
-      if (!e.target.closest('.genre-selector-menu') && !e.target.closest('.genre-badge') && !e.target.closest('#genre-btn-menu')) {
+      if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge') && !e.target.closest('#genre-btn-menu')) {
         this.closeGenreSelector();
       }
+    });
+
+    // Handle window resize to reposition genre selector
+    window.addEventListener('resize', () => {
+      this.repositionGenreSelectorOnMobile();
     });
   }
 
@@ -7976,7 +8001,19 @@ class MusicPlayer {
   updateTrackInfo(title, artist) {
     const titleEl = document.getElementById('track-title');
     const artistEl = document.getElementById('track-artist');
-    if (titleEl) titleEl.textContent = title;
+    if (titleEl) {
+      titleEl.textContent = title;
+
+      // Add scrolling class for long titles on mobile
+      setTimeout(() => {
+        const isMobile = window.innerWidth <= 480;
+        if (isMobile && titleEl.scrollWidth > titleEl.clientWidth) {
+          titleEl.classList.add('scrolling');
+        } else {
+          titleEl.classList.remove('scrolling');
+        }
+      }, 100);
+    }
     if (artistEl) artistEl.textContent = artist;
   }
 
@@ -8121,12 +8158,13 @@ class MusicPlayer {
   }
 
   toggleGenreSelector() {
-    const menu = document.querySelector('.genre-selector-menu');
+    const menu = document.getElementById('genre-menu-primary');
     if (menu) menu.classList.toggle('active');
+    this.closeMoreOptionsMenu();
   }
 
   closeGenreSelector() {
-    const menu = document.querySelector('.genre-selector-menu');
+    const menu = document.getElementById('genre-menu-primary');
     if (menu) menu.classList.remove('active');
   }
 

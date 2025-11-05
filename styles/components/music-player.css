@@ -477,23 +477,20 @@
     border-radius: 2px;
   }
 
-  /* Genre selector - position absolutely to left */
-  .genre-selector-container {
-    position: absolute;
-    top: 16px;
-    left: 0;
-    z-index: 10;
-  }
+  /* Genre selector already positioned by @media rule after base styles */
 
-  /* Track info - centered without genre badge interference */
+  /* Track info - fully centered with proper spacing */
   .track-info {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     min-width: 0;
-    padding: 0 80px;
+    padding: 0;
     order: 1;
+    width: 100%;
+    gap: 4px;
   }
 
   .track-icon {
@@ -503,14 +500,25 @@
   .track-details {
     min-width: 0;
     width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
   }
 
   .track-details h3 {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0 44px;
+  }
+
+  .track-details h3.scrolling {
+    animation: scroll-text 12s linear infinite;
   }
 
   .track-details p {
@@ -518,6 +526,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    padding: 0 44px;
+  }
+
+  /* Scrolling text animation for long titles */
+  @keyframes scroll-text {
+    0%, 15% {
+      transform: translateX(0);
+    }
+    85%, 100% {
+      transform: translateX(calc(-100% + 100vw - 88px));
+    }
   }
 
   /* Player controls - center aligned */
@@ -667,13 +688,19 @@
     bottom: 6px;
   }
 
-  .track-info {
-    padding: 0 70px;
+  .track-details h3 {
+    font-size: 0.85rem;
+    padding: 0 40px;
+  }
+
+  .track-details p {
+    font-size: 0.7rem;
+    padding: 0 40px;
   }
 
   .genre-badge {
     font-size: 0.65rem;
-    padding: 4px 8px;
+    padding: 5px 10px;
   }
 
   /* Reduce progress bar padding */
@@ -690,6 +717,34 @@
   align-items: center;
   margin-right: 12px;
   flex-shrink: 0;
+}
+
+/* Override on mobile - position in top right corner */
+@media (max-width: 480px) {
+  .genre-selector-container {
+    position: fixed !important;
+    top: 8px;
+    right: 8px;
+    left: auto;
+    margin-right: 0;
+    z-index: 1001;
+  }
+}
+
+@media (max-width: 360px) {
+  .genre-selector-container {
+    top: 6px !important;
+    right: 6px !important;
+  }
+
+  #genre-menu-primary {
+    right: 6px !important;
+    top: 44px !important;
+  }
+
+  #genre-menu-primary::after {
+    right: 18px !important;
+  }
 }
 
 /* Genre Badge */
@@ -803,31 +858,55 @@
   margin-right: 8px;
 }
 
-/* Mobile Adjustments for Genre Badge */
+/* Mobile Adjustments for Genre Badge and Menu */
 @media (max-width: 480px) {
   .genre-badge {
-    font-size: 0.7rem;
-    padding: 5px 9px;
+    font-size: 0.75rem;
+    padding: 6px 14px;
     margin: 0;
-    border-radius: 12px;
+    border-radius: 14px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    border-width: 2px;
   }
 
-  .genre-selector-menu {
-    left: 0;
-    right: auto;
-    transform: none;
-    bottom: calc(100% + 8px);
-    min-width: 180px;
-    padding: 10px;
+  /* Target the specific menu by ID for mobile */
+  #genre-menu-primary {
+    position: fixed !important;
+    left: auto !important;
+    right: 8px !important;
+    transform: none !important;
+    /* Badge is at top: 8px with height ~32px, add 8px gap = 48px */
+    top: 48px !important;
+    bottom: auto !important;
+    min-width: 200px;
+    padding: 12px;
+    z-index: 1002 !important;
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top right;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
   }
 
-  .genre-selector-menu::after {
-    left: 24px;
-    transform: none;
+  #genre-menu-primary.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #genre-menu-primary::after {
+    left: auto !important;
+    right: 20px !important;
+    transform: none !important;
+    bottom: auto !important;
+    top: -8px !important;
+    border-left: 8px solid transparent !important;
+    border-right: 8px solid transparent !important;
+    border-bottom: 8px solid rgba(20, 20, 30, 0.98) !important;
+    border-top: none !important;
   }
 
   .genre-option {
-    padding: 10px 12px;
+    padding: 12px 14px;
     font-size: 0.9rem;
   }
 }
