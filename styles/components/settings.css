@@ -1054,6 +1054,79 @@ input[type="range"]::-moz-range-thumb:hover {
   filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
 }
 
+/* Path Toggle Button */
+.stat-value-with-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.path-toggle-btn {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(59, 130, 246, 0.2));
+  border: 2px solid rgba(241, 245, 249, 0.3);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  overflow: hidden;
+}
+
+.path-toggle-btn:hover {
+  border-color: rgba(241, 245, 249, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.path-toggle-btn:active {
+  transform: translateY(0);
+}
+
+.toggle-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.elf-icon {
+  left: 3px;
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.6));
+  opacity: 1;
+}
+
+.human-icon {
+  right: 3px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.6));
+  opacity: 0.4;
+}
+
+/* When human path is active */
+.path-toggle-btn.human .elf-icon {
+  opacity: 0.4;
+  filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.3));
+}
+
+.path-toggle-btn.human .human-icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.6));
+}
+
+.path-toggle-btn.human {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(239, 68, 68, 0.2));
+}
+
 /* Prestige Section */
 .prestige-section {
   margin-top: 1.5rem;

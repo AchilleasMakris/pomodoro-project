@@ -10,6 +10,54 @@ const USERNAME_EDIT_COOLDOWN = 7 * 24 * 60 * 60 * 1000; // 7 days in millisecond
 const USERNAME_EDIT_COST = 50; // XP cost for early username change
 const PRESTIGE_THRESHOLD = MAX_LEVEL;
 
+// Level Names and Descriptions
+const LEVEL_NAMES = {
+  elf: {
+    1: { name: "Tomato Seed 🌱", desc: "A tiny seed dreaming of becoming something greater." },
+    2: { name: "Green Tomato 🍃", desc: "Still unripe, but full of energy and determination to grow." },
+    3: { name: "Tomato 🍅", desc: "Fully ripe and juicy — the first true stage of power." },
+    4: { name: "Toma-Do 💪", desc: "The tomato that takes action — no longer just a fruit, but a fighter." },
+    5: { name: "Lord Tomato 👑", desc: "The noble ruler of the garden, respected by all vegetables." },
+    6: { name: "Salad Paladin 🥗⚔️", desc: "A knight devoted to the sacred art of salad balance." },
+    7: { name: "Tomato Guarder 🛡️🍅", desc: "Protector and healer of wounded plants in the veggie kingdom." },
+    8: { name: "Saucenator 🥫🤖", desc: "A battle machine powered by pure tomato sauce energy." },
+    9: { name: "Pasta Crusader 🍝⚔️", desc: "Warrior of the Holy Spaghetti Order, defender of the sacred sauce." },
+    10: { name: "Tomato Smith 😎", desc: "Forges weapons and sauces with unmatched skill and coolness." },
+    11: { name: "Spice Knight 🌶️", desc: "A brave knight who fights with pepper, courage, and fire." },
+    12: { name: "Chef of Chaos 👨‍🍳🔥", desc: "Turns kitchen chaos into culinary perfection." },
+    13: { name: "Basil Wizard 🌿🧙", desc: "A mystic who wields basil magic to bless or curse dishes." },
+    14: { name: "Garden Sentinel 🌾", desc: "The silent guardian watching over the green kingdom." },
+    15: { name: "Tomageddon ☄️🍅", desc: "The ultimate destructive force of sauce and flame." },
+    16: { name: "The Ripefather 🎩", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
+    17: { name: "Master Ketchup 🧴", desc: "Supreme leader of all condiments and sauce disciples." },
+    18: { name: "Crimson Overcook 🔥", desc: "So powerful that even time burns in his kitchen." },
+    19: { name: "Veggie Saint 🌽🌟", desc: "Holy protector of all crops and gardens." },
+    20: { name: "Tomato Emperor 👑🍅", desc: "Eternal ruler of the red kingdom — timeless and all-powerful." }
+  },
+  human: {
+    1: { name: "Tomato Seed 🌱", desc: "A tiny seed dreaming of becoming something greater." },
+    2: { name: "Green Tomato 🍃", desc: "Still unripe, but full of energy and determination to grow." },
+    3: { name: "Tomato 🍅", desc: "Fully ripe and juicy — the first true stage of power." },
+    4: { name: "Toma-Do 💪", desc: "The tomato that takes action — no longer just a fruit, but a fighter." },
+    5: { name: "Lord Tomato 👑", desc: "The noble ruler of the garden, respected by all vegetables." },
+    6: { name: "Salad Mage 🥗✨", desc: "A mage devoted to the sacred art of salad balance." },
+    7: { name: "Tomato Healer 💚🍅", desc: "Healer of wounded plants in the veggie kingdom." },
+    8: { name: "Saucenator 🥫🤖", desc: "A battle machine powered by pure tomato sauce energy." },
+    9: { name: "Pasta Crusader 🍝⚔️", desc: "Warrior of the Holy Spaghetti Order, defender of the sacred sauce." },
+    10: { name: "Tomato Smith 😎", desc: "Forges weapons and sauces with unmatched skill and coolness." },
+    11: { name: "Spice Knight 🌶️", desc: "A brave knight who fights with pepper, courage, and fire." },
+    12: { name: "Chef of Chaos 👨‍🍳🔥", desc: "Turns kitchen chaos into culinary perfection." },
+    13: { name: "Basil Wizard 🌿🧙", desc: "A mystic who wields basil magic to bless or curse dishes." },
+    14: { name: "Garden Sentinel 🌾", desc: "The silent guardian watching over the green kingdom." },
+    15: { name: "Tomageddon ☄️🍅", desc: "The ultimate destructive force of sauce and flame." },
+    16: { name: "The Ripefather 🎩", desc: "Legendary tomato don — wise, ruthless, and always flavorful." },
+    17: { name: "Master Ketchup 🧴", desc: "Supreme leader of all condiments and sauce disciples." },
+    18: { name: "Crimson Overcook 🔥", desc: "So powerful that even time burns in his kitchen." },
+    19: { name: "Veggie Saint 🌽🌟", desc: "Holy protector of all crops and gardens." },
+    20: { name: "Tomato Emperor 👑🍅", desc: "Eternal ruler of the red kingdom — timeless and all-powerful." }
+  }
+};
+
 /**
  * Calculate XP required for a given level
  * Formula: 100 * level (e.g., Level 1->2 needs 100 XP, Level 2->3 needs 200 XP)
@@ -485,10 +533,23 @@ function updateLevelDisplay() {
   const prestigeStars = document.querySelector('.prestige-stars');
 
   if (levelNumberElement) {
-    if (stats.level >= MAX_LEVEL && stats.canPrestige) {
-      levelNumberElement.textContent = `Level ${stats.level} MAX`;
+    const settings = window.loadSettings();
+    const path = settings.levelPath || 'elf';
+    const levelInfo = LEVEL_NAMES[path][stats.level];
+
+    if (levelInfo) {
+      if (stats.level >= MAX_LEVEL && stats.canPrestige) {
+        levelNumberElement.textContent = `${levelInfo.name} (MAX)`;
+      } else {
+        levelNumberElement.textContent = levelInfo.name;
+      }
     } else {
-      levelNumberElement.textContent = `Level ${stats.level}`;
+      // Fallback if level name not found
+      if (stats.level >= MAX_LEVEL && stats.canPrestige) {
+        levelNumberElement.textContent = `Level ${stats.level} MAX`;
+      } else {
+        levelNumberElement.textContent = `Level ${stats.level}`;
+      }
     }
   }
 
@@ -558,7 +619,16 @@ function updateProgressTabStats() {
   const statBadge = document.getElementById('stat-badge');
 
   if (statLevel) {
-    statLevel.textContent = stats.level;
+    const settings = window.loadSettings();
+    const path = settings.levelPath || 'elf';
+    const levelInfo = LEVEL_NAMES[path][stats.level];
+
+    if (levelInfo) {
+      statLevel.textContent = `${stats.level} - ${levelInfo.name}`;
+      statLevel.title = levelInfo.desc; // Show description on hover
+    } else {
+      statLevel.textContent = stats.level;
+    }
   }
 
   if (statXP) {
@@ -706,6 +776,34 @@ function setupProgressTabListeners() {
           }
         }
       }
+    });
+  }
+
+  // Path toggle button
+  const pathToggleBtn = document.getElementById('path-toggle-btn');
+  if (pathToggleBtn) {
+    // Set initial state
+    const settings = window.loadSettings();
+    if (settings.levelPath === 'human') {
+      pathToggleBtn.classList.add('human');
+    }
+
+    pathToggleBtn.addEventListener('click', () => {
+      const settings = window.loadSettings();
+      // Toggle between elf and human
+      settings.levelPath = settings.levelPath === 'elf' ? 'human' : 'elf';
+      window.saveSettings(settings);
+
+      // Update button visual state
+      if (settings.levelPath === 'human') {
+        pathToggleBtn.classList.add('human');
+      } else {
+        pathToggleBtn.classList.remove('human');
+      }
+
+      // Update displays to show new level names
+      updateProgressTabStats();
+      updateLevelDisplay();
     });
   }
 }

@@ -24,7 +24,8 @@ const DEFAULT_SETTINGS = {
   prestigeLevel: 0,
   totalPomodoros: 0,
   username: 'User',
-  lastUsernameChange: null
+  lastUsernameChange: null,
+  levelPath: 'elf' // 'elf' or 'human' - determines level name variants
 };
 
 // Current settings (loaded from localStorage or defaults)
