@@ -15,7 +15,14 @@ const DEFAULT_SETTINGS = {
   volume: 50,
   background: 'room-video',
   timerSize: 'medium',
-  musicVolume: 70 // Separate volume for music player
+  musicVolume: 70, // Separate volume for music player
+  // Level system
+  xp: 0,
+  level: 1,
+  prestigeLevel: 0,
+  totalPomodoros: 0,
+  username: 'User',
+  lastUsernameChange: null
 };
 
 // Current settings (loaded from localStorage or defaults)
@@ -592,6 +599,27 @@ function loadMusicCredits() {
 // This function can be called by other modules to get current settings
 window.getPomodoroSettings = function() {
   return { ...currentSettings };
+};
+
+// This function returns the actual currentSettings object (not a copy)
+// Used by levelSystem.js to read and write level data
+window.loadSettings = function() {
+  return currentSettings;
+};
+
+// This function saves settings to localStorage
+// Used by levelSystem.js to persist level data
+window.saveSettings = function(settings) {
+  if (settings) {
+    currentSettings = settings;
+  }
+  try {
+    localStorage.setItem('pomodoroSettings', JSON.stringify(currentSettings));
+    return true;
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+    return false;
+  }
 };
 
 // This function can be called to open the music credits tab

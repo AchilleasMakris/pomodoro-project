@@ -94,6 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (activeTimer.id === "pomodoro") {
       pomodoroCount++;
+
+      // Award XP for completed pomodoro (for leveling system)
+      const pomodoroMinutes = settings.timers.pomodoro;
+      window.dispatchEvent(new CustomEvent('pomodoroCompleted', {
+        detail: { duration: pomodoroMinutes }
+      }));
+
       if (pomodoroCount >= settings.pomodorosBeforeLongBreak) {
         activeTimer = document.getElementById("longbreak");
         timerValue = longBreakTime;

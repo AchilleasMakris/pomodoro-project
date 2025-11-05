@@ -1001,3 +1001,167 @@ input[type="range"]::-moz-range-thumb:hover {
     display: none;
   }
 }
+
+/* ===== PROGRESS TAB STYLES ===== */
+
+/* Progress Stats Grid */
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  background: rgba(71, 85, 105, 0.2);
+  border: 1px solid rgba(241, 245, 249, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(71, 85, 105, 0.3);
+  border-color: rgba(241, 245, 249, 0.2);
+}
+
+.stat-label {
+  color: rgba(241, 245, 249, 0.6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  color: var(--clr-light);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Prestige Section */
+.prestige-section {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+  border: 2px solid rgba(251, 191, 36, 0.3);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.btn-prestige {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1e293b;
+  border: none;
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn-prestige:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(251, 191, 36, 0.4);
+}
+
+.btn-prestige:active {
+  transform: translateY(0);
+}
+
+/* Username Editor */
+.username-editor {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.username-editor input {
+  flex: 1;
+  background: rgba(71, 85, 105, 0.3);
+  border: 1px solid rgba(241, 245, 249, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--clr-light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.username-editor input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.username-editor input::placeholder {
+  color: rgba(241, 245, 249, 0.4);
+}
+
+/* Danger Button */
+.btn-danger {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  color: var(--clr-light);
+  border: none;
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* Responsive Progress Tab */
+@media (max-width: 768px) {
+  .progress-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .username-editor {
+    flex-direction: column;
+  }
+
+  .btn-prestige,
+  .btn-danger {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 475px) {
+  .stat-item {
+    padding: 0.875rem;
+  }
+
+  .stat-value {
+    font-size: 1.125rem;
+  }
+
+  .btn-prestige,
+  .btn-danger {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}

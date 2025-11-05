@@ -41,10 +41,31 @@
     <link rel="stylesheet" href="/styles/components/settings.css?v=17">
     <link rel="stylesheet" href="/styles/components/music-player.css?v=16">
     <link rel="stylesheet" href="/styles/components/ambient-sounds.css?v=1">
+    <link rel="stylesheet" href="/styles/components/level-display.css?v=1">
     <link rel="stylesheet" href="/styles/style.css?v=9">
     <link rel="stylesheet" href="/styles/utils.css?v=9">
 
     <body>
+        <!-- LEVEL DISPLAY -->
+        <div class="level-display-container">
+            <div class="level-box">
+                <div class="level-header">
+                    <div class="level-username">
+                        User
+                        <span class="prestige-stars"></span>
+                    </div>
+                    <div class="level-number">Level 1</div>
+                </div>
+                <div class="xp-info">
+                    <div class="xp-text">0 / 100 XP</div>
+                    <div class="xp-progress-bar">
+                        <div class="xp-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END OF LEVEL DISPLAY -->
+
         <!-- HEADER SECTION -->
         <header class="header container" id="header-section">
             <nav>
@@ -138,6 +159,7 @@
           <button class="tab-btn" data-tab="appearance">Appearance</button>
           <button class="tab-btn" data-tab="sounds">Sounds</button>
           <button class="tab-btn" data-tab="music">Music</button>
+          <button class="tab-btn" data-tab="progress">Progress</button>
         </div>
 
         <div class="modal-body">
@@ -383,6 +405,57 @@
               </a>
             </div>
           </div>
+
+          <!-- PROGRESS TAB -->
+          <div id="progress-tab" class="tab-content">
+            <div class="settings-section">
+              <h3>Level Progress</h3>
+              <div class="progress-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Current Level</span>
+                  <span class="stat-value" id="stat-level">1</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Current XP</span>
+                  <span class="stat-value" id="stat-xp">0 / 100</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Prestige Level</span>
+                  <span class="stat-value" id="stat-prestige">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Total Pomodoros</span>
+                  <span class="stat-value" id="stat-pomodoros">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Total Study Time</span>
+                  <span class="stat-value" id="stat-study-time">0h 0m</span>
+                </div>
+              </div>
+              <div id="prestige-section" class="prestige-section" style="display: none;">
+                <button id="prestige-btn" class="btn-prestige">
+                  Prestige (Reset to Level 1, Gain a Star)
+                </button>
+                <p class="info-text">You've reached the maximum level! Prestige to reset your level and earn a prestige star.</p>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>Username</h3>
+              <p class="info-text">Change your display name. Free once per week, or costs 50 XP if changed earlier.</p>
+              <div class="username-editor">
+                <input type="text" id="username-input" placeholder="Enter username" maxlength="20" />
+                <button id="save-username-btn" class="btn-secondary">Save Username</button>
+              </div>
+              <p class="info-text" id="username-cooldown-text" style="color: rgba(251, 191, 36, 0.9); display: none;"></p>
+            </div>
+
+            <div class="settings-section">
+              <h3>Reset Progress</h3>
+              <p class="info-text">This will reset all your progress including level, XP, prestige, and stats. This action cannot be undone.</p>
+              <button id="reset-progress-btn" class="btn-danger">Reset All Progress</button>
+            </div>
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -499,6 +572,10 @@
                             <!-- Settings Module -->
                             <script src="/sources/settings.js?v=16"></script>
                             <!-- END OF SETTINGS MODULE -->
+
+                            <!-- Level System Module -->
+                            <script src="/sources/levelSystem.js?v=1"></script>
+                            <!-- END OF LEVEL SYSTEM MODULE -->
 
                             <!-- Discord Activity Detection -->
                             <script>
