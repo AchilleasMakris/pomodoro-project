@@ -6617,7 +6617,6 @@ class MusicPlayer {
             <h3 id="track-title">No Track Selected</h3>
             <p id="track-artist">-</p>
           </div>
-          <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
         </div>
 
         <div class="player-controls">
@@ -6631,6 +6630,15 @@ class MusicPlayer {
           <button class="control-btn" id="next-btn" title="Next">
             <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0"><path d="M16 18h2V6h-2zm-11-1l8.5-6L5 5z"/></svg>
           </button>
+          <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
+          <div class="genre-selector-menu">
+            <button class="genre-option" data-genre="lofi">
+              <span>Lofi / Chill Beats</span>
+            </button>
+            <button class="genre-option" data-genre="synthwave">
+              <span>Synthwave / 80's</span>
+            </button>
+          </div>
         </div>
 
         <div class="player-actions">
