@@ -323,7 +323,7 @@
   pointer-events: auto;
   cursor: default;
   animation: xpPopupSlideIn 0.4s ease-out;
-  width: 175px;
+  width: 165px;
   box-sizing: border-box;
   word-wrap: break-word;
 }
@@ -403,7 +403,7 @@
 /* Badge and Feature Container */
 .badge-feature-container {
   display: grid;
-  grid-template-columns: 80px 80px;
+  grid-template-columns: 75px 75px;
   gap: 15px;
   opacity: 0;
   pointer-events: none;
@@ -437,9 +437,10 @@
   justify-content: center;
   aspect-ratio: 1;
   cursor: pointer;
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .badge-box:hover {
@@ -469,9 +470,10 @@
   justify-content: center;
   aspect-ratio: 1;
   cursor: pointer;
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .feature-box:hover {
@@ -509,7 +511,7 @@
   box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  width: 175px;
+  width: 165px;
   text-align: center;
   box-sizing: border-box;
 }
