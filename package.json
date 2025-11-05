@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Enhanced Pomodoro Timer with customizable settings and local music player",
   "scripts": {
-    "dev": "live-server --port=8000",
+    "dev": "live-server --port=8000 --watch=sources,styles,index.html --ignore=node_modules",
     "start": "http-server -p 8000",
     "preview": "http-server -p 3000 -o"
   },

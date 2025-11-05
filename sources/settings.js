@@ -108,6 +108,54 @@ function loadSettings() {
     } else {
       option.classList.remove('selected');
     }
+
+    // Add error handling for images and videos
+    const img = option.querySelector('img');
+    const video = option.querySelector('video');
+
+    if (img) {
+      img.onerror = function() {
+        // Create gradient fallback
+        const fallback = document.createElement('div');
+        fallback.className = 'gradient-preview';
+        fallback.style.cssText = `
+          width: 100%;
+          height: 120px;
+          background: linear-gradient(135deg,
+            rgba(59, 130, 246, 0.3),
+            rgba(139, 92, 246, 0.3));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          opacity: 0.7;
+        `;
+        fallback.textContent = '🖼️';
+        img.replaceWith(fallback);
+      };
+    }
+
+    if (video) {
+      video.onerror = function() {
+        // Create gradient fallback
+        const fallback = document.createElement('div');
+        fallback.className = 'gradient-preview';
+        fallback.style.cssText = `
+          width: 100%;
+          height: 120px;
+          background: linear-gradient(135deg,
+            rgba(236, 72, 153, 0.3),
+            rgba(251, 146, 60, 0.3));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          opacity: 0.7;
+        `;
+        fallback.textContent = '🎬';
+        video.replaceWith(fallback);
+      };
+    }
   });
 }
 
