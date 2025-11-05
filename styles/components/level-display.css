@@ -323,7 +323,7 @@
   pointer-events: auto;
   cursor: default;
   animation: xpPopupSlideIn 0.4s ease-out;
-  width: 170px;
+  width: 175px;
   box-sizing: border-box;
   word-wrap: break-word;
 }
@@ -404,11 +404,12 @@
 .badge-feature-container {
   display: grid;
   grid-template-columns: 80px 80px;
-  gap: 10px;
+  gap: 15px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
   width: fit-content;
+  justify-content: start;
 }
 
 .badge-feature-container:hover,
@@ -508,7 +509,7 @@
   box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  width: 170px;
+  width: 175px;
   text-align: center;
   box-sizing: border-box;
 }
