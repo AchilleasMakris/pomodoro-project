@@ -633,11 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
       settings.levelSystemEnabled = !settings.levelSystemEnabled;
       window.saveSettings(settings);
 
-      // Update the checkbox in settings modal to match
-      const levelSystemCheckbox = document.getElementById('enable-level-system');
-      if (levelSystemCheckbox) {
-        levelSystemCheckbox.checked = settings.levelSystemEnabled;
-      }
 
       // Apply visibility changes
       applyLevelSystemVisibility();
