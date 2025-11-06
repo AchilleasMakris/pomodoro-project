@@ -236,11 +236,28 @@ function awardXP(minutes) {
 
   let currentXP = settings.xp || 0;
   let currentLevel = settings.level || 1;
-  const currentPrestige = settings.prestigeLevel || 0;
+  let currentPrestige = settings.prestigeLevel || 0;
 
   currentXP += xpGained;
 
   const levelUps = [];
+  let didPrestige = false;
+
+  // Check if at max level and gaining XP - auto prestige
+  if (currentLevel >= MAX_LEVEL && currentXP > 0) {
+    // Auto-prestige: reset to level 1, gain prestige star
+    currentPrestige++;
+    currentLevel = 1;
+    didPrestige = true;
+
+    // Dispatch prestige event
+    window.dispatchEvent(new CustomEvent('prestige', {
+      detail: { prestigeLevel: currentPrestige }
+    }));
+
+    // Now continue with normal leveling using the accumulated XP
+    levelUps.push(1); // Starting at level 1 after prestige
+  }
 
   // Check for level ups
   while (currentLevel < MAX_LEVEL && currentXP >= getXPRequiredForLevel(currentLevel)) {
@@ -265,6 +282,7 @@ function awardXP(minutes) {
   // Save updated data
   settings.xp = currentXP;
   settings.level = currentLevel;
+  settings.prestigeLevel = currentPrestige;
   settings.totalPomodoros = (settings.totalPomodoros || 0) + 1;
   saveSettings(settings);
 
@@ -275,13 +293,17 @@ function awardXP(minutes) {
       currentXP,
       currentLevel,
       levelUps,
-      canPrestige
+      canPrestige,
+      didPrestige
     }
   }));
 
   // Show appropriate popup notification
   if (settings.levelSystemEnabled) {
-    if (levelUps.length > 0) {
+    if (didPrestige) {
+      // Show prestige popup
+      showXPPopup(xpGained, true);
+    } else if (levelUps.length > 0) {
       // Show level-up popup if leveled up
       showXPPopup(xpGained, true);
     } else {
@@ -295,7 +317,8 @@ function awardXP(minutes) {
     currentXP,
     currentLevel,
     levelUps,
-    canPrestige
+    canPrestige,
+    didPrestige
   };
 }
 

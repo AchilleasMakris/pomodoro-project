@@ -3,6 +3,9 @@ import { R2_BACKGROUNDS_BASE_URL } from './ambientSoundsConfig.js';
 // Settings Manager Module
 // Handles all settings, localStorage persistence, and UI interactions
 
+// Debug: Log the base URL to verify it's correct
+console.log('R2_BACKGROUNDS_BASE_URL:', R2_BACKGROUNDS_BASE_URL);
+
 // Default Settings
 const DEFAULT_SETTINGS = {
   timers: {
@@ -41,6 +44,8 @@ const backgroundMap = {
   'forest-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/forest.mp4`, orientation: 'portrait' },
   'landscape-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/landscape.mp4`, orientation: 'portrait' }
 };
+
+console.log('backgroundMap:', backgroundMap);
 
 // Current settings (loaded from localStorage or defaults)
 let currentSettings = { ...DEFAULT_SETTINGS };
@@ -276,6 +281,7 @@ function applyBackground() {
     // Create video background element
     const video = document.createElement('video');
     video.id = 'background-video';
+    console.log('Setting video background src to:', bg.value);
     video.src = bg.value;
     video.autoplay = true;
     video.loop = true;

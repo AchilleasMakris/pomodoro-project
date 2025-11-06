@@ -611,22 +611,24 @@
                               })();
                             </script>
 
+                            <!-- Config Module (Load First) -->
+                            <script type="module" src="/sources/ambientSoundsConfig.js?v=4"></script>
+
                             <!-- JavaScript Timer -->
                             <script type="module" src="/sources/player.js"></script>
                             <!-- END OF JAVASCRIPT TIMER -->
 
-                            <!-- Music Player Module (Load BEFORE settings so MUSIC_LIBRARY is available) -->
-                            <script type="module" src="/sources/musicPlayer.js?v=29"></script>
+                            <!-- Settings Module -->
+                            <script type="module" src="/sources/settings.js?v=19"></script>
+                            <!-- END OF SETTINGS MODULE -->
+
+                            <!-- Music Player Module -->
+                            <script type="module" src="/sources/musicPlayer.js?v=30"></script>
                             <!-- END OF MUSIC PLAYER MODULE -->
 
                             <!-- Ambient Sounds Module -->
-                            <script type="module" src="/sources/ambientSoundsConfig.js?v=3"></script>
                             <script type="module" src="/sources/ambientSounds.js?v=11"></script>
                             <!-- END OF AMBIENT SOUNDS MODULE -->
-
-                            <!-- Settings Module -->
-                            <script type="module" src="/sources/settings.js?v=18"></script>
-                            <!-- END OF SETTINGS MODULE -->
 
                             <!-- Level System Module -->
                             <script src="/sources/levelSystem.js?v=1" defer></script>
