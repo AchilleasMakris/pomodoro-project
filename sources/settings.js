@@ -16,7 +16,7 @@ const DEFAULT_SETTINGS = {
   soundEnabled: true,
   volume: 50,
   background: 'room-video',
-  timerSize: 'medium',
+  
   musicVolume: 70, // Separate volume for music player
   // Level system
   xp: 0,
@@ -104,7 +104,7 @@ function loadSettings() {
   document.getElementById('sound-enabled').checked = currentSettings.soundEnabled;
   document.getElementById('volume-slider').value = currentSettings.volume;
   document.getElementById('volume-value').textContent = currentSettings.volume + '%';
-  document.getElementById('timer-size').value = currentSettings.timerSize;
+  
 
   // Load level system enabled setting
   const levelSystemEnabledCheckbox = document.getElementById('level-system-enabled');
@@ -215,8 +215,7 @@ function applySettings() {
   // Apply background
   applyBackground();
 
-  // Apply timer size
-  applyTimerSize();
+
 
   // Apply volume to audio elements
   const audioElements = document.querySelectorAll('audio');
@@ -310,30 +309,7 @@ function applyBackground() {
   }
 }
 
-function applyTimerSize() {
-  const timerElement = document.querySelector('.timer');
-  if (!timerElement) return;
 
-  // Remove existing size classes from timer
-  timerElement.classList.remove('timer-small', 'timer-medium', 'timer-large');
-
-  // Add new size class to timer
-  timerElement.classList.add(`timer-${currentSettings.timerSize}`);
-
-  // Apply size to all buttons
-  const buttons = document.querySelectorAll('.btn');
-  buttons.forEach(btn => {
-    btn.classList.remove('btn-small', 'btn-medium', 'btn-large');
-    btn.classList.add(`btn-${currentSettings.timerSize}`);
-  });
-
-  // Apply size to form check labels (timer type buttons)
-  const formLabels = document.querySelectorAll('.form-check-label');
-  formLabels.forEach(label => {
-    label.classList.remove('btn-small', 'btn-medium', 'btn-large');
-    label.classList.add(`btn-${currentSettings.timerSize}`);
-  });
-}
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
@@ -481,6 +457,35 @@ function setupEventListeners() {
       }
     });
   }
+
+  const genreBadge = document.querySelector('.genre-badge');
+  if (genreBadge) {
+    genreBadge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.musicPlayer) {
+        window.musicPlayer.toggleGenreSelector();
+      }
+    });
+  }
+
+  const genreOptions = document.querySelectorAll('.genre-option');
+  genreOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const genre = option.dataset.genre;
+      if (window.musicPlayer) {
+        window.musicPlayer.selectGenre(genre);
+        window.musicPlayer.closeGenreSelector();
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge')) {
+      if (window.musicPlayer) {
+        window.musicPlayer.closeGenreSelector();
+      }
+    }
+  });
 }
 
 // ===== MODAL FUNCTIONS =====
@@ -587,7 +592,7 @@ function handleSaveSettings() {
   currentSettings.autoStartPomodoros = document.getElementById('auto-start-pomodoros').checked;
   currentSettings.soundEnabled = document.getElementById('sound-enabled').checked;
   currentSettings.volume = parseInt(document.getElementById('volume-slider').value) || 50;
-  currentSettings.timerSize = document.getElementById('timer-size').value;
+  
 
   // Get level system enabled setting
   const levelSystemEnabledCheckbox = document.getElementById('level-system-enabled');

@@ -1,25 +1,14 @@
 .timer {
   font-family: "Space Grotesk", sans-serif;
   color: var(--clr-light);
-  font-size: 8.5rem;
+  font-size: clamp(4rem, 25vw, 11rem);
   font-weight: 600;
   letter-spacing: -0.25rem;
   font-variant-numeric: tabular-nums;
   transition: font-size 0.3s ease;
 }
 
-/* Timer size variations */
-.timer.timer-small {
-  font-size: 6rem;
-}
 
-.timer.timer-medium {
-  font-size: 8.5rem;
-}
-
-.timer.timer-large {
-  font-size: 11rem;
-}
 
 .hero {
   flex-grow: 1;

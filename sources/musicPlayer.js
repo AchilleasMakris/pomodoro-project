@@ -7291,19 +7291,16 @@ class MusicPlayer {
   }
 
   init() {
-    this.setupAudioEvents();
-    
     this.loadSettings();
     this.renderPlayer();
     this.setupEventListeners();
 
-    // Auto-load the first track from shuffled playlist
-    if (this.playlist.length > 0) {
-      const firstTrackId = this.playlist[0].id;
-      this.loadTrack(firstTrackId);
-      // Try to start playback immediately so music begins on page load
-      this.play(true);
-    }
+    // Make essential methods globally accessible
+    window.musicPlayer = {
+      selectGenre: this.selectGenre.bind(this),
+      toggleGenreSelector: this.toggleGenreSelector.bind(this),
+      closeGenreSelector: this.closeGenreSelector.bind(this)
+    };
   }
 
 
@@ -7405,7 +7402,7 @@ repositionGenreSelectorOnMobile() {
     this.audio.addEventListener('play', this.handlePlay);
     this.audio.addEventListener('pause', this.handlePause);
     this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
-    this.audio.addEventListener('ended', this.handleEnded);
+
     this.audio.addEventListener('error', this.handleError);
     this.audio.addEventListener('loadedmetadata', this.handleLoadedMetadata);
   }
@@ -7457,17 +7454,7 @@ repositionGenreSelectorOnMobile() {
       </div>
       <div class="player-content">
         <div class="track-info">
-          <div class="genre-selector-container">
-            <div class="genre-badge" data-genre="${this.currentGenre}" title="Click to change genre">${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</div>
-            <div class="genre-selector-menu" id="genre-menu-primary">
-              <button class="genre-option" data-genre="lofi">
-                <span>Lofi / Chill Beats</span>
-              </button>
-              <button class="genre-option" data-genre="synthwave">
-                <span>Synthwave / 80's</span>
-              </button>
-            </div>
-          </div>
+
           <div class="track-details">
             <h3 id="track-title">No Track Selected</h3>
             <p id="track-artist">-</p>
@@ -7561,20 +7548,10 @@ repositionGenreSelectorOnMobile() {
       } else if (id === 'background-btn') {
         e.stopPropagation();
         this.toggleBackgroundSelector();
-      } else if (target.classList.contains('genre-option')) {
-        const genre = target.dataset.genre;
-        this.selectGenre(genre);
-        this.closeGenreSelector();
       }
     });
 
-    const genreBadge = document.querySelector('.genre-badge');
-    if (genreBadge) {
-      genreBadge.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.toggleGenreSelector();
-      });
-    }
+
 
     const progressBar = document.getElementById('progress-bar');
     if (progressBar) {
@@ -7602,14 +7579,13 @@ repositionGenreSelectorOnMobile() {
       if (!e.target.closest('.background-selector-menu') && !e.target.closest('#background-btn')) {
         this.closeBackgroundSelector();
       }
-      if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge')) {
-        this.closeGenreSelector();
-      }
+
     });
 
-    window.addEventListener('resize', () => {
-      this.repositionGenreSelectorOnMobile();
-    });
+    this.audio.addEventListener('timeupdate', () => this.updateProgress());
+    this.audio.addEventListener('ended', () => this.nextTrack());
+
+
   }
 
   loadTrack(trackId) {
@@ -7892,10 +7868,23 @@ repositionGenreSelectorOnMobile() {
     }
   }
 
-  updateProgress(percent) {
-    const progressFill = document.getElementById('progress-fill');
-    if (progressFill) {
-      progressFill.style.width = percent + '%';
+  updateProgress() {
+    if (this.audio.duration) {
+      const progressFill = document.getElementById('progress-fill');
+      const currentTimeEl = document.getElementById('current-time');
+      const durationEl = document.getElementById('duration');
+
+      const progressPercent = (this.audio.currentTime / this.audio.duration) * 100;
+      if (progressFill) {
+        progressFill.style.width = `${progressPercent}%`;
+      }
+
+      if (currentTimeEl) {
+        currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+      }
+      if (durationEl) {
+        durationEl.textContent = this.formatTime(this.audio.duration);
+      }
     }
   }
 

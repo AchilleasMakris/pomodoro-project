@@ -17,7 +17,8 @@
 
 html {
   /* scroll-behavior: smooth; */
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
   color-scheme: dark;
 }
 
@@ -30,10 +31,9 @@ body {
   background-attachment: fixed;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
   margin: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   transition: background-image 0.6s ease-in-out;
   color-scheme: dark;
   padding-bottom: 0;
@@ -98,9 +98,6 @@ body::-webkit-scrollbar-thumb {
 /*xxs screens - Extra small phones */
 
 @media (max-width: 360px) {
-  body {
-    padding-bottom: 160px;
-  }
   .container {
     padding: 0 0.5rem;
   }
@@ -130,9 +127,6 @@ body::-webkit-scrollbar-thumb {
 /*xs screens */
 
 @media (max-width: 475px) {
-  body {
-    padding-bottom: 180px;
-  }
   .container {
     padding: 0 0.5rem;
   }
