@@ -7562,6 +7562,10 @@ repositionGenreSelectorOnMobile() {
     if (volumeSlider) {
       volumeSlider.addEventListener('input', (e) => {
         const newVolume = parseInt(e.target.value, 10);
+        // Directly set volume on the audio element
+        this.audio.volume = newVolume / 100;
+        this.updateVolumeUI();
+        // Also dispatch event for settings sync
         window.dispatchEvent(new CustomEvent('musicVolumeChanged', { detail: { volume: newVolume } }));
       });
     }
