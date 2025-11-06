@@ -166,7 +166,7 @@
 .volume-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 140px;
+  width: 100px;
   height: 3px;
   background: linear-gradient(to right, 
     rgba(255, 255, 255, 0.3) 0%, 

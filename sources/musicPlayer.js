@@ -7274,11 +7274,27 @@ class MusicPlayer {
     this.handleLoadedMetadata = this.handleLoadedMetadata.bind(this);
   }
 
+  shufflePlaylist() {
+    let currentIndex = this.playlist.length,  randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [this.playlist[currentIndex], this.playlist[randomIndex]] = [
+        this.playlist[randomIndex], this.playlist[currentIndex]];
+    }
+  }
+
   init() {
     this.setupAudioEvents();
-    this.shufflePlaylist(); // Shuffle on init so order is random each time
-    this.renderPlayer();
+    
     this.loadSettings();
+    this.renderPlayer();
     this.setupEventListeners();
 
     // Auto-load the first track from shuffled playlist
@@ -7290,50 +7306,7 @@ class MusicPlayer {
     }
   }
 
-  // Shuffle the playlist using Fisher-Yates algorithm
-  shufflePlaylist(genre = null) {
-    // Use provided genre or current genre
-    const filterGenre = genre || this.currentGenre;
 
-    // Filter library by genre
-    const filteredLibrary = MUSIC_LIBRARY.filter(track => track.genre === filterGenre);
-
-    // Create a copy of the filtered library
-    this.playlist = [...filteredLibrary];
-
-    // Fisher-Yates shuffle
-    for (let i = this.playlist.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.playlist[i], this.playlist[j]] = [this.playlist[j], this.playlist[i]];
-    }
-
-    // Shuffled playlist
-  }
-
-  // Reshuffle the playlist and restart from first track
-  reshufflePlaylist() {
-    const wasPlaying = this.isPlaying;
-
-    // Pause current track
-    if (wasPlaying) {
-      this.pause();
-    }
-
-    // Reshuffle
-    this.shufflePlaylist();
-
-    // Load first track from new shuffle
-    if (this.playlist.length > 0) {
-      this.loadTrack(this.playlist[0].id);
-
-      // Resume playing if it was playing before
-      if (wasPlaying) {
-        this.play();
-      }
-    }
-
-    // Playlist reshuffled
-  }
 
   // Select a music genre and reshuffle playlist
   selectGenre(genre) {
@@ -7355,9 +7328,13 @@ class MusicPlayer {
     // Save genre preference to localStorage
     localStorage.setItem('musicGenre', genre);
 
-    // Reshuffle playlist with new genre
-    this.shufflePlaylist(genre);
+    // Update the playlist
+    this.playlist = MUSIC_LIBRARY.filter(track => track.genre === this.currentGenre);
+    this.shufflePlaylist();
 
+    // Re-render the player in case it was showing "No music available"
+    this.renderPlayer();
+    
     // Load first track from new genre
     if (this.playlist.length > 0) {
       this.loadTrack(this.playlist[0].id);
@@ -7399,18 +7376,25 @@ class MusicPlayer {
   }
 
   // Reposition genre selector outside player on mobile
-  repositionGenreSelectorOnMobile() {
+repositionGenreSelectorOnMobile() {
     const genreSelector = document.querySelector('.genre-selector-container');
     if (!genreSelector) return;
 
-    if (window.innerWidth <= 480) {
-      // Move it to body (outside player container) if it's not already there
+    const isMobile = window.innerWidth <= 768;
+    const trackInfo = document.querySelector('.track-info');
+    const genreBtnMenu = document.getElementById('genre-btn-menu');
+
+    if (isMobile) {
+      if (genreBtnMenu) {
+        genreBtnMenu.style.display = 'none';
+      }
       if (genreSelector.parentElement !== document.body) {
         document.body.appendChild(genreSelector);
       }
     } else {
-      // On desktop, keep it inside the track info
-      const trackInfo = document.querySelector('.track-info');
+      if (genreBtnMenu) {
+        genreBtnMenu.style.display = 'block';
+      }
       if (trackInfo && genreSelector.parentElement !== trackInfo) {
         trackInfo.insertBefore(genreSelector, trackInfo.firstChild);
       }
@@ -7437,11 +7421,14 @@ class MusicPlayer {
     const savedGenre = localStorage.getItem('musicGenre');
     if (savedGenre && this.availableGenres.includes(savedGenre)) {
       this.currentGenre = savedGenre;
-      // Re-shuffle with saved genre
-      this.shufflePlaylist(this.currentGenre);
-      // Update badge if it exists
-      this.updateGenreBadge();
     }
+
+    // Populate playlist based on the loaded genre
+    this.playlist = MUSIC_LIBRARY.filter(track => track.genre === this.currentGenre);
+    this.shufflePlaylist();
+
+    // Update badge if it exists
+    this.updateGenreBadge();
 
     // Listen for settings changes
     window.addEventListener('settingsChanged', (event) => {
@@ -7506,15 +7493,15 @@ class MusicPlayer {
           </button>
           <div class="background-selector-menu">
             <div class="background-option" data-background="road-video">
-              <video src="/r2-backgrounds/road.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
+              <video src="https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/road.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
               <span>Road</span>
             </div>
             <div class="background-option" data-background="room-video">
-              <video src="/r2-backgrounds/room.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
+              <video src="https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/room.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
               <span>Room</span>
             </div>
             <div class="background-option" data-background="eyes-video">
-              <video src="/r2-backgrounds/eyes-wallpaper.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
+              <video src="https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/eyes-wallpaper.mp4" muted loop playsinline style="width: 100%; height: 60px; object-fit: cover; pointer-events: none;"></video>
               <span>Eyes</span>
             </div>
           </div>
@@ -7535,10 +7522,9 @@ class MusicPlayer {
             <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
           </button>
           <div class="more-options-menu">
-            <button id="shuffle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle</button>
-            <button id="genre-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-2c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg>Genre: ${this.currentGenre.charAt(0).toUpperCase() + this.currentGenre.slice(1)}</button>
+            
             <button id="settings-btn-menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Settings</button>
-            <button id="music-credits-btn-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7C10.07 9.5 8.5 10.92 8.5 12.75h1.5c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h1.5c0-2.25 3-2.5 3-5 .01-1.93-1.56-3.5-3.5-3.5z"/></svg>Credits</button>
+            <button id="credits-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4l2 2"/></svg>Credits</button>
           </div>
         </div>
       </div>
@@ -7546,73 +7532,42 @@ class MusicPlayer {
   }
 
   setupEventListeners() {
-    // Move genre selector outside player on mobile (with multiple attempts)
-    setTimeout(() => this.repositionGenreSelectorOnMobile(), 0);
-    setTimeout(() => this.repositionGenreSelectorOnMobile(), 100);
-    setTimeout(() => this.repositionGenreSelectorOnMobile(), 500);
+    const container = document.getElementById('music-player-container');
+    if (!container) return;
 
-    // Play/Pause button
-    const playPauseBtn = document.getElementById('play-pause-btn');
-    if (playPauseBtn) {
-      playPauseBtn.addEventListener('click', () => this.togglePlayPause());
-    }
+    container.addEventListener('click', (e) => {
+      const target = e.target.closest('button');
+      if (!target) return;
 
-    // Previous button
-    const prevBtn = document.getElementById('prev-btn');
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => this.previousTrack());
-    }
+      const id = target.id;
 
-    // Next button
-    const nextBtn = document.getElementById('next-btn');
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => this.nextTrack());
-    }
-
-    // Shuffle button in menu
-    const shuffleBtnMenu = document.getElementById('shuffle-btn');
-    if (shuffleBtnMenu) {
-      shuffleBtnMenu.addEventListener('click', () => {
-        this.reshufflePlaylist();
-        this.closeMoreOptionsMenu();
-      });
-    }
-
-    // Music credits button in menu
-    const creditsBtnMenu = document.getElementById('music-credits-btn-menu');
-    if (creditsBtnMenu) {
-      creditsBtnMenu.addEventListener('click', () => {
-        // This assumes a global function to open the credits modal/tab
-        if (window.openMusicCredits) {
-          window.openMusicCredits();
+      if (id === 'play-pause-btn') {
+        this.togglePlayPause();
+      } else if (id === 'prev-btn') {
+        this.previousTrack();
+      } else if (id === 'next-btn') {
+        this.nextTrack();
+      } else if (id === 'settings-btn-menu') {
+        if (typeof openSettingsModal === 'function') {
+          openSettingsModal();
         }
-        this.closeMoreOptionsMenu();
-      });
-    }
-
-    // Settings button in menu
-    const settingsBtnMenu = document.getElementById('settings-btn-menu');
-    if (settingsBtnMenu) {
-      settingsBtnMenu.addEventListener('click', () => {
-        // This assumes a global function to open the settings modal
-        if (window.openSettingsModal) {
-          window.openSettingsModal();
+      } else if (id === 'credits-btn') {
+        if (typeof openCreditsModal === 'function') {
+          openCreditsModal();
         }
-        this.closeMoreOptionsMenu();
-      });
-    }
-
-    // Genre button in menu - toggles genre selector
-    const genreBtnMenu = document.getElementById('genre-btn-menu');
-    if (genreBtnMenu) {
-      genreBtnMenu.addEventListener('click', (e) => {
+      } else if (id === 'more-options-btn') {
         e.stopPropagation();
-        this.toggleGenreSelector();
-        this.closeMoreOptionsMenu();
-      });
-    }
+        this.toggleMoreOptionsMenu();
+      } else if (id === 'background-btn') {
+        e.stopPropagation();
+        this.toggleBackgroundSelector();
+      } else if (target.classList.contains('genre-option')) {
+        const genre = target.dataset.genre;
+        this.selectGenre(genre);
+        this.closeGenreSelector();
+      }
+    });
 
-    // Genre badge - toggles genre selector
     const genreBadge = document.querySelector('.genre-badge');
     if (genreBadge) {
       genreBadge.addEventListener('click', (e) => {
@@ -7621,119 +7576,25 @@ class MusicPlayer {
       });
     }
 
-    // Genre selector options
-    const genreOptions = document.querySelectorAll('.genre-option');
-    genreOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        const genre = option.dataset.genre;
-        this.selectGenre(genre);
-        this.closeGenreSelector();
-      });
-    });
-
-    // More options button
-    const moreOptionsBtn = document.getElementById('more-options-btn');
-    if (moreOptionsBtn) {
-      moreOptionsBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.toggleMoreOptionsMenu();
-      });
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+      progressBar.addEventListener('click', (e) => this.seek(e));
     }
 
-    // Background selector button
-    const backgroundBtn = document.getElementById('background-btn');
-    if (backgroundBtn) {
-      backgroundBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.toggleBackgroundSelector();
-      });
-    }
-
-    // Background options
-    const backgroundOptions = document.querySelectorAll('.background-selector-menu .background-option');
-    backgroundOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        const bg = option.getAttribute('data-background');
-        this.selectBackground(bg);
-      });
-
-      // Play video preview on hover
-      const video = option.querySelector('video');
-      if (video) {
-        // Try to load and show video preview
-        video.load();
-
-        // Add error handling for failed video loads
-        video.addEventListener('error', () => {
-          const fallback = document.createElement('div');
-          fallback.className = 'gradient-preview';
-          fallback.style.cssText = `
-            width: 100%;
-            height: 60px;
-            background: linear-gradient(135deg,
-              rgba(236, 72, 153, 0.3),
-              rgba(251, 146, 60, 0.3));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            opacity: 0.7;
-          `;
-          fallback.textContent = '🎬';
-          video.replaceWith(fallback);
-        });
-
-        option.addEventListener('mouseenter', () => {
-          video.play().catch(e => console.log('Video play prevented:', e));
-        });
-        option.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-      }
-    });
-
-    // Volume button - now just for muting/unmuting
-    const volumeBtn = document.getElementById('volume-btn');
-    if (volumeBtn) {
-      volumeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // Toggle mute
-        if (this.audio.volume > 0) {
-          this.previousVolume = this.audio.volume;
-          this.setVolume(0);
-        } else {
-          this.setVolume((this.previousVolume || 0.7) * 100);
-        }
-      });
-    }
-
-    // Volume slider
     const volumeSlider = document.getElementById('music-volume-slider');
     if (volumeSlider) {
-      // Set initial CSS variable for gradient
-      volumeSlider.style.setProperty('--volume-percent', volumeSlider.value + '%');
-      
-      // Update volume in real-time while dragging
       volumeSlider.addEventListener('input', (e) => {
         const newVolume = parseInt(e.target.value, 10);
         window.dispatchEvent(new CustomEvent('musicVolumeChanged', { detail: { volume: newVolume } }));
       });
+    }
 
     window.addEventListener('musicVolumeChanged', (event) => {
       const newVolume = event.detail.volume;
       this.audio.volume = newVolume / 100;
       this.updateVolumeUI();
     });
-    }
 
-    // Progress bar seeking
-    const progressBar = document.getElementById('progress-bar');
-    if (progressBar) {
-      progressBar.addEventListener('click', (e) => this.seek(e));
-    }
-
-    // Close menus when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.more-options-menu') && !e.target.closest('#more-options-btn')) {
         this.closeMoreOptionsMenu();
@@ -7741,12 +7602,11 @@ class MusicPlayer {
       if (!e.target.closest('.background-selector-menu') && !e.target.closest('#background-btn')) {
         this.closeBackgroundSelector();
       }
-      if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge') && !e.target.closest('#genre-btn-menu')) {
+      if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge')) {
         this.closeGenreSelector();
       }
     });
 
-    // Handle window resize to reposition genre selector
     window.addEventListener('resize', () => {
       this.repositionGenreSelectorOnMobile();
     });
