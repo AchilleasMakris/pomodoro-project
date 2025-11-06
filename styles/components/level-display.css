@@ -256,7 +256,7 @@
 /* Mobile (475px and below) */
 @media (max-width: 475px) {
   .level-display-container {
-    top: 10px;
+    top: 60px;
     left: 10px;
     width: 170px;
   }
@@ -304,7 +304,7 @@
 /* Very small mobile (360px and below) */
 @media (max-width: 360px) {
   .level-display-container {
-    top: 8px;
+    top: 55px;
     left: 8px;
     width: 160px;
   }
@@ -349,11 +349,7 @@
   }
 }
 
-@media (max-width: 400px) {
-  .level-display-container {
-    display: none;
-  }
-}
+/* Remove the display:none rule - keep level display visible on all screens */
 
 /* Ensure minimum touch target size on mobile */
 @media (max-width: 768px) {
