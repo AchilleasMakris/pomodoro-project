@@ -131,6 +131,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   z-index: 1;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .xp-role-emoji {
@@ -383,7 +384,10 @@
 
 /* XP Collection Popup */
 .xp-popup {
-  position: fixed;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(220, 38, 38, 0.6);
@@ -403,6 +407,7 @@
   word-wrap: break-word;
   text-align: center;
   animation: xpPopupSlideIn 0.4s ease-out;
+  width: max-content;
 }
 
 /* Level Up Popup - Golden style */
@@ -416,22 +421,22 @@
 
 @keyframes levelUpBounce {
   0%, 100% {
-    transform: translateY(0) scale(1);
+    transform: translate(-50%, 0) scale(1);
     opacity: 0.9;
   }
   50% {
-    transform: translateY(-5px) scale(1.05);
+    transform: translate(-50%, -5px) scale(1.05);
     opacity: 1;
   }
 }
 
 @keyframes xpPopupSlideIn {
   0% {
-    transform: translateX(-20px);
+    transform: translate(-50%, -10px);
     opacity: 0;
   }
   100% {
-    transform: translateX(0);
+    transform: translate(-50%, 0);
     opacity: 0.8;
   }
 }
@@ -446,28 +451,12 @@
     padding: 0.625rem 0.875rem;
     font-size: 0.8rem;
   }
-
-  .level-display-container.popup-visible .badge-feature-container {
-    margin-top: 70px;
-  }
-
-  .level-display-container.popup-visible .test-xp-btn {
-    margin-top: 8px;
-  }
 }
 
 @media (max-width: 475px) {
   .xp-popup {
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
-  }
-
-  .level-display-container.popup-visible .badge-feature-container {
-    margin-top: 65px;
-  }
-
-  .level-display-container.popup-visible .test-xp-btn {
-    margin-top: 6px;
   }
 }
 
@@ -495,287 +484,42 @@
 }
 
 /* Add spacing when popup is visible */
-.level-display-container.popup-visible .badge-feature-container {
-  margin-top: 80px;
-}
+/* Removed margin-top adjustments as popup is now positioned absolutely within level-box */
 
-.level-display-container.popup-visible .test-xp-btn {
-  margin-top: 10px;
-}
-
-/* Badge Box - Square */
-.badge-box {
-  flex: 1;
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(241, 245, 249, 0.2);
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  cursor: pointer;
-  height: 75px;
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
-
-.badge-box:hover {
-  border-color: rgba(241, 245, 249, 0.6);
-  /* Box-shadow replaced with border glow for better performance */
-  border-width: 3px;
-  transform: translateY(-2px);
-}
-
-.badge-text {
-  color: rgba(96, 165, 250, 0.9);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: opacity 0.3s ease;
-}
-
-.badge-icon {
-  font-size: 2.5rem;
-  line-height: 1;
-  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
-  /* Animation removed for performance - was causing constant repaints */
-  /* animation: badgePulse 2s ease-in-out infinite; */
-  transition: opacity 0.3s ease;
-}
-
-/* Feature Box - Same Style as Badge */
-.feature-box {
-  flex: 1;
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(241, 245, 249, 0.2);
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  cursor: pointer;
-  height: 75px;
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
-
-.feature-box:hover {
-  border-color: rgba(241, 245, 249, 0.6);
-  /* Box-shadow replaced with border glow for better performance */
-  border-width: 3px;
-  transform: translateY(-2px);
-}
-
-.feature-text {
-  color: rgba(96, 165, 250, 0.9);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: opacity 0.3s ease;
-  text-align: center;
-  line-height: 1.3;
-}
-
-.feature-icon {
-  font-size: 2.5rem;
-  line-height: 1;
-  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
-  transition: all 0.3s ease;
-}
-
-.feature-box.disabled {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-.feature-box.disabled:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.5);
-}
-
-.feature-box.disabled .feature-icon {
-  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
-}
-
-/* Badge pulse animation removed for performance - was causing constant repaints
-@keyframes badgePulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-*/
-
-/* Test XP Button */
-.test-xp-btn {
-  background: rgba(59, 130, 246, 0.2);
-  border: 2px solid rgba(59, 130, 246, 0.4);
-  border-radius: 10px;
-  padding: 10px 16px;
-  color: #60a5fa;
-  font-size: 0.875rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease, margin-top 0.3s ease;
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  width: 165px;
-  text-align: center;
-  box-sizing: border-box;
-  margin-top: 10px;
-  display: none !important;
-}
-
-/* Show test XP button only on localhost */
-body[data-env="development"] .test-xp-btn {
-  display: block !important;
-}
-
-.test-xp-btn:hover {
-  background: rgba(59, 130, 246, 0.3);
-  border-color: rgba(59, 130, 246, 0.8);
-  transform: translateY(-2px);
-  /* Box-shadow replaced with stronger border for better performance */
-  border-width: 3px;
-}
-
-.test-xp-btn:active {
-  transform: translateY(0);
-}
-
-/* Tomato Celebration Particles */
-.tomato-particle {
-  position: absolute;
-  font-size: 1.5rem;
-  pointer-events: none;
-  z-index: 1001;
-  animation: tomatoExplode 1s ease-out forwards;
-}
-
-@keyframes tomatoExplode {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* Level Up Celebration Container */
-.level-celebration {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-/* Responsive Badge, Feature Box and Test Button */
+/* Responsive XP Popup */
 @media (max-width: 768px) {
-  .badge-box,
-  .feature-box {
-    padding: 10px;
-  }
-
-  .badge-text,
-  .feature-text {
-    font-size: 0.7rem;
-  }
-
-  .badge-icon,
-  .feature-icon {
-    font-size: 2rem;
-  }
-
-  .test-xp-btn {
-    padding: 8px 14px;
+  .xp-popup {
+    padding: 0.625rem 0.875rem;
     font-size: 0.8rem;
-    transition: margin-top 0.3s ease;
-  }
-
-  .tomato-particle {
-    font-size: 1.25rem;
   }
 }
 
 @media (max-width: 475px) {
-  .badge-feature-container {
-    gap: 8px;
-  }
-
-  .badge-box,
-  .feature-box {
-    padding: 6px;
-    border-radius: 10px;
-  }
-
-  .badge-text,
-  .feature-text {
-    font-size: 0.65rem;
-  }
-
-  .badge-icon,
-  .feature-icon {
-    font-size: 1.6rem;
-  }
-
-  .test-xp-btn {
-    padding: 6px 12px;
+  .xp-popup {
+    padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
-  }
-
-  .tomato-particle {
-    font-size: 1rem;
   }
 }
 
-@media (max-width: 360px) {
-  .badge-feature-container {
-    gap: 6px;
-  }
+/* Badge and Feature Container */
+.badge-feature-container {
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 10px;
+}
 
-  .badge-box,
-  .feature-box {
-    padding: 5px;
-  }
+.badge-feature-container:hover,
+.badge-feature-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  .badge-text,
-  .feature-text {
-    font-size: 0.6rem;
-  }
-
-  .badge-icon,
-  .feature-icon {
-    font-size: 1.4rem;
-  }
-
-  .test-xp-btn {
-    padding: 6px 12px;
-  }
-
-  .level-display-container.popup-visible .badge-feature-container {
-    margin-top: 60px;
-  }
-
-  .level-display-container.popup-visible .test-xp-btn {
-    margin-top: 5px;
-  }
+.level-display-container:hover .badge-feature-container {
+  opacity: 1;
+  pointer-events: auto;
 }
