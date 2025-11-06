@@ -1,18 +1,7 @@
-import { R2_MUSIC_BASE_URL } from './ambientSoundsConfig.js';
+import { R2_MUSIC_BASE_URL, R2_BACKGROUNDS_BASE_URL } from './ambientSoundsConfig.js';
 
 // Music Player Module
 // Handles local audio playback with full controls
-
-// Music library - All tracks from your collection (904 tracks: 799 lofi + 105 synthwave!)
-// const MUSIC_LIBRARY = 
-  // === SYNTHWAVE TRACKS (105 tracks) ===
-// Synthwave tracks (105 tracks: 88 original + 17 LEX tracks)
-  
-// DELETED FILES OF SONGS
-// Generated 799 tracks!
-
-// Make library globally accessible for credits display
-window.MUSIC_LIBRARY = MUSIC_LIBRARY;
 
 class MusicPlayer {
   constructor() {
@@ -23,6 +12,7 @@ class MusicPlayer {
     this.currentTrackIndex = -1;
     this.isPlaying = false;
     this.playlist = [];
+    this.musicLibrary = [];
     this.settings = null;
     this.autoplayPending = false;
     this.userInteractionHandler = null;
@@ -55,7 +45,8 @@ class MusicPlayer {
     }
   }
 
-  init() {
+  async init() {
+    await this.loadMusicLibrary();
     this.loadSettings();
     this.renderPlayer();
     this.setupEventListeners();
@@ -68,7 +59,21 @@ class MusicPlayer {
     };
   }
 
-
+  async loadMusicLibrary() {
+    try {
+      const [lofiResponse, synthwaveResponse] = await Promise.all([
+        fetch('/sources/music/lofi.json'),
+        fetch('/sources/music/synthwave.json')
+      ]);
+      const lofiTracks = await lofiResponse.json();
+      const synthwaveTracks = await synthwaveResponse.json();
+      this.musicLibrary = [...lofiTracks, ...synthwaveTracks];
+      window.MUSIC_LIBRARY = this.musicLibrary; // Make it globally available for credits page
+    } catch (error) {
+      console.error('Failed to load music library:', error);
+      this.musicLibrary = [];
+    }
+  }
 
   // Select a music genre and reshuffle playlist
   selectGenre(genre) {
@@ -91,7 +96,7 @@ class MusicPlayer {
     localStorage.setItem('musicGenre', genre);
 
     // Update the playlist
-    this.playlist = MUSIC_LIBRARY.filter(track => track.genre === this.currentGenre);
+    this.playlist = this.musicLibrary.filter(track => track.genre === this.currentGenre);
     this.shufflePlaylist();
 
     // Re-render the player in case it was showing "No music available"
@@ -186,7 +191,7 @@ repositionGenreSelectorOnMobile() {
     }
 
     // Populate playlist based on the loaded genre
-    this.playlist = MUSIC_LIBRARY.filter(track => track.genre === this.currentGenre);
+    this.playlist = this.musicLibrary.filter(track => track.genre === this.currentGenre);
     this.shufflePlaylist();
 
     // Update badge if it exists
@@ -849,9 +854,9 @@ repositionGenreSelectorOnMobile() {
       'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
       'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
       'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
-      'road-video': { type: 'video', value: '/r2-backgrounds/road.mp4' },
-      'room-video': { type: 'video', value: '/r2-backgrounds/room.mp4' },
-      'eyes-video': { type: 'video', value: '/r2-backgrounds/eyes-wallpaper.mp4' }
+      'road-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/road.mp4` },
+      'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4` },
+      'eyes-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4` }
     };
 
     const bg = backgroundMap[backgroundName] || backgroundMap['room-video'];
@@ -973,9 +978,9 @@ repositionGenreSelectorOnMobile() {
 }
 
 // Initialize music player when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const player = new MusicPlayer();
-  player.init();
+  await player.init();
 
   // Make player globally accessible for debugging
   window.musicPlayer = player;
