@@ -491,7 +491,7 @@ window.closeSettingsModal = function() {
   }
 }
 
-function openCreditsModal() {
+window.openCreditsModal = function() {
   const modal = document.getElementById('credits-modal');
   if (modal) {
     loadMusicCredits();
@@ -499,7 +499,7 @@ function openCreditsModal() {
   }
 }
 
-function closeCreditsModal() {
+window.closeCreditsModal = function() {
   const modal = document.getElementById('credits-modal');
   if (modal) {
     modal.classList.add('hidden');
