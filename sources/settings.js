@@ -229,6 +229,11 @@ function applySettings() {
     }
   });
 
+  // Apply level system visibility if the function exists
+  if (typeof applyLevelSystemVisibility === 'function') {
+    applyLevelSystemVisibility();
+  }
+
   // Notify other modules that settings have changed
   window.dispatchEvent(new CustomEvent('settingsChanged', { detail: currentSettings }));
 }

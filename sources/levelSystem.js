@@ -82,9 +82,10 @@ function getTotalXPForLevel(level) {
 
 /**
  * Calculate XP earned based on study time in minutes
+ * Awards 2 XP per minute of Pomodoro time
  */
 function calculateXPFromTime(minutes) {
-  return Math.floor((minutes / 60) * XP_PER_HOUR);
+  return Math.max(2, minutes * 2);
 }
 
 /**
@@ -628,13 +629,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Level toggle button functionality
+  // Level toggle button functionality - syncs with settings checkbox
   const levelToggleBtn = document.getElementById('level-toggle-btn');
   if (levelToggleBtn) {
     levelToggleBtn.addEventListener('click', () => {
+      // Toggle the setting
       const settings = window.loadSettings();
       settings.levelSystemEnabled = !settings.levelSystemEnabled;
       window.saveSettings(settings);
+
+      // Update the checkbox in settings modal to match
+      const levelSystemCheckbox = document.getElementById('enable-level-system');
+      if (levelSystemCheckbox) {
+        levelSystemCheckbox.checked = settings.levelSystemEnabled;
+      }
+
+      // Apply visibility changes
       applyLevelSystemVisibility();
     });
   }
