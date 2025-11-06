@@ -626,6 +626,12 @@
   text-align: center;
   box-sizing: border-box;
   margin-top: 10px;
+  display: none !important;
+}
+
+/* Show test XP button only on localhost */
+body[data-env="development"] .test-xp-btn {
+  display: block !important;
 }
 
 .test-xp-btn:hover {

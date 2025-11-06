@@ -515,6 +515,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Detect environment and set data attribute for CSS
+  const isLocalhost = window.location.hostname === 'localhost' ||
+                      window.location.hostname === '127.0.0.1' ||
+                      window.location.hostname === '';
+
+  if (isLocalhost) {
+    document.body.setAttribute('data-env', 'development');
+  } else {
+    document.body.setAttribute('data-env', 'production');
+  }
+
   // Front-page test XP button
   const testXpBtnMain = document.getElementById('test-xp-btn-main');
   if (testXpBtnMain) {
