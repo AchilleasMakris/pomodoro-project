@@ -258,7 +258,9 @@ function awardXP(minutes) {
     }));
 
     // Trigger tomato celebration
-    createTomatoCelebration();
+    if (settings.levelSystemEnabled) {
+      createTomatoCelebration();
+    }
   }
 
   // Check for prestige eligibility
@@ -282,12 +284,14 @@ function awardXP(minutes) {
   }));
 
   // Show appropriate popup notification
-  if (levelUps.length > 0) {
-    // Show level-up popup if leveled up
-    showXPPopup(xpGained, true);
-  } else {
-    // Show regular XP collected popup
-    showXPPopup(xpGained, false);
+  if (settings.levelSystemEnabled) {
+    if (levelUps.length > 0) {
+      // Show level-up popup if leveled up
+      showXPPopup(xpGained, true);
+    } else {
+      // Show regular XP collected popup
+      showXPPopup(xpGained, false);
+    }
   }
 
   return {

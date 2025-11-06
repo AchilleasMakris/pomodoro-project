@@ -101,13 +101,16 @@ function loadSettings() {
   document.getElementById('pomodoro-count').value = currentSettings.pomodorosBeforeLongBreak;
   document.getElementById('auto-start-breaks').checked = currentSettings.autoStartBreaks;
   document.getElementById('auto-start-pomodoros').checked = currentSettings.autoStartPomodoros;
-  document.getElementById('sound-enabled').checked = currentSettings.soundEnabled;
+  const soundEnabledCheckbox = document.getElementById('sound-enabled');
+  if (soundEnabledCheckbox) {
+    soundEnabledCheckbox.checked = currentSettings.soundEnabled;
+  }
   document.getElementById('volume-slider').value = currentSettings.volume;
   document.getElementById('volume-value').textContent = currentSettings.volume + '%';
   
 
   // Load level system enabled setting
-  const levelSystemEnabledCheckbox = document.getElementById('level-system-enabled');
+  const levelSystemEnabledCheckbox = document.getElementById('enable-level-system');
   if (levelSystemEnabledCheckbox) {
     levelSystemEnabledCheckbox.checked = currentSettings.levelSystemEnabled !== false;
   }
@@ -595,7 +598,7 @@ function handleSaveSettings() {
   
 
   // Get level system enabled setting
-  const levelSystemEnabledCheckbox = document.getElementById('level-system-enabled');
+  const levelSystemEnabledCheckbox = document.getElementById('enable-level-system');
   if (levelSystemEnabledCheckbox) {
     currentSettings.levelSystemEnabled = levelSystemEnabledCheckbox.checked;
   }
