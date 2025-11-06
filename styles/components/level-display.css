@@ -35,8 +35,9 @@
 }
 
 .level-box:hover {
-  border-color: rgba(241, 245, 249, 0.4);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(241, 245, 249, 0.6);
+  /* Box-shadow replaced with border glow for better performance */
+  border-width: 3px;
 }
 
 /* User info row */
@@ -75,9 +76,10 @@
 
 .level-name-btn:hover {
   background: rgba(96, 165, 250, 0.3);
-  border-color: rgba(96, 165, 250, 0.6);
+  border-color: rgba(96, 165, 250, 0.8);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+  /* Box-shadow replaced with stronger border for better performance */
+  border-width: 3px;
 }
 
 .level-name-btn:active {
@@ -150,9 +152,11 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: shimmer 2s infinite;
+  /* Animation removed for performance - was causing constant repaints */
+  /* animation: shimmer 2s infinite; */
 }
 
+/* Shimmer animation removed - was causing constant repaints
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -161,6 +165,7 @@
     transform: translateX(100%);
   }
 }
+*/
 
 /* Level up animation */
 @keyframes levelUpPulse {
@@ -519,8 +524,9 @@
 }
 
 .badge-box:hover {
-  border-color: rgba(241, 245, 249, 0.4);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(241, 245, 249, 0.6);
+  /* Box-shadow replaced with border glow for better performance */
+  border-width: 3px;
   transform: translateY(-2px);
 }
 
@@ -537,7 +543,8 @@
   font-size: 2.5rem;
   line-height: 1;
   filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
-  animation: badgePulse 2s ease-in-out infinite;
+  /* Animation removed for performance - was causing constant repaints */
+  /* animation: badgePulse 2s ease-in-out infinite; */
   transition: opacity 0.3s ease;
 }
 
@@ -562,8 +569,9 @@
 }
 
 .feature-box:hover {
-  border-color: rgba(241, 245, 249, 0.4);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(241, 245, 249, 0.6);
+  /* Box-shadow replaced with border glow for better performance */
+  border-width: 3px;
   transform: translateY(-2px);
 }
 
@@ -599,6 +607,7 @@
   filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
 }
 
+/* Badge pulse animation removed for performance - was causing constant repaints
 @keyframes badgePulse {
   0%, 100% {
     transform: scale(1);
@@ -607,6 +616,7 @@
     transform: scale(1.05);
   }
 }
+*/
 
 /* Test XP Button */
 .test-xp-btn {
@@ -636,9 +646,10 @@ body[data-env="development"] .test-xp-btn {
 
 .test-xp-btn:hover {
   background: rgba(59, 130, 246, 0.3);
-  border-color: rgba(59, 130, 246, 0.6);
+  border-color: rgba(59, 130, 246, 0.8);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+  /* Box-shadow replaced with stronger border for better performance */
+  border-width: 3px;
 }
 
 .test-xp-btn:active {

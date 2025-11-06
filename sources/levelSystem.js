@@ -789,6 +789,17 @@ window.addEventListener('xpGained', () => {
 // Update display when level up occurs
 window.addEventListener('levelUp', () => {
   updateLevelDisplay();
+
+  // Trigger level-up animation on level box (only on actual level-up)
+  const levelBox = document.querySelector('.level-box');
+  if (levelBox) {
+    levelBox.classList.add('level-up');
+
+    // Remove class after animation completes (0.6s * 3 iterations = 1.8s)
+    setTimeout(() => {
+      levelBox.classList.remove('level-up');
+    }, 1800);
+  }
 });
 
 // Update display when prestige occurs
