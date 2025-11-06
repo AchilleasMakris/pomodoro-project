@@ -450,6 +450,35 @@ function setupEventListeners() {
       }
     });
   }
+
+  const genreBadge = document.querySelector('.genre-badge');
+  if (genreBadge) {
+    genreBadge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.musicPlayer) {
+        window.musicPlayer.toggleGenreSelector();
+      }
+    });
+  }
+
+  const genreOptions = document.querySelectorAll('.genre-option');
+  genreOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const genre = option.dataset.genre;
+      if (window.musicPlayer) {
+        window.musicPlayer.selectGenre(genre);
+        window.musicPlayer.closeGenreSelector();
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#genre-menu-primary') && !e.target.closest('.genre-badge')) {
+      if (window.musicPlayer) {
+        window.musicPlayer.closeGenreSelector();
+      }
+    }
+  });
 }
 
 // ===== MODAL FUNCTIONS =====
