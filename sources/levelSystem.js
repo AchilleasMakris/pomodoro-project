@@ -427,7 +427,7 @@ function getLevelProgress() {
 function getStats() {
   const settings = loadSettings();
   const totalPomodoros = settings.totalPomodoros || 0;
-  const totalMinutes = totalPomodoros * (settings.pomodoroTime || 25);
+  const totalMinutes = totalPomodoros * (settings.timers.pomodoro || 25);
   const totalHours = Math.floor(totalMinutes / 60);
   const remainingMinutes = totalMinutes % 60;
 

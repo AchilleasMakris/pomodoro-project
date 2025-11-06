@@ -80,6 +80,7 @@ function saveMusicVolume() {
 
 // ===== SETTINGS I/O =====
 function saveSettings() {
+  console.log('Saving settings:', currentSettings);
   try {
     localStorage.setItem('pomodoroSettings', JSON.stringify(currentSettings));
     showToast('Settings saved successfully!');
