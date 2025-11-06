@@ -523,48 +523,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Badge button: Show emoji by default, on hover show text for 1 second then return to emoji
   const badgeBox = document.querySelector('.badge-box');
+  let badgeTimeout1 = null;
+  let badgeTimeout2 = null;
+
   if (badgeBox) {
     badgeBox.addEventListener('mouseenter', () => {
       const badgeText = document.getElementById('badge-text');
       const badgeIcon = document.getElementById('badge-icon');
 
       if (badgeText && badgeIcon) {
-        // Wait 0.8 seconds before showing text
-        setTimeout(() => {
+        // Clear any existing timeouts
+        clearTimeout(badgeTimeout1);
+        clearTimeout(badgeTimeout2);
+
+        // Wait 0.5 seconds before showing text
+        badgeTimeout1 = setTimeout(() => {
           // Show text, hide icon
           badgeIcon.style.display = 'none';
           badgeText.style.display = 'block';
 
           // After 1 second, return to icon
-          setTimeout(() => {
+          badgeTimeout2 = setTimeout(() => {
             badgeText.style.display = 'none';
             badgeIcon.style.display = 'block';
           }, 1000);
         }, 500);
       }
     });
+
+    badgeBox.addEventListener('mouseleave', () => {
+      const badgeText = document.getElementById('badge-text');
+      const badgeIcon = document.getElementById('badge-icon');
+
+      // Clear any pending timeouts
+      clearTimeout(badgeTimeout1);
+      clearTimeout(badgeTimeout2);
+
+      // Reset to icon immediately
+      if (badgeText && badgeIcon) {
+        badgeText.style.display = 'none';
+        badgeIcon.style.display = 'block';
+      }
+    });
   }
 
   // Feature button: Show emoji by default, on hover show text for 1 second then return to emoji
   const featureBox = document.querySelector('.feature-box');
+  let featureTimeout1 = null;
+  let featureTimeout2 = null;
+
   if (featureBox) {
     featureBox.addEventListener('mouseenter', () => {
       const featureText = document.getElementById('feature-text');
       const featureIcon = document.getElementById('feature-icon');
 
       if (featureText && featureIcon) {
+        // Clear any existing timeouts
+        clearTimeout(featureTimeout1);
+        clearTimeout(featureTimeout2);
+
         // Wait 0.8 seconds before showing text
-        setTimeout(() => {
+        featureTimeout1 = setTimeout(() => {
           // Show text, hide icon
           featureIcon.style.display = 'none';
           featureText.style.display = 'block';
 
           // After 1 second, return to icon
-          setTimeout(() => {
+          featureTimeout2 = setTimeout(() => {
             featureText.style.display = 'none';
             featureIcon.style.display = 'block';
           }, 1000);
         }, 800);
+      }
+    });
+
+    featureBox.addEventListener('mouseleave', () => {
+      const featureText = document.getElementById('feature-text');
+      const featureIcon = document.getElementById('feature-icon');
+
+      // Clear any pending timeouts
+      clearTimeout(featureTimeout1);
+      clearTimeout(featureTimeout2);
+
+      // Reset to icon immediately
+      if (featureText && featureIcon) {
+        featureText.style.display = 'none';
+        featureIcon.style.display = 'block';
       }
     });
   }
