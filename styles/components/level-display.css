@@ -371,26 +371,24 @@
 /* XP Collection Popup */
 .xp-popup {
   position: fixed;
-  top: 330px;
-  left: 20px;
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(220, 38, 38, 0.6);
   border-radius: 10px;
   padding: 0.75rem 1rem;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #ef4444;
   text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
   box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4);
   z-index: 999;
   opacity: 0.8;
-  transition: top 0.3s ease, opacity 0.3s ease;
+  transition: opacity 0.3s ease;
   pointer-events: auto;
   cursor: default;
-  width: 165px;
   box-sizing: border-box;
   word-wrap: break-word;
+  text-align: center;
 }
 
 /* Level Up Popup - Golden style */
@@ -413,8 +411,6 @@
   }
 }
 
-/* Popup stays below all buttons */
-
 @keyframes xpPopupSlideIn {
   0% {
     transform: translateY(-10px);
@@ -433,21 +429,31 @@
 /* Responsive XP Popup */
 @media (max-width: 768px) {
   .xp-popup {
-    top: 295px;
-    left: 15px;
     padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
-    width: 160px;
+    font-size: 0.8rem;
+  }
+
+  .level-display-container.popup-visible .badge-feature-container {
+    margin-top: 70px;
+  }
+
+  .level-display-container.popup-visible .test-xp-btn {
+    margin-top: 8px;
   }
 }
 
 @media (max-width: 475px) {
   .xp-popup {
-    top: 270px;
-    left: 10px;
     padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
-    width: 150px;
+    font-size: 0.75rem;
+  }
+
+  .level-display-container.popup-visible .badge-feature-container {
+    margin-top: 65px;
+  }
+
+  .level-display-container.popup-visible .test-xp-btn {
+    margin-top: 6px;
   }
 }
 
@@ -457,9 +463,10 @@
   gap: 10px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, margin-top 0.3s ease;
   width: 100%;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
 .badge-feature-container:hover,
@@ -471,6 +478,15 @@
 .level-display-container:hover .badge-feature-container {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Add spacing when popup is visible */
+.level-display-container.popup-visible .badge-feature-container {
+  margin-top: 80px;
+}
+
+.level-display-container.popup-visible .test-xp-btn {
+  margin-top: 10px;
 }
 
 /* Badge Box - Square */
@@ -557,13 +573,14 @@
   font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, margin-top 0.3s ease;
   box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   width: 165px;
   text-align: center;
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 .test-xp-btn:hover {
@@ -624,6 +641,7 @@
   .test-xp-btn {
     padding: 8px 14px;
     font-size: 0.8rem;
+    transition: margin-top 0.3s ease;
   }
 
   .tomato-particle {
@@ -674,5 +692,13 @@
 
   .test-xp-btn {
     padding: 6px 12px;
+  }
+
+  .level-display-container.popup-visible .badge-feature-container {
+    margin-top: 60px;
+  }
+
+  .level-display-container.popup-visible .test-xp-btn {
+    margin-top: 5px;
   }
 }

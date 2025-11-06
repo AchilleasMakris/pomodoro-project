@@ -114,23 +114,42 @@ function showXPPopup(xpAmount, isLevelUp = false) {
     existingPopup.remove();
   }
 
+  // Remove popup-visible class from container
+  const levelDisplayContainer = document.querySelector('.level-display-container');
+  if (levelDisplayContainer) {
+    levelDisplayContainer.classList.remove('popup-visible');
+  }
+
   // Create popup element
   const popup = document.createElement('div');
   popup.className = isLevelUp ? 'xp-popup level-up' : 'xp-popup';
   popup.innerHTML = isLevelUp ? 'Level Up! 🏆' : `+${xpAmount} XP Collected 🍅`;
 
-  const levelBox = document.querySelector('.level-box');
-  if (levelBox) {
-    const rect = levelBox.getBoundingClientRect();
+  // Position below XP bar
+  const xpBarContainer = document.querySelector('.xp-bar-container');
+  if (xpBarContainer) {
+    const rect = xpBarContainer.getBoundingClientRect();
     popup.style.left = `${rect.left}px`;
-    popup.style.top = `${rect.bottom + 10}px`; // 10px below the level-box
+    popup.style.top = `${rect.bottom + 8}px`; // 8px below the XP bar
     popup.style.width = `${rect.width}px`;
   }
 
   document.body.appendChild(popup);
 
+  // Add popup-visible class to create spacing
+  if (levelDisplayContainer) {
+    levelDisplayContainer.classList.add('popup-visible');
+  }
+
   let isHovered = false;
   let fadeTimeout;
+
+  const removePopup = () => {
+    popup.remove();
+    if (levelDisplayContainer) {
+      levelDisplayContainer.classList.remove('popup-visible');
+    }
+  };
 
   // Handle hover to keep popup visible
   popup.addEventListener('mouseenter', () => {
@@ -146,7 +165,7 @@ function showXPPopup(xpAmount, isLevelUp = false) {
       popup.style.opacity = '0';
       setTimeout(() => {
         if (!isHovered) {
-          popup.remove();
+          removePopup();
         }
       }, 300);
     }, 100);
@@ -158,7 +177,7 @@ function showXPPopup(xpAmount, isLevelUp = false) {
       popup.style.opacity = '0';
       setTimeout(() => {
         if (!isHovered) {
-          popup.remove();
+          removePopup();
         }
       }, 300);
     }
