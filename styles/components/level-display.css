@@ -10,6 +10,13 @@
   flex-direction: column;
   gap: 10px;
   width: 210px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.level-display-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-100%);
 }
 
 .level-box {
@@ -521,11 +528,21 @@
   transform: translateY(-2px);
 }
 
+.badge-text {
+  color: rgba(96, 165, 250, 0.9);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.3s ease;
+}
+
 .badge-icon {
   font-size: 2.5rem;
   line-height: 1;
   filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
   animation: badgePulse 2s ease-in-out infinite;
+  transition: opacity 0.3s ease;
 }
 
 /* Feature Box - Same Style as Badge */
@@ -554,10 +571,36 @@
   transform: translateY(-2px);
 }
 
+.feature-text {
+  color: rgba(96, 165, 250, 0.9);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  line-height: 1.3;
+}
+
 .feature-icon {
   font-size: 2.5rem;
   line-height: 1;
   filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+  transition: all 0.3s ease;
+}
+
+.feature-box.disabled {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.feature-box.disabled:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.feature-box.disabled .feature-icon {
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
 }
 
 @keyframes badgePulse {
@@ -639,6 +682,11 @@
     padding: 10px;
   }
 
+  .badge-text,
+  .feature-text {
+    font-size: 0.7rem;
+  }
+
   .badge-icon,
   .feature-icon {
     font-size: 2rem;
@@ -666,6 +714,11 @@
     border-radius: 10px;
   }
 
+  .badge-text,
+  .feature-text {
+    font-size: 0.65rem;
+  }
+
   .badge-icon,
   .feature-icon {
     font-size: 1.6rem;
@@ -689,6 +742,11 @@
   .badge-box,
   .feature-box {
     padding: 5px;
+  }
+
+  .badge-text,
+  .feature-text {
+    font-size: 0.6rem;
   }
 
   .badge-icon,

@@ -81,10 +81,12 @@
             <!-- Badge and Feature Container -->
             <div class="badge-feature-container">
                 <div class="badge-box">
+                    <div class="badge-text" id="badge-text" style="display: none;">BADGE</div>
                     <div class="badge-icon" id="badge-icon">🍅</div>
                 </div>
-                <div class="feature-box">
-                    <div class="feature-icon">✨</div>
+                <div class="feature-box" id="level-toggle-btn" title="Toggle Level System">
+                    <div class="feature-text" id="feature-text" style="display: none;">Hero<br>Switch Off</div>
+                    <div class="feature-icon" id="feature-icon">🏳️</div>
                 </div>
             </div>
 
@@ -483,6 +485,15 @@
                 <button id="save-username-btn" class="btn-secondary">Save Username</button>
               </div>
               <p class="info-text" id="username-cooldown-text" style="color: rgba(251, 191, 36, 0.9); display: none;"></p>
+            </div>
+
+            <div class="settings-section">
+              <h3>Level System Display</h3>
+              <div class="setting-row checkbox-row">
+                <label for="level-system-enabled">Show level display on main screen</label>
+                <input type="checkbox" id="level-system-enabled" checked>
+              </div>
+              <p class="info-text">Toggle the visibility of the level system display. You can re-enable it anytime from this setting.</p>
             </div>
 
             <div class="settings-section">

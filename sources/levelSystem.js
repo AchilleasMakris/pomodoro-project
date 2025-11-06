@@ -520,7 +520,107 @@ document.addEventListener('DOMContentLoaded', () => {
       updateLevelDisplay();
     });
   }
+
+  // Badge button: Show emoji by default, on hover show text for 1 second then return to emoji
+  const badgeBox = document.querySelector('.badge-box');
+  if (badgeBox) {
+    badgeBox.addEventListener('mouseenter', () => {
+      const badgeText = document.getElementById('badge-text');
+      const badgeIcon = document.getElementById('badge-icon');
+
+      if (badgeText && badgeIcon) {
+        // Wait 0.8 seconds before showing text
+        setTimeout(() => {
+          // Show text, hide icon
+          badgeIcon.style.display = 'none';
+          badgeText.style.display = 'block';
+
+          // After 1 second, return to icon
+          setTimeout(() => {
+            badgeText.style.display = 'none';
+            badgeIcon.style.display = 'block';
+          }, 1000);
+        }, 500);
+      }
+    });
+  }
+
+  // Feature button: Show emoji by default, on hover show text for 1 second then return to emoji
+  const featureBox = document.querySelector('.feature-box');
+  if (featureBox) {
+    featureBox.addEventListener('mouseenter', () => {
+      const featureText = document.getElementById('feature-text');
+      const featureIcon = document.getElementById('feature-icon');
+
+      if (featureText && featureIcon) {
+        // Wait 0.8 seconds before showing text
+        setTimeout(() => {
+          // Show text, hide icon
+          featureIcon.style.display = 'none';
+          featureText.style.display = 'block';
+
+          // After 1 second, return to icon
+          setTimeout(() => {
+            featureText.style.display = 'none';
+            featureIcon.style.display = 'block';
+          }, 1000);
+        }, 800);
+      }
+    });
+  }
+
+  // Level toggle button functionality
+  const levelToggleBtn = document.getElementById('level-toggle-btn');
+  if (levelToggleBtn) {
+    levelToggleBtn.addEventListener('click', () => {
+      const settings = window.loadSettings();
+      settings.levelSystemEnabled = !settings.levelSystemEnabled;
+      window.saveSettings(settings);
+      applyLevelSystemVisibility();
+    });
+  }
+
+  // Apply level system visibility on load
+  applyLevelSystemVisibility();
 });
+
+/**
+ * Apply level system visibility based on settings
+ */
+function applyLevelSystemVisibility() {
+  const settings = window.loadSettings();
+  const levelDisplayContainer = document.querySelector('.level-display-container');
+  const featureIcon = document.getElementById('feature-icon');
+  const featureBox = document.getElementById('level-toggle-btn');
+
+  if (settings.levelSystemEnabled) {
+    // Show level display
+    if (levelDisplayContainer) {
+      levelDisplayContainer.classList.remove('hidden');
+    }
+    // Update toggle button to "enabled" state
+    if (featureIcon) {
+      featureIcon.textContent = '🏳️';
+    }
+    if (featureBox) {
+      featureBox.classList.remove('disabled');
+      featureBox.title = 'Hide Level System';
+    }
+  } else {
+    // Hide level display
+    if (levelDisplayContainer) {
+      levelDisplayContainer.classList.add('hidden');
+    }
+    // Update toggle button to "disabled" state
+    if (featureIcon) {
+      featureIcon.textContent = '🏳️';
+    }
+    if (featureBox) {
+      featureBox.classList.add('disabled');
+      featureBox.title = 'Show Level System';
+    }
+  }
+}
 
 /**
  * Get badge icon based on level and prestige
@@ -630,6 +730,11 @@ window.addEventListener('prestige', () => {
 // Update display when username changes
 window.addEventListener('usernameChanged', () => {
   updateLevelDisplay();
+});
+
+// Update level system visibility when settings change
+window.addEventListener('settingsChanged', () => {
+  applyLevelSystemVisibility();
 });
 
 /**

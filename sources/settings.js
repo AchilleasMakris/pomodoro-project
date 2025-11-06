@@ -25,7 +25,8 @@ const DEFAULT_SETTINGS = {
   totalPomodoros: 0,
   username: 'User',
   lastUsernameChange: null,
-  levelPath: 'elf' // 'elf' or 'human' - determines level name variants
+  levelPath: 'elf', // 'elf' or 'human' - determines level name variants
+  levelSystemEnabled: true // Enable/disable level system display
 };
 
 const backgroundMap = {
@@ -104,6 +105,12 @@ function loadSettings() {
   document.getElementById('volume-slider').value = currentSettings.volume;
   document.getElementById('volume-value').textContent = currentSettings.volume + '%';
   document.getElementById('timer-size').value = currentSettings.timerSize;
+
+  // Load level system enabled setting
+  const levelSystemEnabledCheckbox = document.getElementById('level-system-enabled');
+  if (levelSystemEnabledCheckbox) {
+    levelSystemEnabledCheckbox.checked = currentSettings.levelSystemEnabled !== false;
+  }
 
   // Load music volume
   const musicVolumeSlider = document.getElementById('music-volume-setting');
@@ -581,6 +588,12 @@ function handleSaveSettings() {
   currentSettings.soundEnabled = document.getElementById('sound-enabled').checked;
   currentSettings.volume = parseInt(document.getElementById('volume-slider').value) || 50;
   currentSettings.timerSize = document.getElementById('timer-size').value;
+
+  // Get level system enabled setting
+  const levelSystemEnabledCheckbox = document.getElementById('level-system-enabled');
+  if (levelSystemEnabledCheckbox) {
+    currentSettings.levelSystemEnabled = levelSystemEnabledCheckbox.checked;
+  }
 
   // Validate settings
   if (currentSettings.timers.pomodoro < 1 || currentSettings.timers.pomodoro > 60) {
