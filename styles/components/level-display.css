@@ -342,6 +342,12 @@
   }
 }
 
+@media (max-width: 400px) {
+  .level-display-container {
+    display: none;
+  }
+}
+
 /* Ensure minimum touch target size on mobile */
 @media (max-width: 768px) {
   .level-box {

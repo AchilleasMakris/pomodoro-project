@@ -28,6 +28,19 @@ const DEFAULT_SETTINGS = {
   levelPath: 'elf' // 'elf' or 'human' - determines level name variants
 };
 
+const backgroundMap = {
+  'dark-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)' },
+  'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
+  'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
+  'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
+  'road-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/road.mp4`, orientation: 'landscape' },
+  'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4`, orientation: 'landscape' },
+  'eyes-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4`, orientation: 'landscape' },
+  'anime-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/anime.mp4`, orientation: 'portrait' },
+  'forest-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/forest.mp4`, orientation: 'portrait' },
+  'landscape-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/landscape.mp4`, orientation: 'portrait' }
+};
+
 // Current settings (loaded from localStorage or defaults)
 let currentSettings = { ...DEFAULT_SETTINGS };
 
@@ -67,6 +80,7 @@ function saveMusicVolume() {
 
 // ===== SETTINGS I/O =====
 function saveSettings() {
+  console.log('Saving settings:', currentSettings);
   try {
     localStorage.setItem('pomodoroSettings', JSON.stringify(currentSettings));
     showToast('Settings saved successfully!');
@@ -101,9 +115,23 @@ function loadSettings() {
     musicVolumePercentage.textContent = currentSettings.musicVolume + '%';
   }
 
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
 
   // Load background selection
   document.querySelectorAll('.background-option').forEach(option => {
+    const backgroundName = option.dataset.background;
+    const background = backgroundMap[backgroundName];
+
+    if (background) {
+      if (isPortrait && background.orientation === 'landscape') {
+        option.style.display = 'none';
+      } else if (!isPortrait && background.orientation === 'portrait') {
+        option.style.display = 'none';
+      } else {
+        option.style.display = 'block';
+      }
+    }
+
     if (option.dataset.background === currentSettings.background) {
       option.classList.add('selected');
     } else {
@@ -197,17 +225,16 @@ function applySettings() {
 }
 
 function applyBackground() {
-  const backgroundMap = {
-    'dark-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)' },
-    'purple-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #581c87 0%, #3b0764 100%)' },
-    'forest-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
-    'sunset-gradient': { type: 'gradient', value: 'linear-gradient(135deg, #92400e 0%, #451a03 100%)' },
-    'road-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/road.mp4` },
-    'room-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/room.mp4` },
-    'eyes-video': { type: 'video', value: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4` }
-  };
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
 
-  const bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
+  let bg = backgroundMap[currentSettings.background] || backgroundMap['room-video'];
+
+  // Fallback if the selected background doesn't match the current orientation
+  if (bg.orientation === 'portrait' && !isPortrait) {
+    bg = backgroundMap['room-video'];
+  } else if (bg.orientation === 'landscape' && isPortrait) {
+    bg = backgroundMap['room-video'];
+  }
 
   // FORCE CLEAN UP - Remove ALL video elements and overlays
   // Remove video by ID
@@ -450,7 +477,7 @@ function setupEventListeners() {
 }
 
 // ===== MODAL FUNCTIONS =====
-function openSettingsModal() {
+window.openSettingsModal = function() {
   const modal = document.getElementById('settings-modal');
   if (modal) {
     modal.classList.remove('hidden');
@@ -458,14 +485,14 @@ function openSettingsModal() {
   }
 }
 
-function closeSettingsModal() {
+window.closeSettingsModal = function() {
   const modal = document.getElementById('settings-modal');
   if (modal) {
     modal.classList.add('hidden');
   }
 }
 
-function openCreditsModal() {
+window.openCreditsModal = function() {
   const modal = document.getElementById('credits-modal');
   if (modal) {
     loadMusicCredits();
@@ -473,7 +500,7 @@ function openCreditsModal() {
   }
 }
 
-function closeCreditsModal() {
+window.closeCreditsModal = function() {
   const modal = document.getElementById('credits-modal');
   if (modal) {
     modal.classList.add('hidden');
