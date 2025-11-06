@@ -4,7 +4,7 @@ import { R2_BACKGROUNDS_BASE_URL } from './ambientSoundsConfig.js';
 // Handles all settings, localStorage persistence, and UI interactions
 
 // Debug: Log the base URL to verify it's correct
-console.log('R2_BACKGROUNDS_BASE_URL:', R2_BACKGROUNDS_BASE_URL);
+
 
 // Default Settings
 const DEFAULT_SETTINGS = {
@@ -281,7 +281,7 @@ function applyBackground() {
     // Create video background element
     const video = document.createElement('video');
     video.id = 'background-video';
-    console.log('Setting video background src to:', bg.value);
+
     video.src = bg.value;
     video.autoplay = true;
     video.loop = true;
