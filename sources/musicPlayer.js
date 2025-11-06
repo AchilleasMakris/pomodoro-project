@@ -7427,6 +7427,13 @@ repositionGenreSelectorOnMobile() {
     // Update badge if it exists
     this.updateGenreBadge();
 
+    // Load and apply saved background
+    const savedBackground = this.getCurrentBackground();
+    if (savedBackground) {
+      this.applyBackground(savedBackground);
+      this.updateBackgroundSelection(savedBackground);
+    }
+
     // Listen for settings changes
     window.addEventListener('settingsChanged', (event) => {
       this.settings = event.detail;
@@ -7574,6 +7581,17 @@ repositionGenreSelectorOnMobile() {
       const newVolume = event.detail.volume;
       this.audio.volume = newVolume / 100;
       this.updateVolumeUI();
+    });
+
+    // Background option click handlers
+    const backgroundOptions = document.querySelectorAll('.background-selector-menu .background-option');
+    backgroundOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const backgroundName = option.dataset.background;
+        if (backgroundName) {
+          this.selectBackground(backgroundName);
+        }
+      });
     });
 
     document.addEventListener('click', (e) => {
