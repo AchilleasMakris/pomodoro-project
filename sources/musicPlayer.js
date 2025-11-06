@@ -7402,7 +7402,7 @@ repositionGenreSelectorOnMobile() {
     this.audio.addEventListener('play', this.handlePlay);
     this.audio.addEventListener('pause', this.handlePause);
     this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
-    this.audio.addEventListener('ended', this.handleEnded);
+
     this.audio.addEventListener('error', this.handleError);
     this.audio.addEventListener('loadedmetadata', this.handleLoadedMetadata);
   }
@@ -7581,6 +7581,9 @@ repositionGenreSelectorOnMobile() {
       }
 
     });
+
+    this.audio.addEventListener('timeupdate', () => this.updateProgress());
+    this.audio.addEventListener('ended', () => this.nextTrack());
 
 
   }
@@ -7865,10 +7868,23 @@ repositionGenreSelectorOnMobile() {
     }
   }
 
-  updateProgress(percent) {
-    const progressFill = document.getElementById('progress-fill');
-    if (progressFill) {
-      progressFill.style.width = percent + '%';
+  updateProgress() {
+    if (this.audio.duration) {
+      const progressFill = document.getElementById('progress-fill');
+      const currentTimeEl = document.getElementById('current-time');
+      const durationEl = document.getElementById('duration');
+
+      const progressPercent = (this.audio.currentTime / this.audio.duration) * 100;
+      if (progressFill) {
+        progressFill.style.width = `${progressPercent}%`;
+      }
+
+      if (currentTimeEl) {
+        currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+      }
+      if (durationEl) {
+        durationEl.textContent = this.formatTime(this.audio.duration);
+      }
     }
   }
 
