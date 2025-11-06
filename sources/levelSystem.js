@@ -474,10 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update UI initially
   updateLevelDisplay();
 
-  // Make level number clickable to open Progress tab
-  const levelNumber = document.querySelector('.level-number');
-  if (levelNumber) {
-    levelNumber.addEventListener('click', () => {
+  // Make level name button clickable to open Progress tab
+  const levelNameBtn = document.getElementById('level-name-btn');
+  if (levelNameBtn) {
+    levelNameBtn.addEventListener('click', () => {
       // Open settings modal
       const settingsModal = document.getElementById('settings-modal');
       if (settingsModal) {
@@ -582,6 +582,14 @@ function updateLevelDisplay() {
   const badgeIcon = document.getElementById('badge-icon');
   if (badgeIcon) {
     badgeIcon.textContent = getBadgeIcon(data.level, data.prestigeLevel);
+  }
+
+  // Update XP bar role emoji based on path
+  const xpRoleEmoji = document.querySelector('.xp-role-emoji');
+  if (xpRoleEmoji) {
+    const settings = window.loadSettings();
+    const path = settings.levelPath || 'elf';
+    xpRoleEmoji.textContent = path === 'elf' ? '🏹' : '🗡️';
   }
 }
 
@@ -837,6 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newPath = event.detail.newPath;
     const message = newPath === 'elf' ? 'You travel with Elves now!' : 'You march with Humans now!';
     showToast(message);
+    updateLevelDisplay(); // Update emoji when path changes
   });
 });
 
