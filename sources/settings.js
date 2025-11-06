@@ -16,7 +16,7 @@ const DEFAULT_SETTINGS = {
   soundEnabled: true,
   volume: 50,
   background: 'room-video',
-  timerSize: 'medium',
+  
   musicVolume: 70, // Separate volume for music player
   // Level system
   xp: 0,
@@ -103,7 +103,7 @@ function loadSettings() {
   document.getElementById('sound-enabled').checked = currentSettings.soundEnabled;
   document.getElementById('volume-slider').value = currentSettings.volume;
   document.getElementById('volume-value').textContent = currentSettings.volume + '%';
-  document.getElementById('timer-size').value = currentSettings.timerSize;
+  
 
   // Load music volume
   const musicVolumeSlider = document.getElementById('music-volume-setting');
@@ -208,8 +208,7 @@ function applySettings() {
   // Apply background
   applyBackground();
 
-  // Apply timer size
-  applyTimerSize();
+
 
   // Apply volume to audio elements
   const audioElements = document.querySelectorAll('audio');
@@ -303,30 +302,7 @@ function applyBackground() {
   }
 }
 
-function applyTimerSize() {
-  const timerElement = document.querySelector('.timer');
-  if (!timerElement) return;
 
-  // Remove existing size classes from timer
-  timerElement.classList.remove('timer-small', 'timer-medium', 'timer-large');
-
-  // Add new size class to timer
-  timerElement.classList.add(`timer-${currentSettings.timerSize}`);
-
-  // Apply size to all buttons
-  const buttons = document.querySelectorAll('.btn');
-  buttons.forEach(btn => {
-    btn.classList.remove('btn-small', 'btn-medium', 'btn-large');
-    btn.classList.add(`btn-${currentSettings.timerSize}`);
-  });
-
-  // Apply size to form check labels (timer type buttons)
-  const formLabels = document.querySelectorAll('.form-check-label');
-  formLabels.forEach(label => {
-    label.classList.remove('btn-small', 'btn-medium', 'btn-large');
-    label.classList.add(`btn-${currentSettings.timerSize}`);
-  });
-}
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
@@ -580,7 +556,7 @@ function handleSaveSettings() {
   currentSettings.autoStartPomodoros = document.getElementById('auto-start-pomodoros').checked;
   currentSettings.soundEnabled = document.getElementById('sound-enabled').checked;
   currentSettings.volume = parseInt(document.getElementById('volume-slider').value) || 50;
-  currentSettings.timerSize = document.getElementById('timer-size').value;
+  
 
   // Validate settings
   if (currentSettings.timers.pomodoro < 1 || currentSettings.timers.pomodoro > 60) {

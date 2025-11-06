@@ -723,7 +723,7 @@
 @media (max-width: 480px) {
   .genre-selector-container {
     position: fixed !important;
-    top: 8px;
+    top: 70px;
     right: 8px;
     left: auto;
     margin-right: 0;
@@ -733,7 +733,7 @@
 
 @media (max-width: 360px) {
   .genre-selector-container {
-    top: 6px !important;
+    
     right: 6px !important;
   }
 
