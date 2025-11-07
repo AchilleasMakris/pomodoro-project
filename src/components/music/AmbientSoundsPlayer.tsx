@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 // @ts-ignore - No types available for react-howler
 import ReactHowler from 'react-howler';
 import { AMBIENT_SOUNDS } from '../../data/constants';
@@ -21,7 +21,7 @@ export function AmbientSoundsPlayer({ musicPlaying }: AmbientSoundsPlayerProps) 
         return (
           <ReactHowler
             key={sound.id}
-            ref={(ref) => {
+            ref={(ref: any) => {
               if (ref) playerRefs.current[sound.id] = ref;
             }}
             src={sound.file}

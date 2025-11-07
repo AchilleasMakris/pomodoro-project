@@ -34,8 +34,6 @@ export function SettingsModal() {
     totalPomodoros,
     totalStudyMinutes,
     resetProgress,
-    levelPath,
-    setLevelPath,
     username,
     setUsername,
     canEditUsername,
@@ -185,7 +183,7 @@ export function SettingsModal() {
                   <label className="text-white">Pomodoro</label>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => setPomodoroDuration(Math.max(1, timers.pomodoro - 1))}
+                      onClick={() => setTempTimers(t => ({ ...t, pomodoro: Math.max(1, t.pomodoro - 1) }))}
                       className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded text-white"
                     >
                       −
@@ -194,12 +192,12 @@ export function SettingsModal() {
                       type="number"
                       min="1"
                       max="60"
-                      value={timers.pomodoro}
-                      onChange={(e) => setPomodoroDuration(Number(e.target.value))}
+                      value={tempTimers.pomodoro}
+                      onChange={(e) => setTempTimers(t => ({ ...t, pomodoro: Number(e.target.value) }))}
                       className="w-16 bg-white/10 text-white text-center px-2 py-1 rounded border border-white/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <button
-                      onClick={() => setPomodoroDuration(Math.min(60, timers.pomodoro + 1))}
+                      onClick={() => setTempTimers(t => ({ ...t, pomodoro: Math.min(60, t.pomodoro + 1) }))}
                       className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded text-white"
                     >
                       +
@@ -212,7 +210,7 @@ export function SettingsModal() {
                   <label className="text-white">Short Break</label>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => setShortBreakDuration(Math.max(1, timers.shortBreak - 1))}
+                      onClick={() => setTempTimers(t => ({ ...t, shortBreak: Math.max(1, t.shortBreak - 1) }))}
                       className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded text-white"
                     >
                       −
@@ -221,12 +219,12 @@ export function SettingsModal() {
                       type="number"
                       min="1"
                       max="60"
-                      value={timers.shortBreak}
-                      onChange={(e) => setShortBreakDuration(Number(e.target.value))}
+                      value={tempTimers.shortBreak}
+                      onChange={(e) => setTempTimers(t => ({ ...t, shortBreak: Number(e.target.value) }))}
                       className="w-16 bg-white/10 text-white text-center px-2 py-1 rounded border border-white/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <button
-                      onClick={() => setShortBreakDuration(Math.min(60, timers.shortBreak + 1))}
+                      onClick={() => setTempTimers(t => ({ ...t, shortBreak: Math.min(60, t.shortBreak + 1) }))}
                       className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded text-white"
                     >
                       +
@@ -239,7 +237,7 @@ export function SettingsModal() {
                   <label className="text-white">Long Break</label>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => setLongBreakDuration(Math.max(1, timers.longBreak - 1))}
+                      onClick={() => setTempTimers(t => ({ ...t, longBreak: Math.max(1, t.longBreak - 1) }))}
                       className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded text-white"
                     >
                       −
@@ -248,12 +246,12 @@ export function SettingsModal() {
                       type="number"
                       min="1"
                       max="60"
-                      value={timers.longBreak}
-                      onChange={(e) => setLongBreakDuration(Number(e.target.value))}
+                      value={tempTimers.longBreak}
+                      onChange={(e) => setTempTimers(t => ({ ...t, longBreak: Number(e.target.value) }))}
                       className="w-16 bg-white/10 text-white text-center px-2 py-1 rounded border border-white/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <button
-                      onClick={() => setLongBreakDuration(Math.min(60, timers.longBreak + 1))}
+                      onClick={() => setTempTimers(t => ({ ...t, longBreak: Math.min(60, t.longBreak + 1) }))}
                       className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded text-white"
                     >
                       +
@@ -271,8 +269,8 @@ export function SettingsModal() {
                     type="number"
                     min="1"
                     max="10"
-                    value={pomodorosBeforeLongBreak}
-                    onChange={(e) => setPomodorosBeforeLongBreak(Number(e.target.value))}
+                    value={tempPomodorosBeforeLongBreak}
+                    onChange={(e) => setTempPomodorosBeforeLongBreak(Number(e.target.value))}
                     className="w-16 bg-white/10 text-white text-center px-2 py-1 rounded border border-white/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
@@ -281,8 +279,8 @@ export function SettingsModal() {
                   <label className="text-white">Auto-start breaks</label>
                   <input
                     type="checkbox"
-                    checked={autoStartBreaks}
-                    onChange={(e) => setAutoStartBreaks(e.target.checked)}
+                    checked={tempAutoStartBreaks}
+                    onChange={(e) => setTempAutoStartBreaks(e.target.checked)}
                     className="w-5 h-5 rounded"
                   />
                 </div>
@@ -291,8 +289,8 @@ export function SettingsModal() {
                   <label className="text-white">Auto-start pomodoros</label>
                   <input
                     type="checkbox"
-                    checked={autoStartPomodoros}
-                    onChange={(e) => setAutoStartPomodoros(e.target.checked)}
+                    checked={tempAutoStartPomodoros}
+                    onChange={(e) => setTempAutoStartPomodoros(e.target.checked)}
                     className="w-5 h-5 rounded"
                   />
                 </div>
@@ -301,8 +299,8 @@ export function SettingsModal() {
                   <label className="text-white">Enable sound notifications</label>
                   <input
                     type="checkbox"
-                    checked={soundEnabled}
-                    onChange={(e) => setSoundEnabled(e.target.checked)}
+                    checked={tempSoundEnabled}
+                    onChange={(e) => setTempSoundEnabled(e.target.checked)}
                     className="w-5 h-5 rounded"
                   />
                 </div>
@@ -311,8 +309,8 @@ export function SettingsModal() {
                   <label className="text-white">Enable leveling system</label>
                   <input
                     type="checkbox"
-                    checked={levelSystemEnabled}
-                    onChange={(e) => setLevelSystemEnabled(e.target.checked)}
+                    checked={tempLevelSystemEnabled}
+                    onChange={(e) => setTempLevelSystemEnabled(e.target.checked)}
                     className="w-5 h-5 rounded"
                   />
                 </div>
@@ -320,14 +318,14 @@ export function SettingsModal() {
 
               <div>
                 <label className="block text-white font-medium mb-2">
-                  Alarm Bell Volume - {volume}%
+                  Alarm Bell Volume - {tempVolume}%
                 </label>
                 <input
                   type="range"
                   min="0"
                   max="100"
-                  value={volume}
-                  onChange={(e) => setVolume(Number(e.target.value))}
+                  value={tempVolume}
+                  onChange={(e) => setTempVolume(Number(e.target.value))}
                   className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none
                     [&::-webkit-slider-thumb]:w-4
@@ -352,9 +350,9 @@ export function SettingsModal() {
                 {BACKGROUNDS.map((bg) => (
                   <button
                     key={bg.id}
-                    onClick={() => setBackground(bg.id)}
+                    onClick={() => setTempBackground(bg.id)}
                     className={`relative rounded-lg overflow-hidden aspect-video border-2 transition-all ${
-                      background === bg.id
+                      tempBackground === bg.id
                         ? 'border-purple-500 shadow-lg shadow-purple-500/50'
                         : 'border-white/20 hover:border-white/40'
                     }`}
@@ -384,14 +382,14 @@ export function SettingsModal() {
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-white text-sm">🔊 Main Volume</label>
-                    <span className="text-white text-sm">{volume}%</span>
+                    <span className="text-white text-sm">{tempVolume}%</span>
                   </div>
                   <input
                     type="range"
                     min="0"
                     max="100"
-                    value={volume}
-                    onChange={(e) => setVolume(Number(e.target.value))}
+                    value={tempVolume}
+                    onChange={(e) => setTempVolume(Number(e.target.value))}
                     className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer
                       [&::-webkit-slider-thumb]:appearance-none
                       [&::-webkit-slider-thumb]:w-4
@@ -405,14 +403,14 @@ export function SettingsModal() {
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-white text-sm">🎵 Music Volume</label>
-                    <span className="text-white text-sm">{musicVolume}%</span>
+                    <span className="text-white text-sm">{tempMusicVolume}%</span>
                   </div>
                   <input
                     type="range"
                     min="0"
                     max="100"
-                    value={musicVolume}
-                    onChange={(e) => setMusicVolume(Number(e.target.value))}
+                    value={tempMusicVolume}
+                    onChange={(e) => setTempMusicVolume(Number(e.target.value))}
                     className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer
                       [&::-webkit-slider-thumb]:appearance-none
                       [&::-webkit-slider-thumb]:w-4
@@ -430,14 +428,14 @@ export function SettingsModal() {
                   <div key={sound.id} className="mb-4">
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-white text-sm">{sound.name}</label>
-                      <span className="text-white text-sm">{ambientVolumes[sound.id] || 0}%</span>
+                      <span className="text-white text-sm">{tempAmbientVolumes[sound.id] || 0}%</span>
                     </div>
                     <input
                       type="range"
                       min="0"
                       max="100"
-                      value={ambientVolumes[sound.id] || 0}
-                      onChange={(e) => setAmbientVolume(sound.id, Number(e.target.value))}
+                      value={tempAmbientVolumes[sound.id] || 0}
+                      onChange={(e) => setTempAmbientVolumes(v => ({ ...v, [sound.id]: Number(e.target.value) }))}
                       className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer
                         [&::-webkit-slider-thumb]:appearance-none
                         [&::-webkit-slider-thumb]:w-4
@@ -456,14 +454,14 @@ export function SettingsModal() {
                   <div key={sound.id} className="mb-4">
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-white text-sm">{sound.name}</label>
-                      <span className="text-white text-sm">{ambientVolumes[sound.id] || 0}%</span>
+                      <span className="text-white text-sm">{tempAmbientVolumes[sound.id] || 0}%</span>
                     </div>
                     <input
                       type="range"
                       min="0"
                       max="100"
-                      value={ambientVolumes[sound.id] || 0}
-                      onChange={(e) => setAmbientVolume(sound.id, Number(e.target.value))}
+                      value={tempAmbientVolumes[sound.id] || 0}
+                      onChange={(e) => setTempAmbientVolumes(v => ({ ...v, [sound.id]: Number(e.target.value) }))}
                       className="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer
                         [&::-webkit-slider-thumb]:appearance-none
                         [&::-webkit-slider-thumb]:w-4
@@ -585,18 +583,13 @@ export function SettingsModal() {
         {/* Footer */}
         <div className="flex gap-3 p-6 border-t border-white/10 shrink-0">
           <button
-            onClick={() => {
-              // Reset to defaults logic here
-              if (window.confirm('Reset all settings to default?')) {
-                window.location.reload();
-              }
-            }}
+            onClick={handleReset}
             className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg border border-white/20 transition-colors"
           >
             Reset
           </button>
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={handleSave}
             className="flex-1 px-4 py-2 bg-white text-black font-medium rounded-lg hover:bg-gray-200 transition-colors"
           >
             Save
