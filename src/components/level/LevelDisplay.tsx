@@ -1,0 +1,67 @@
+import { useSettingsStore } from '../../store/useSettingsStore';
+import {
+  getLevelName,
+  getBadgeForLevel,
+  ROLE_EMOJI_ELF,
+  ROLE_EMOJI_HUMAN,
+  getXPNeeded,
+} from '../../data/levels';
+
+export function LevelDisplay() {
+  const {
+    level,
+    xp,
+    prestigeLevel,
+    username,
+    levelPath,
+    levelSystemEnabled,
+  } = useSettingsStore();
+
+  if (!levelSystemEnabled) return null;
+
+  const xpNeeded = getXPNeeded(level);
+  const levelName = getLevelName(level, levelPath);
+  const badge = getBadgeForLevel(level, prestigeLevel);
+  const roleEmoji = levelPath === 'elf' ? ROLE_EMOJI_ELF : ROLE_EMOJI_HUMAN;
+  const progress = (xp / xpNeeded) * 100;
+
+  return (
+    <div className="fixed top-4 left-4 bg-black/40 backdrop-blur-md rounded-xl p-4 min-w-[280px] border border-white/10">
+      <div className="space-y-3">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-white">{username}</h2>
+            <p className="text-xs text-gray-300">{levelName}</p>
+          </div>
+          <div className="text-3xl">{badge}</div>
+        </div>
+
+        {/* XP Progress Bar */}
+        <div>
+          <div className="flex justify-between text-xs text-gray-300 mb-1">
+            <span>{roleEmoji} Level {level}</span>
+            <span>
+              {xp} / {xpNeeded} XP
+            </span>
+          </div>
+          <div className="w-full bg-gray-700/50 rounded-full h-2 overflow-hidden">
+            <div
+              className="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Prestige Stars */}
+        {prestigeLevel > 0 && (
+          <div className="text-center pt-1">
+            <span className="text-yellow-400 text-sm">
+              {"⭐".repeat(Math.min(prestigeLevel, 5))}
+            </span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
