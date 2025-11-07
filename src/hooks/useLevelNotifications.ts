@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '../store/useSettingsStore';
 import { getLevelName } from '../data/levels';
+import { showGameToast } from '../components/ui/GameToast';
 
 export function useLevelNotifications() {
-  const [showXPPopup, setShowXPPopup] = useState(false);
-  const [lastXPGained, setLastXPGained] = useState(0);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [levelUpData, setLevelUpData] = useState({ level: 1, levelName: '' });
 
@@ -18,12 +17,9 @@ export function useLevelNotifications() {
     const prevLevel = parseInt(localStorage.getItem('prevLevel') || '1');
 
     if (xp !== prevXP) {
-      // XP changed - show popup
+      // XP changed - show toast
       const gained = xp > prevXP ? xp - prevXP : 50; // Approximate if wrapped
-      setLastXPGained(gained);
-      setShowXPPopup(true);
-
-      setTimeout(() => setShowXPPopup(false), 2000);
+      showGameToast(`+${gained} XP Collected! 🎉`);
 
       localStorage.setItem('prevXP', xp.toString());
     }
@@ -43,8 +39,6 @@ export function useLevelNotifications() {
   }, [xp, level, levelPath]);
 
   return {
-    showXPPopup,
-    lastXPGained,
     showLevelUp,
     levelUpData
   };

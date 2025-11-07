@@ -1,16 +1,16 @@
 import { useState } from 'react';
+import { Toaster } from 'sonner';
 import { VideoBackground } from './components/background/VideoBackground';
 import { PomodoroTimer } from './components/timer/PomodoroTimer';
 import { MusicPlayer } from './components/music/MusicPlayer';
 import { AmbientSoundsPlayer } from './components/music/AmbientSoundsPlayer';
 import { LevelDisplay } from './components/level/LevelDisplay';
-import { XPPopup } from './components/level/XPPopup';
 import { LevelUpCelebration } from './components/level/LevelUpCelebration';
 import { SettingsModal } from './components/settings/SettingsModal';
 import { useLevelNotifications } from './hooks/useLevelNotifications';
 
 function App() {
-  const { showXPPopup, lastXPGained, showLevelUp, levelUpData } = useLevelNotifications();
+  const { showLevelUp, levelUpData } = useLevelNotifications();
   const [musicPlaying, setMusicPlaying] = useState(false);
 
   return (
@@ -32,9 +32,6 @@ function App() {
       {/* Ambient Sounds Player (Hidden) */}
       <AmbientSoundsPlayer musicPlaying={musicPlaying} />
 
-      {/* XP Popup Animation */}
-      <XPPopup xp={lastXPGained} show={showXPPopup} />
-
       {/* Level Up Celebration */}
       <LevelUpCelebration
         show={showLevelUp}
@@ -44,6 +41,9 @@ function App() {
 
       {/* Settings Modal */}
       <SettingsModal />
+
+      {/* Toaster for notifications */}
+      <Toaster position="top-center" />
     </div>
   );
 }
