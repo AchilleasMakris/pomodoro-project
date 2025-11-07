@@ -21,6 +21,7 @@ interface SettingsStore extends Settings {
 
   // Visual actions
   setBackground: (background: string) => void;
+  setPlaylist: (playlist: 'lofi' | 'synthwave') => void;
 
   // Level system actions
   addXP: (minutes: number) => void;
@@ -78,6 +79,7 @@ export const useSettingsStore = create<SettingsStore>()(
 
       // Visual actions
       setBackground: (background) => set({ background }),
+      setPlaylist: (playlist) => set({ playlist }),
 
       // Level system actions
       addXP: (minutes) => {

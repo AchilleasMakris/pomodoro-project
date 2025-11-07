@@ -15,6 +15,7 @@ export function LevelDisplay() {
     username,
     levelPath,
     levelSystemEnabled,
+    addXP,
   } = useSettingsStore();
 
   if (!levelSystemEnabled) return null;
@@ -60,6 +61,15 @@ export function LevelDisplay() {
               {"⭐".repeat(Math.min(prestigeLevel, 5))}
             </span>
           </div>
+        )}
+
+        {import.meta.env.DEV && (
+          <button
+            onClick={() => addXP(25)} // Adds 50 XP
+            className="w-full mt-2 px-2 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 transition-colors"
+          >
+            Add 50 XP (Dev)
+          </button>
         )}
       </div>
     </div>

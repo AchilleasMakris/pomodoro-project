@@ -50,6 +50,7 @@ export const DEFAULT_SETTINGS = {
     underwater: 0,
   },
   background: 'room-video',
+  playlist: 'lofi' as const,
   xp: 0,
   level: 1,
   prestigeLevel: 0,

@@ -26,6 +26,7 @@ export interface Settings {
 
   // Visual settings
   background: string;
+  playlist: 'lofi' | 'synthwave';
 
   // Level system
   xp: number;

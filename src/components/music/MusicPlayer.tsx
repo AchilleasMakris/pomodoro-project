@@ -15,11 +15,10 @@ interface MusicPlayerProps {
 
 export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
-  const [playlist, setPlaylist] = useState<Track[]>([]);
+  const [playlistState, setPlaylistState] = useState<Track[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [seek, setSeek] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [genre, setGenre] = useState<'lofi' | 'synthwave'>('lofi');
   const [showBackgrounds, setShowBackgrounds] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
@@ -30,17 +29,19 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
   const setMusicVolume = useSettingsStore((state) => state.setMusicVolume);
   const background = useSettingsStore((state) => state.background);
   const setBackground = useSettingsStore((state) => state.setBackground);
+  const playlist = useSettingsStore((state) => state.playlist);
+  const setPlaylist = useSettingsStore((state) => state.setPlaylist);
 
   // Load and shuffle playlist
   useEffect(() => {
-    const tracks = genre === 'lofi' ? (lofiTracks as Track[]) : (synthwaveTracks as Track[]);
+    const tracks = playlist === 'lofi' ? (lofiTracks as Track[]) : (synthwaveTracks as Track[]);
     const shuffled = [...tracks].sort(() => Math.random() - 0.5);
-    setPlaylist(shuffled);
+    setPlaylistState(shuffled);
     setCurrentIndex(0);
     if (shuffled.length > 0) {
       setCurrentTrack(shuffled[0]);
     }
-  }, [genre]);
+  }, [playlist]);
 
   // Update seek position
   useEffect(() => {
@@ -68,16 +69,16 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
   };
 
   const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % playlist.length;
+    const nextIndex = (currentIndex + 1) % playlistState.length;
     setCurrentIndex(nextIndex);
-    setCurrentTrack(playlist[nextIndex]);
+    setCurrentTrack(playlistState[nextIndex]);
     setSeek(0);
   };
 
   const handlePrevious = () => {
-    const prevIndex = currentIndex === 0 ? playlist.length - 1 : currentIndex - 1;
+    const prevIndex = currentIndex === 0 ? playlistState.length - 1 : currentIndex - 1;
     setCurrentIndex(prevIndex);
-    setCurrentTrack(playlist[prevIndex]);
+    setCurrentTrack(playlistState[prevIndex]);
     setSeek(0);
   };
 
@@ -123,10 +124,10 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
             <div className="flex items-center gap-3">
               {/* Genre Badge */}
               <button
-                onClick={() => setGenre(genre === 'lofi' ? 'synthwave' : 'lofi')}
+                onClick={() => setPlaylist(playlist === 'lofi' ? 'synthwave' : 'lofi')}
                 className="px-3 py-1 bg-purple-600 text-white text-sm font-medium rounded-full hover:bg-purple-700 transition-colors"
               >
-                {genre === 'lofi' ? 'Lofi' : 'Synthwave'}
+                {playlist === 'lofi' ? 'Lofi' : 'Synthwave'}
               </button>
 
               {currentTrack && (
