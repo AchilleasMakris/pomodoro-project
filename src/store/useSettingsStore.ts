@@ -36,6 +36,9 @@ interface SettingsStore extends Settings {
   unlockMilestoneReward: (milestone: MilestoneReward) => void;
   simulateUniqueDay: () => void; // Dev-only function to test milestones
 
+  // Login tracking
+  trackLogin: () => { isNewDay: boolean; currentDay: number };
+
   // Computed
   canEditUsername: () => boolean;
   getXPCost: () => number;
@@ -211,6 +214,43 @@ export const useSettingsStore = create<SettingsStore>()(
           totalUniqueDays: newTotalUniqueDays,
           lastPomodoroDate: yesterdayStr,
         });
+      },
+
+      trackLogin: () => {
+        const state = get();
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+        // Check if this is a new day
+        if (state.lastLoginDate === today) {
+          // Same day, no updates needed
+          return {
+            isNewDay: false,
+            currentDay: state.consecutiveLoginDays,
+          };
+        }
+
+        // It's a new day!
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+        // Check if login is consecutive
+        const isConsecutive = state.lastLoginDate === yesterdayStr;
+        const newConsecutiveDays = isConsecutive
+          ? Math.min(state.consecutiveLoginDays + 1, 12)
+          : 1;
+        const newTotalLoginDays = state.totalLoginDays + 1;
+
+        set({
+          lastLoginDate: today,
+          consecutiveLoginDays: newConsecutiveDays,
+          totalLoginDays: newTotalLoginDays,
+        });
+
+        return {
+          isNewDay: true,
+          currentDay: newConsecutiveDays,
+        };
       },
 
       // Computed

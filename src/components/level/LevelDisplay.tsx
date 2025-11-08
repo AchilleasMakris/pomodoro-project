@@ -7,6 +7,7 @@ import {
   getXPNeeded,
 } from '../../data/levels';
 import { getNextMilestone } from '../../data/milestones';
+import { Gift } from 'lucide-react';
 
 export function LevelDisplay() {
   const {
@@ -18,7 +19,7 @@ export function LevelDisplay() {
     levelSystemEnabled,
     addXP,
     totalUniqueDays,
-    simulateUniqueDay,
+    consecutiveLoginDays,
   } = useSettingsStore();
 
   if (!levelSystemEnabled) return null;
@@ -29,6 +30,19 @@ export function LevelDisplay() {
   const roleEmoji = levelPath === 'elf' ? ROLE_EMOJI_ELF : ROLE_EMOJI_HUMAN;
   const progress = (xp / xpNeeded) * 100;
   const nextMilestone = getNextMilestone(totalUniqueDays);
+
+  // Simulate next day (for testing)
+  const simulateNextDay = () => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    useSettingsStore.setState({
+      lastLoginDate: yesterdayStr,
+    });
+
+    window.location.reload();
+  };
 
   return (
     <div className="fixed top-4 left-4 bg-black/40 backdrop-blur-md rounded-xl p-4 min-w-[280px] border border-white/10">
@@ -93,11 +107,22 @@ export function LevelDisplay() {
               Add 50 XP (Dev)
             </button>
             <button
-              onClick={simulateUniqueDay} // Simulates adding a unique day
-              className="w-full px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors"
+              onClick={simulateNextDay}
+              className="w-full px-2 py-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs rounded hover:from-pink-600 hover:to-rose-600 transition-colors flex items-center justify-center gap-1"
             >
-              Simulate +1 Day (Dev)
+              <Gift className="w-3 h-3" />
+              Daily Gift
             </button>
+          </div>
+        )}
+
+        {/* Login Streak Display */}
+        {consecutiveLoginDays > 0 && (
+          <div className="pt-2 border-t border-white/10">
+            <div className="flex justify-between text-xs text-gray-300">
+              <span>🎁 Login Streak</span>
+              <span>{consecutiveLoginDays} days</span>
+            </div>
           </div>
         )}
       </div>

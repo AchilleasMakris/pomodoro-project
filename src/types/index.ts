@@ -42,6 +42,11 @@ export interface Settings {
   // Milestone system
   totalUniqueDays: number;
   lastPomodoroDate: string | null; // ISO date string (YYYY-MM-DD)
+
+  // Login tracking (for daily gifts)
+  totalLoginDays: number; // Total unique days user visited
+  consecutiveLoginDays: number; // Current login streak (max 12)
+  lastLoginDate: string | null; // Last login date (YYYY-MM-DD)
 }
 
 export interface LevelData {

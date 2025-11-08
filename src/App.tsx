@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Toaster } from 'sonner';
 import { VideoBackground } from './components/background/VideoBackground';
 import { PomodoroTimer } from './components/timer/PomodoroTimer';
@@ -8,11 +8,27 @@ import { LevelDisplay } from './components/level/LevelDisplay';
 import { LevelUpCelebration } from './components/level/LevelUpCelebration';
 import { SettingsModal } from './components/settings/SettingsModal';
 import { OnlinePresenceCounter } from './components/presence/OnlinePresenceCounter';
+import { DailyGiftGrid } from './components/rewards/DailyGiftGrid';
 import { useLevelNotifications } from './hooks/useLevelNotifications';
+import { useSettingsStore } from './store/useSettingsStore';
 
 function App() {
   const { showLevelUp, levelUpData } = useLevelNotifications();
+  const trackLogin = useSettingsStore((state) => state.trackLogin);
+  const consecutiveLoginDays = useSettingsStore((state) => state.consecutiveLoginDays);
+
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [showDailyGift, setShowDailyGift] = useState(false);
+
+  // Check if user visited today and show daily gift
+  useEffect(() => {
+    const { isNewDay } = trackLogin();
+
+    if (isNewDay) {
+      // Show the daily gift for the current day
+      setShowDailyGift(true);
+    }
+  }, [trackLogin]);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -43,6 +59,13 @@ function App() {
         show={showLevelUp}
         level={levelUpData.level}
         levelName={levelUpData.levelName}
+      />
+
+      {/* Daily Gift Grid */}
+      <DailyGiftGrid
+        show={showDailyGift}
+        onClose={() => setShowDailyGift(false)}
+        currentDay={consecutiveLoginDays}
       />
 
       {/* Settings Modal */}
