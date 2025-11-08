@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import type { TimerType } from '../../types';
@@ -44,6 +44,14 @@ export function PomodoroTimer() {
     onExpire: () => handleTimerComplete(),
     autoStart: false,
   });
+
+  // Update timer display when settings change
+  useEffect(() => {
+    if (!isRunning) {
+      const duration = getTimerDuration(timerType);
+      restart(getExpiryTimestamp(duration), false);
+    }
+  }, [timers]);
 
   const handleTimerComplete = () => {
     // Award XP if it was a Pomodoro
