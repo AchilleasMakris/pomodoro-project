@@ -7,6 +7,7 @@ import { AmbientSoundsPlayer } from './components/music/AmbientSoundsPlayer';
 import { LevelDisplay } from './components/level/LevelDisplay';
 import { LevelUpCelebration } from './components/level/LevelUpCelebration';
 import { SettingsModal } from './components/settings/SettingsModal';
+import { OnlinePresenceCounter } from './components/presence/OnlinePresenceCounter';
 import { useLevelNotifications } from './hooks/useLevelNotifications';
 
 function App() {
@@ -20,6 +21,11 @@ function App() {
 
       {/* Level Display (Top Left) */}
       <LevelDisplay />
+
+      {/* Online Presence Counter (Top Right, below settings button) */}
+      <div className="fixed top-20 right-4 z-10">
+        <OnlinePresenceCounter />
+      </div>
 
       {/* Main Content - Centered Timer */}
       <div className="min-h-screen flex items-center justify-center pb-20">
