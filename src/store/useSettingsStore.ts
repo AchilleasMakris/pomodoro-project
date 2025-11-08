@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { Settings } from '../types';
 import { DEFAULT_SETTINGS, USERNAME_EDIT_COOLDOWN, USERNAME_EDIT_COST } from '../data/constants';
 import { MAX_LEVEL, XP_PER_MINUTE, getXPNeeded } from '../data/levels';
+import { getMilestoneForDay, type MilestoneReward } from '../data/milestones';
 
 interface SettingsStore extends Settings {
   // Timer actions
@@ -30,6 +31,10 @@ interface SettingsStore extends Settings {
   setLevelSystemEnabled: (enabled: boolean) => void;
   resetProgress: () => void;
   prestige: () => void;
+
+  // Milestone system actions
+  unlockMilestoneReward: (milestone: MilestoneReward) => void;
+  simulateUniqueDay: () => void; // Dev-only function to test milestones
 
   // Computed
   canEditUsername: () => boolean;
@@ -102,12 +107,30 @@ export const useSettingsStore = create<SettingsStore>()(
           // XP continues to accumulate
         }
 
+        // Check for daily milestone progress
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        let newTotalUniqueDays = state.totalUniqueDays;
+
+        if (state.lastPomodoroDate !== today) {
+          // This is the first Pomodoro of a new day
+          newTotalUniqueDays = state.totalUniqueDays + 1;
+
+          // Check if this new day count matches a milestone
+          const milestone = getMilestoneForDay(newTotalUniqueDays);
+          if (milestone) {
+            // Unlock the milestone reward
+            get().unlockMilestoneReward(milestone);
+          }
+        }
+
         set({
           xp: newXP,
           level: newLevel,
           prestigeLevel: newPrestigeLevel,
           totalPomodoros: state.totalPomodoros + 1,
           totalStudyMinutes: state.totalStudyMinutes + minutes,
+          totalUniqueDays: newTotalUniqueDays,
+          lastPomodoroDate: today,
         });
       },
 
@@ -151,6 +174,42 @@ export const useSettingsStore = create<SettingsStore>()(
           level: 1,
           xp: 0,
           prestigeLevel: state.prestigeLevel + 1,
+        });
+      },
+
+      // Milestone system actions
+      unlockMilestoneReward: (milestone) => {
+        console.log(`🎉 Milestone Unlocked: ${milestone.title}`);
+        console.log(`📝 ${milestone.description}`);
+        console.log(`🎁 Reward: ${milestone.rewardType} - ${milestone.unlockId}`);
+
+        // TODO: In the future, this will unlock actual backgrounds, themes, or badges
+        // For now, just logging to console
+        // Example future implementation:
+        // - Add to unlockedBackgrounds array
+        // - Add to unlockedThemes array
+        // - Show a notification toast
+      },
+
+      simulateUniqueDay: () => {
+        const state = get();
+        const newTotalUniqueDays = state.totalUniqueDays + 1;
+
+        // Check if this new day count matches a milestone
+        const milestone = getMilestoneForDay(newTotalUniqueDays);
+        if (milestone) {
+          get().unlockMilestoneReward(milestone);
+        }
+
+        // Update state with new unique day count and a fake "yesterday" date
+        // so the next real Pomodoro will count as today
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+        set({
+          totalUniqueDays: newTotalUniqueDays,
+          lastPomodoroDate: yesterdayStr,
         });
       },
 

@@ -6,6 +6,7 @@ import {
   ROLE_EMOJI_HUMAN,
   getXPNeeded,
 } from '../../data/levels';
+import { getNextMilestone } from '../../data/milestones';
 
 export function LevelDisplay() {
   const {
@@ -16,6 +17,8 @@ export function LevelDisplay() {
     levelPath,
     levelSystemEnabled,
     addXP,
+    totalUniqueDays,
+    simulateUniqueDay,
   } = useSettingsStore();
 
   if (!levelSystemEnabled) return null;
@@ -25,6 +28,7 @@ export function LevelDisplay() {
   const badge = getBadgeForLevel(level, prestigeLevel);
   const roleEmoji = levelPath === 'elf' ? ROLE_EMOJI_ELF : ROLE_EMOJI_HUMAN;
   const progress = (xp / xpNeeded) * 100;
+  const nextMilestone = getNextMilestone(totalUniqueDays);
 
   return (
     <div className="fixed top-4 left-4 bg-black/40 backdrop-blur-md rounded-xl p-4 min-w-[280px] border border-white/10">
@@ -63,13 +67,38 @@ export function LevelDisplay() {
           </div>
         )}
 
+        {/* Milestone Progress */}
+        <div className="pt-2 border-t border-white/10">
+          <div className="flex justify-between text-xs text-gray-300 mb-1">
+            <span>📅 Active Days</span>
+            <span>{totalUniqueDays} days</span>
+          </div>
+          {nextMilestone ? (
+            <div className="text-xs text-gray-400">
+              Next: {nextMilestone.title} at {nextMilestone.days} days
+            </div>
+          ) : (
+            <div className="text-xs text-green-400">
+              All milestones completed! 🎉
+            </div>
+          )}
+        </div>
+
         {import.meta.env.DEV && (
-          <button
-            onClick={() => addXP(25)} // Adds 50 XP
-            className="w-full mt-2 px-2 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 transition-colors"
-          >
-            Add 50 XP (Dev)
-          </button>
+          <div className="space-y-1">
+            <button
+              onClick={() => addXP(25)} // Adds 50 XP
+              className="w-full px-2 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 transition-colors"
+            >
+              Add 50 XP (Dev)
+            </button>
+            <button
+              onClick={simulateUniqueDay} // Simulates adding a unique day
+              className="w-full px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors"
+            >
+              Simulate +1 Day (Dev)
+            </button>
+          </div>
         )}
       </div>
     </div>

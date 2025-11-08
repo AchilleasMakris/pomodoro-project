@@ -38,6 +38,10 @@ export interface Settings {
   lastUsernameChange: number | null;
   levelPath: 'elf' | 'human';
   levelSystemEnabled: boolean;
+
+  // Milestone system
+  totalUniqueDays: number;
+  lastPomodoroDate: string | null; // ISO date string (YYYY-MM-DD)
 }
 
 export interface LevelData {
