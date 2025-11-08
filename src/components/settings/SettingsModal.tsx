@@ -2,10 +2,49 @@ import { useState, useEffect } from 'react';
 import { X, Settings as SettingsIcon } from 'lucide-react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BACKGROUNDS, AMBIENT_SOUNDS } from '../../data/constants';
+import {
+  ROLE_EMOJI_ELF,
+  ROLE_EMOJI_HUMAN,
+  getLevelName,
+  getBadgeForLevel,
+} from '../../data/levels';
 
 export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'timer' | 'appearance' | 'sounds' | 'music' | 'progress'>('timer');
+  const [roleChangeMessage, setRoleChangeMessage] = useState<string | null>(null);
+
+  // Auto-dismiss role change message
+  useEffect(() => {
+    if (roleChangeMessage) {
+      const timer = setTimeout(() => {
+        setRoleChangeMessage(null);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [roleChangeMessage]);
+
+  const handleRoleChange = (newRole: 'elf' | 'human') => {
+    setLevelPath(newRole);
+
+    const messages = {
+      elf: [
+        "You have chosen the path of the Elf! May nature guide your journey.",
+        "The forest welcomes you, brave Elf. Your adventure begins anew!",
+        "An Elf emerges! The ancient woods await your wisdom.",
+        "You walk the Elven path. Grace and focus shall be your companions.",
+      ],
+      human: [
+        "You have chosen the path of the Human! May courage light your way.",
+        "A warrior's path chosen! Your legend starts now, brave Human.",
+        "The Human spirit awakens within you. Face your challenges head-on!",
+        "You walk the Human path. Strength and determination guide you forward.",
+      ],
+    };
+
+    const randomMessage = messages[newRole][Math.floor(Math.random() * messages[newRole].length)];
+    setRoleChangeMessage(randomMessage);
+  };
 
   const {
     timers,
@@ -39,6 +78,8 @@ export function SettingsModal() {
     canEditUsername,
     levelSystemEnabled,
     setLevelSystemEnabled,
+    levelPath,
+    setLevelPath,
   } = useSettingsStore();
 
   // Temporary state for settings (only applied on Save)
@@ -505,11 +546,26 @@ export function SettingsModal() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Level Progress</h3>
+
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-white/5 rounded-lg p-4">
-                    <p className="text-gray-400 text-xs mb-1">CURRENT LEVEL</p>
-                    <p className="text-white text-2xl font-bold">{level} - Tomato Seed</p>
-                    <p className="text-3xl mt-2">🌱</p>
+                  <div className="bg-white/5 rounded-lg p-4 relative">
+                    <div className="flex items-start justify-between mb-1">
+                      <p className="text-gray-400 text-xs">CURRENT LEVEL</p>
+                      {/* Role Toggle Switch */}
+                      <label className="relative inline-block w-[75px] h-[37.5px] cursor-pointer shrink-0 ml-2">
+                        <input
+                          type="checkbox"
+                          className="opacity-0 w-0 h-0 peer"
+                          checked={levelPath === 'human'}
+                          onChange={(e) => handleRoleChange(e.target.checked ? 'human' : 'elf')}
+                        />
+                        <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full transition-all duration-300 shadow-lg peer-checked:from-blue-600 peer-checked:to-blue-700"></span>
+                        <span className="absolute top-[3.75px] left-[3.75px] w-[30px] h-[30px] bg-white rounded-full transition-all duration-300 flex items-center justify-center text-lg shadow-md peer-checked:translate-x-[37.5px]">
+                          {levelPath === 'elf' ? ROLE_EMOJI_ELF : ROLE_EMOJI_HUMAN}
+                        </span>
+                      </label>
+                    </div>
+                    <p className="text-white text-2xl font-bold">{level} - {getLevelName(level, levelPath)}</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-4">
                     <p className="text-gray-400 text-xs mb-1">CURRENT XP</p>
@@ -531,7 +587,7 @@ export function SettingsModal() {
                   </div>
                   <div className="bg-white/5 rounded-lg p-4 col-span-2">
                     <p className="text-gray-400 text-xs mb-1">CURRENT BADGE</p>
-                    <p className="text-5xl">🍅</p>
+                    <p className="text-5xl">{getBadgeForLevel(level, prestigeLevel)}</p>
                   </div>
                 </div>
               </div>
@@ -596,6 +652,19 @@ export function SettingsModal() {
           </button>
         </div>
       </div>
+
+      {/* Role Change Toast Notification */}
+      {roleChangeMessage && (
+        <div className="fixed bottom-6 right-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 rounded-lg shadow-2xl border-2 border-white/20 max-w-sm animate-slide-up z-[100]">
+          <div className="flex items-start gap-3">
+            <span className="text-3xl">{levelPath === 'elf' ? ROLE_EMOJI_ELF : ROLE_EMOJI_HUMAN}</span>
+            <div>
+              <p className="font-bold text-sm mb-1">Role Changed!</p>
+              <p className="text-sm leading-relaxed">{roleChangeMessage}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
