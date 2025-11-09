@@ -14,7 +14,7 @@ export function useDeviceType() {
     }
 
     // Debounce resize events for performance
-    let timeoutId: NodeJS.Timeout
+    let timeoutId: ReturnType<typeof setTimeout>
     const handleResize = () => {
       clearTimeout(timeoutId)
       timeoutId = setTimeout(checkDevice, 300)

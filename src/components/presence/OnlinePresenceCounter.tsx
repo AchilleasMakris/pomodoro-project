@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Users } from 'lucide-react'
 import { useOnlinePresence } from '../../hooks/useOnlinePresence'
@@ -8,7 +9,7 @@ const formatCount = (count: number): string => {
   return `${(count / 1000000).toFixed(1)}M`
 }
 
-export function OnlinePresenceCounter() {
+export const OnlinePresenceCounter = memo(function OnlinePresenceCounter() {
   const { count, status } = useOnlinePresence()
 
   // Loading state
@@ -68,4 +69,4 @@ export function OnlinePresenceCounter() {
       </span>
     </motion.div>
   )
-}
+});

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, Settings as SettingsIcon } from 'lucide-react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BACKGROUNDS, AMBIENT_SOUNDS } from '../../data/constants';
@@ -14,6 +15,8 @@ export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'timer' | 'appearance' | 'sounds' | 'music' | 'progress'>('timer');
   const [roleChangeMessage, setRoleChangeMessage] = useState<string | null>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Auto-dismiss role change message
   useEffect(() => {
@@ -24,6 +27,31 @@ export function SettingsModal() {
       return () => clearTimeout(timer);
     }
   }, [roleChangeMessage]);
+
+  // Focus management: focus modal when opened, return focus when closed
+  useEffect(() => {
+    if (isOpen) {
+      // Focus the modal container when it opens
+      modalRef.current?.focus();
+    } else {
+      // Return focus to trigger button when modal closes
+      triggerButtonRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Handle Escape key to close modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
 
   const handleRoleChange = (newRole: 'elf' | 'human') => {
     setLevelPath(newRole);
@@ -167,7 +195,7 @@ export function SettingsModal() {
   };
 
   const tabs = [
-    { id: 'timer', label: 'Timer' },
+    { id: 'timer', label: 'General' },
     { id: 'appearance', label: 'Appearance' },
     { id: 'sounds', label: 'Sounds' },
     { id: 'music', label: 'Music' },
@@ -177,7 +205,9 @@ export function SettingsModal() {
   if (!isOpen) {
     return (
       <button
+        ref={triggerButtonRef}
         onClick={() => setIsOpen(true)}
+        aria-label="Open settings"
         className="fixed top-4 right-4 p-3 bg-black/40 backdrop-blur-md rounded-full text-white hover:bg-black/60 transition-colors border border-white/10 z-40"
       >
         <SettingsIcon size={24} />
@@ -186,26 +216,42 @@ export function SettingsModal() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden border border-white/10 shadow-2xl flex flex-col">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm ${isMobile ? 'p-2' : 'p-4'}`}>
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settings-title"
+        tabIndex={-1}
+        className={`bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl flex flex-col ${isMobile ? 'max-h-[95vh]' : ''}`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10 shrink-0">
-          <h2 className="text-2xl font-bold text-white">Settings</h2>
+        <div className={`flex items-center justify-between ${isMobile ? 'p-4' : 'p-6'} border-b border-white/10 shrink-0`}>
+          <h2 id="settings-title" className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white`}>Settings</h2>
           <button
             onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            aria-label="Close settings"
           >
-            <X size={24} className="text-white" />
+            <X size={isMobile ? 20 : 24} className="text-white" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 px-4 pt-4 border-b border-white/10 shrink-0">
+        <div
+          role="tablist"
+          aria-label="Settings categories"
+          className={`flex ${isMobile ? 'gap-0 overflow-x-auto' : 'gap-1'} px-4 pt-4 border-b border-white/10 shrink-0`}
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`${tab.id}-panel`}
+              id={`${tab.id}-tab`}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 font-medium transition-colors relative ${
+              className={`${isMobile ? 'px-3 py-2 text-sm whitespace-nowrap' : 'px-4 py-2'} font-medium transition-colors relative ${
                 activeTab === tab.id
                   ? 'text-white'
                   : 'text-gray-400 hover:text-gray-300'
@@ -220,9 +266,20 @@ export function SettingsModal() {
         </div>
 
         {/* Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {activeTab === 'timer' && (
-            <div className="space-y-6">
+        <div className={`flex-1 overflow-y-auto ${isMobile ? 'p-4' : 'p-6'}`}>
+          <AnimatePresence mode="wait">
+            {activeTab === 'timer' && (
+              <motion.div
+                key="timer"
+                role="tabpanel"
+                id="timer-panel"
+                aria-labelledby="timer-tab"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Timer Durations (minutes)</h3>
 
@@ -388,11 +445,63 @@ export function SettingsModal() {
                     [&::-moz-range-thumb]:border-0"
                 />
               </div>
-            </div>
-          )}
 
-          {activeTab === 'appearance' && (
-            <div className="space-y-4">
+              <div>
+                <h3 className="text-white font-bold text-lg mb-3">🔔 Notifications</h3>
+                <p className="text-gray-400 text-sm mb-3">
+                  Enable browser notifications to get notified when your timer completes.
+                </p>
+                {('Notification' in window) ? (
+                  <>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-white text-sm">Status:</span>
+                      <span className={`text-sm font-medium ${
+                        Notification.permission === 'granted' ? 'text-green-400' :
+                        Notification.permission === 'denied' ? 'text-red-400' :
+                        'text-yellow-400'
+                      }`}>
+                        {Notification.permission === 'granted' ? '✓ Enabled' :
+                         Notification.permission === 'denied' ? '✗ Blocked' :
+                         '⚠ Not enabled'}
+                      </span>
+                    </div>
+                    {Notification.permission === 'default' && (
+                      <button
+                        onClick={() => {
+                          Notification.requestPermission();
+                        }}
+                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        Enable Notifications
+                      </button>
+                    )}
+                    {Notification.permission === 'denied' && (
+                      <p className="text-red-400 text-xs">
+                        Notifications are blocked. Please enable them in your browser settings.
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-gray-400 text-sm">
+                    Notifications are not supported in this browser.
+                  </p>
+                )}
+              </div>
+              </motion.div>
+            )}
+
+            {activeTab === 'appearance' && (
+              <motion.div
+                key="appearance"
+                role="tabpanel"
+                id="appearance-panel"
+                aria-labelledby="appearance-tab"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4"
+              >
               <h3 className="text-white font-bold text-lg">Background</h3>
               <div className="grid grid-cols-3 gap-3">
                 {filteredBackgrounds.map((bg) => (
@@ -417,11 +526,21 @@ export function SettingsModal() {
                   </button>
                 ))}
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'sounds' && (
-            <div className="space-y-6">
+            {activeTab === 'sounds' && (
+              <motion.div
+                key="sounds"
+                role="tabpanel"
+                id="sounds-panel"
+                aria-labelledby="sounds-tab"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Volume Controls</h3>
 
@@ -519,11 +638,21 @@ export function SettingsModal() {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'music' && (
-            <div className="space-y-6">
+            {activeTab === 'music' && (
+              <motion.div
+                key="music"
+                role="tabpanel"
+                id="music-panel"
+                aria-labelledby="music-tab"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-2">Music Credits</h3>
                 <p className="text-gray-400 text-sm mb-4">
@@ -544,11 +673,21 @@ export function SettingsModal() {
                   Contact: lexlarisa@protonmail.com
                 </button>
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'progress' && (
-            <div className="space-y-6">
+            {activeTab === 'progress' && (
+              <motion.div
+                key="progress"
+                role="tabpanel"
+                id="progress-panel"
+                aria-labelledby="progress-tab"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Level Progress</h3>
 
@@ -637,8 +776,9 @@ export function SettingsModal() {
                   Reset All Progress
                 </button>
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Footer */}

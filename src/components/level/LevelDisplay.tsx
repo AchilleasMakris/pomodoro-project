@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { useDeviceType } from '../../hooks/useDeviceType';
 import {
@@ -10,7 +11,7 @@ import {
 import { getNextMilestone } from '../../data/milestones';
 import { Gift } from 'lucide-react';
 
-export function LevelDisplay() {
+export const LevelDisplay = memo(function LevelDisplay() {
   const {
     level,
     xp,
@@ -104,7 +105,7 @@ export function LevelDisplay() {
         {import.meta.env.DEV && (
           <div className="space-y-1">
             <button
-              onClick={() => addXP(25)} // Adds 50 XP
+              onClick={() => addXP(50)} // Adds 50 XP
               className="w-full px-2 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 transition-colors"
             >
               Add 50 XP (Dev)
@@ -131,4 +132,4 @@ export function LevelDisplay() {
       </div>
     </div>
   );
-}
+});
