@@ -9,7 +9,7 @@ export const PomodoroTimer = memo(function PomodoroTimer() {
   const [pomodoroCount, setPomodoroCount] = useState(0);
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
   const [isFlashing, setIsFlashing] = useState(false);
-  const flashTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const flashTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const {
     timers,
