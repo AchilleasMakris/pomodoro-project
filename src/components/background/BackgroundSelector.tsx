@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BACKGROUNDS } from '../../data/constants';
 import { useDeviceType } from '../../hooks/useDeviceType';
@@ -7,7 +8,7 @@ interface BackgroundSelectorProps {
   onClose: () => void;
 }
 
-export function BackgroundSelector({ show, onClose }: BackgroundSelectorProps) {
+export const BackgroundSelector = memo(function BackgroundSelector({ show, onClose }: BackgroundSelectorProps) {
   const { background, setBackground } = useSettingsStore();
   const { isMobile } = useDeviceType();
 
@@ -64,4 +65,4 @@ export function BackgroundSelector({ show, onClose }: BackgroundSelectorProps) {
       </div>
     </div>
   );
-}
+});

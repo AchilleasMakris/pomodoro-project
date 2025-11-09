@@ -14,10 +14,10 @@ export function useDeviceType() {
     }
 
     // Debounce resize events for performance
-    let timeoutId: number
+    let timeoutId: ReturnType<typeof setTimeout>
     const handleResize = () => {
       clearTimeout(timeoutId)
-      timeoutId = setTimeout(checkDevice, 300) as unknown as number
+      timeoutId = setTimeout(checkDevice, 300)
     }
 
     // Listen for both resize and orientation change

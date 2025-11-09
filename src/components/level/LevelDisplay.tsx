@@ -105,7 +105,7 @@ export const LevelDisplay = memo(function LevelDisplay() {
         {import.meta.env.DEV && (
           <div className="space-y-1">
             <button
-              onClick={() => addXP(25)} // Adds 50 XP
+              onClick={() => addXP(50)} // Adds 50 XP
               className="w-full px-2 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700 transition-colors"
             >
               Add 50 XP (Dev)

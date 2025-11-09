@@ -10,7 +10,7 @@ import { DailyGiftGrid } from './DailyGiftGrid';
  */
 export function DailyGiftExample() {
   const [showGiftGrid, setShowGiftGrid] = useState(false);
-  const [currentDay] = useState(1); // Day 1-12 for demo purposes
+  const currentDay = 1; // Day 1-12 for demo purposes
 
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center">

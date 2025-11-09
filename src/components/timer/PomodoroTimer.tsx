@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BELL_SOUND } from '../../data/constants';
 import type { TimerType } from '../../types';
 
-export function PomodoroTimer() {
+export const PomodoroTimer = memo(function PomodoroTimer() {
   const [timerType, setTimerType] = useState<TimerType>('pomodoro');
   const [pomodoroCount, setPomodoroCount] = useState(0);
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
   const [isFlashing, setIsFlashing] = useState(false);
+  const flashTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const {
     timers,
@@ -20,7 +21,7 @@ export function PomodoroTimer() {
     volume,
   } = useSettingsStore();
 
-  const getTimerDuration = (type: TimerType) => {
+  const getTimerDuration = useCallback((type: TimerType) => {
     switch (type) {
       case 'pomodoro':
         return timers.pomodoro * 60;
@@ -29,13 +30,13 @@ export function PomodoroTimer() {
       case 'longBreak':
         return timers.longBreak * 60;
     }
-  };
+  }, [timers]);
 
-  const getExpiryTimestamp = (seconds: number) => {
+  const getExpiryTimestamp = useCallback((seconds: number) => {
     const time = new Date();
     time.setSeconds(time.getSeconds() + seconds);
     return time;
-  };
+  }, []);
 
   const {
     seconds,
@@ -49,6 +50,17 @@ export function PomodoroTimer() {
     onExpire: () => handleTimerComplete(),
     autoStart: false,
   });
+
+  const switchTimer = useCallback((type: TimerType, autoStart = false) => {
+    setTimerType(type);
+    const duration = getTimerDuration(type);
+    restart(getExpiryTimestamp(duration), autoStart);
+  }, [getTimerDuration, getExpiryTimestamp, restart]);
+
+  const handleReset = useCallback(() => {
+    const duration = getTimerDuration(timerType);
+    restart(getExpiryTimestamp(duration), false);
+  }, [timerType, getTimerDuration, getExpiryTimestamp, restart]);
 
   // Request notification permission
   useEffect(() => {
@@ -69,7 +81,7 @@ export function PomodoroTimer() {
       const duration = getTimerDuration(timerType);
       restart(getExpiryTimestamp(duration), false);
     }
-  }, [timers]);
+  }, [timers, getTimerDuration, getExpiryTimestamp, restart, isRunning, timerType]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -97,7 +109,16 @@ export function PomodoroTimer() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isRunning, start, pause]);
+  }, [isRunning, start, pause, handleReset]);
+
+  // Cleanup flash timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (flashTimeoutRef.current) {
+        clearTimeout(flashTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const showNotification = (type: TimerType) => {
     if ('Notification' in window && notificationPermission === 'granted') {
@@ -135,7 +156,11 @@ export function PomodoroTimer() {
 
     // Visual flash effect
     setIsFlashing(true);
-    setTimeout(() => setIsFlashing(false), 1000);
+    // Clear any existing flash timeout
+    if (flashTimeoutRef.current) {
+      clearTimeout(flashTimeoutRef.current);
+    }
+    flashTimeoutRef.current = setTimeout(() => setIsFlashing(false), 1000);
 
     // Award XP if it was a Pomodoro
     if (timerType === 'pomodoro') {
@@ -169,17 +194,6 @@ export function PomodoroTimer() {
         switchTimer(nextType, false);
       }
     }
-  };
-
-  const switchTimer = (type: TimerType, autoStart = false) => {
-    setTimerType(type);
-    const duration = getTimerDuration(type);
-    restart(getExpiryTimestamp(duration), autoStart);
-  };
-
-  const handleReset = () => {
-    const duration = getTimerDuration(timerType);
-    restart(getExpiryTimestamp(duration), false);
   };
 
   const formatTime = (mins: number, secs: number) => {
@@ -262,4 +276,4 @@ export function PomodoroTimer() {
       </div>
     </div>
   );
-}
+});

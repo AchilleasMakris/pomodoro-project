@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Settings as SettingsIcon } from 'lucide-react';
 import { useSettingsStore } from '../../store/useSettingsStore';
@@ -15,6 +15,8 @@ export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'timer' | 'appearance' | 'sounds' | 'music' | 'progress'>('timer');
   const [roleChangeMessage, setRoleChangeMessage] = useState<string | null>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Auto-dismiss role change message
   useEffect(() => {
@@ -25,6 +27,31 @@ export function SettingsModal() {
       return () => clearTimeout(timer);
     }
   }, [roleChangeMessage]);
+
+  // Focus management: focus modal when opened, return focus when closed
+  useEffect(() => {
+    if (isOpen) {
+      // Focus the modal container when it opens
+      modalRef.current?.focus();
+    } else {
+      // Return focus to trigger button when modal closes
+      triggerButtonRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Handle Escape key to close modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
 
   const handleRoleChange = (newRole: 'elf' | 'human') => {
     setLevelPath(newRole);
@@ -178,7 +205,9 @@ export function SettingsModal() {
   if (!isOpen) {
     return (
       <button
+        ref={triggerButtonRef}
         onClick={() => setIsOpen(true)}
+        aria-label="Open settings"
         className="fixed top-4 right-4 p-3 bg-black/40 backdrop-blur-md rounded-full text-white hover:bg-black/60 transition-colors border border-white/10 z-40"
       >
         <SettingsIcon size={24} />
@@ -188,10 +217,17 @@ export function SettingsModal() {
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm ${isMobile ? 'p-2' : 'p-4'}`}>
-      <div className={`bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl flex flex-col ${isMobile ? 'max-h-[95vh]' : ''}`}>
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settings-title"
+        tabIndex={-1}
+        className={`bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl flex flex-col ${isMobile ? 'max-h-[95vh]' : ''}`}
+      >
         {/* Header */}
         <div className={`flex items-center justify-between ${isMobile ? 'p-4' : 'p-6'} border-b border-white/10 shrink-0`}>
-          <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white`}>Settings</h2>
+          <h2 id="settings-title" className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white`}>Settings</h2>
           <button
             onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -202,10 +238,18 @@ export function SettingsModal() {
         </div>
 
         {/* Tabs */}
-        <div className={`flex ${isMobile ? 'gap-0 overflow-x-auto' : 'gap-1'} px-4 pt-4 border-b border-white/10 shrink-0`}>
+        <div
+          role="tablist"
+          aria-label="Settings categories"
+          className={`flex ${isMobile ? 'gap-0 overflow-x-auto' : 'gap-1'} px-4 pt-4 border-b border-white/10 shrink-0`}
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`${tab.id}-panel`}
+              id={`${tab.id}-tab`}
               onClick={() => setActiveTab(tab.id)}
               className={`${isMobile ? 'px-3 py-2 text-sm whitespace-nowrap' : 'px-4 py-2'} font-medium transition-colors relative ${
                 activeTab === tab.id
@@ -227,6 +271,9 @@ export function SettingsModal() {
             {activeTab === 'timer' && (
               <motion.div
                 key="timer"
+                role="tabpanel"
+                id="timer-panel"
+                aria-labelledby="timer-tab"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
@@ -404,6 +451,9 @@ export function SettingsModal() {
             {activeTab === 'appearance' && (
               <motion.div
                 key="appearance"
+                role="tabpanel"
+                id="appearance-panel"
+                aria-labelledby="appearance-tab"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
@@ -440,6 +490,9 @@ export function SettingsModal() {
             {activeTab === 'sounds' && (
               <motion.div
                 key="sounds"
+                role="tabpanel"
+                id="sounds-panel"
+                aria-labelledby="sounds-tab"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
@@ -549,6 +602,9 @@ export function SettingsModal() {
             {activeTab === 'music' && (
               <motion.div
                 key="music"
+                role="tabpanel"
+                id="music-panel"
+                aria-labelledby="music-tab"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
@@ -581,6 +637,9 @@ export function SettingsModal() {
             {activeTab === 'progress' && (
               <motion.div
                 key="progress"
+                role="tabpanel"
+                id="progress-panel"
+                aria-labelledby="progress-tab"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
