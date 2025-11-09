@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Settings as SettingsIcon } from 'lucide-react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BACKGROUNDS, AMBIENT_SOUNDS } from '../../data/constants';
+import { useDeviceType } from '../../hooks/useDeviceType';
 import {
   ROLE_EMOJI_ELF,
   ROLE_EMOJI_HUMAN,
@@ -81,6 +82,12 @@ export function SettingsModal() {
     levelPath,
     setLevelPath,
   } = useSettingsStore();
+
+  const { isMobile } = useDeviceType();
+
+  // Filter backgrounds based on device type
+  const targetOrientation = isMobile ? 'vertical' : 'horizontal';
+  const filteredBackgrounds = BACKGROUNDS.filter(bg => bg.orientation === targetOrientation);
 
   // Temporary state for settings (only applied on Save)
   const [tempTimers, setTempTimers] = useState(timers);
@@ -388,7 +395,7 @@ export function SettingsModal() {
             <div className="space-y-4">
               <h3 className="text-white font-bold text-lg">Background</h3>
               <div className="grid grid-cols-3 gap-3">
-                {BACKGROUNDS.map((bg) => (
+                {filteredBackgrounds.map((bg) => (
                   <button
                     key={bg.id}
                     onClick={() => setTempBackground(bg.id)}
@@ -398,13 +405,11 @@ export function SettingsModal() {
                         : 'border-white/20 hover:border-white/40'
                     }`}
                   >
-                    <video
-                      src={bg.file}
-                      muted
-                      loop
-                      playsInline
-                      autoPlay
+                    <img
+                      src={bg.poster}
+                      alt={bg.name}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                       <span className="text-white text-sm font-medium">{bg.name}</span>

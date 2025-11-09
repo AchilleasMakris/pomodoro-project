@@ -140,7 +140,7 @@ export function PomodoroTimer() {
       </div>
 
       {/* Timer Display */}
-      <div className="text-9xl font-bold text-white tracking-wider">
+      <div className="text-6xl md:text-9xl font-bold text-white tracking-wider">
         {formatTime(minutes, seconds)}
       </div>
 

@@ -1,4 +1,5 @@
 import { useSettingsStore } from '../../store/useSettingsStore';
+import { useDeviceType } from '../../hooks/useDeviceType';
 import {
   getLevelName,
   getBadgeForLevel,
@@ -21,6 +22,8 @@ export function LevelDisplay() {
     totalUniqueDays,
     consecutiveLoginDays,
   } = useSettingsStore();
+
+  const { isMobile } = useDeviceType();
 
   if (!levelSystemEnabled) return null;
 
@@ -45,7 +48,7 @@ export function LevelDisplay() {
   };
 
   return (
-    <div className="fixed top-4 left-4 bg-black/40 backdrop-blur-md rounded-xl p-4 min-w-[280px] border border-white/10">
+    <div className={`fixed top-4 left-4 bg-black/40 backdrop-blur-md rounded-xl border border-white/10 ${isMobile ? 'p-3 min-w-[200px]' : 'p-4 min-w-[280px]'}`}>
       <div className="space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">

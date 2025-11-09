@@ -4,7 +4,8 @@ import ReactHowler from 'react-howler';
 import { Play, Pause, SkipBack, SkipForward, Volume2, ImageIcon } from 'lucide-react';
 import type { Track } from '../../types';
 import { useSettingsStore } from '../../store/useSettingsStore';
-import { R2_MUSIC_BASE_URL } from '../../data/constants';
+import { R2_MUSIC_BASE_URL, BACKGROUNDS } from '../../data/constants';
+import { useDeviceType } from '../../hooks/useDeviceType';
 import lofiTracks from '../../data/lofi.json';
 import synthwaveTracks from '../../data/synthwave.json';
 
@@ -21,6 +22,12 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
   const [duration, setDuration] = useState(0);
   const [showBackgrounds, setShowBackgrounds] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+
+  const { isMobile } = useDeviceType();
+
+  // Filter backgrounds based on device type
+  const targetOrientation = isMobile ? 'vertical' : 'horizontal';
+  const filteredBackgrounds = BACKGROUNDS.filter(bg => bg.orientation === targetOrientation);
 
   const playerRef = useRef<any>(null);
   const seekIntervalRef = useRef<number | undefined>(undefined);
@@ -117,22 +124,22 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-black/60 backdrop-blur-xl border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center gap-4">
+      <div className={`max-w-7xl mx-auto ${isMobile ? 'px-2 py-2' : 'px-4 py-3'}`}>
+        <div className={`flex ${isMobile ? 'flex-col gap-2' : 'items-center gap-4'}`}>
           {/* Track Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3">
+          <div className={`${isMobile ? 'w-full' : 'flex-1'} min-w-0`}>
+            <div className={`flex items-center ${isMobile ? 'gap-2' : 'gap-3'}`}>
               {/* Genre Badge */}
               <button
                 onClick={() => setPlaylist(playlist === 'lofi' ? 'synthwave' : 'lofi')}
-                className="px-3 py-1 bg-purple-600 text-white text-sm font-medium rounded-full hover:bg-purple-700 transition-colors"
+                className={`px-3 py-1 bg-purple-600 text-white ${isMobile ? 'text-xs' : 'text-sm'} font-medium rounded-full hover:bg-purple-700 transition-colors`}
               >
                 {playlist === 'lofi' ? 'Lofi' : 'Synthwave'}
               </button>
 
               {currentTrack && (
                 <div className="min-w-0">
-                  <p className="text-white text-sm font-medium truncate">
+                  <p className={`text-white ${isMobile ? 'text-xs' : 'text-sm'} font-medium truncate`}>
                     {currentTrack.title}
                   </p>
                   <p className="text-gray-400 text-xs truncate">{currentTrack.artist}</p>
@@ -142,10 +149,10 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-2">
+          <div className={`flex items-center gap-2 ${isMobile ? 'justify-center w-full' : ''}`}>
             <button
               onClick={handlePrevious}
-              className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
+              className={`${isMobile ? 'p-3' : 'p-2'} text-white hover:bg-white/10 rounded-full transition-colors`}
             >
               <SkipBack size={20} />
             </button>
@@ -159,14 +166,14 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
 
             <button
               onClick={handleNext}
-              className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
+              className={`${isMobile ? 'p-3' : 'p-2'} text-white hover:bg-white/10 rounded-full transition-colors`}
             >
               <SkipForward size={20} />
             </button>
           </div>
 
           {/* Progress Bar */}
-          <div className="flex-1 flex items-center gap-2">
+          <div className={`${isMobile ? 'w-full' : 'flex-1'} flex items-center gap-2`}>
             <span className="text-xs text-gray-400 w-10 text-right">{formatTime(seek)}</span>
             <div
               className="flex-1 h-1 bg-gray-700 rounded-full cursor-pointer group"
@@ -181,7 +188,7 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
           </div>
 
           {/* Volume & Background Selector */}
-          <div className="flex items-center gap-2">
+          <div className={`flex items-center gap-2 ${isMobile ? 'justify-end w-full' : ''}`}>
             {/* Volume Control */}
             <div className="relative group">
               <button
@@ -189,12 +196,12 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
                 className="p-2 text-white hover:bg-white/10 rounded-full transition-colors flex items-center gap-2"
               >
                 <Volume2 size={20} />
-                <span className="text-xs w-8">{musicVolume}%</span>
+                <span className={`text-xs w-8 ${isMobile ? 'hidden' : ''}`}>{musicVolume}%</span>
               </button>
 
               {/* Volume Slider Popup */}
               {showVolumeSlider && (
-                <div className="absolute bottom-full right-0 mb-2 bg-black/90 backdrop-blur-xl rounded-lg p-4 border border-white/10 w-48">
+                <div className={`absolute bottom-full right-0 mb-2 bg-black/90 backdrop-blur-xl rounded-lg p-4 border border-white/10 ${isMobile ? 'w-64' : 'w-48'}`}>
                   <div className="flex items-center gap-3">
                     <Volume2 size={16} className="text-gray-400" />
                     <div className="flex-1 relative">
@@ -245,46 +252,35 @@ export function MusicPlayer({ playing, setPlaying }: MusicPlayerProps) {
       </div>
 
       {/* Background Selector Popup */}
-      {showBackgrounds && (
-        <div className="absolute bottom-full right-4 mb-2 bg-black/90 backdrop-blur-xl rounded-xl p-4 border border-white/10 w-80">
-          <h3 className="text-white font-bold mb-3 text-sm">Select Background</h3>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { id: 'road-video', name: 'Road', file: 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/road.mp4' },
-              { id: 'room-video', name: 'Room', file: 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/room.mp4' },
-              { id: 'eyes-video', name: 'Eyes', file: 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/eyes-wallpaper.mp4' },
-              { id: 'anime-video', name: 'Anime', file: 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/anime.mp4' },
-              { id: 'forest-video', name: 'Forest', file: 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/forest.mp4' },
-              { id: 'landscape-video', name: 'Landscape', file: 'https://pub-7e068d8c526a459ea67ff46fe3762059.r2.dev/backgrounds/landscape.mp4' },
-            ].map((bg) => (
-              <button
-                key={bg.id}
-                onClick={() => {
-                  setBackground(bg.id);
-                  setShowBackgrounds(false);
-                }}
-                className={`relative rounded-lg overflow-hidden aspect-video border-2 transition-all ${
-                  background === bg.id
-                    ? 'border-purple-500 shadow-lg shadow-purple-500/50'
-                    : 'border-white/20 hover:border-white/40'
-                }`}
-              >
-                <video
-                  src={bg.file}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay
-                  className="w-full h-full object-cover pointer-events-none"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <span className="text-white text-xs font-medium">{bg.name}</span>
-                </div>
-              </button>
-            ))}
-          </div>
+      <div className={`absolute bottom-full mb-2 bg-black/90 backdrop-blur-xl rounded-xl p-4 border border-white/10 ${isMobile ? 'left-4 right-4 max-w-sm mx-auto' : 'right-4 w-80'} ${showBackgrounds ? 'block' : 'hidden'}`}>
+        <h3 className="text-white font-bold mb-3 text-sm">Select Background</h3>
+        <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-3'} gap-2`}>
+          {filteredBackgrounds.map((bg) => (
+            <button
+              key={bg.id}
+              onClick={() => {
+                setBackground(bg.id);
+                setShowBackgrounds(false);
+              }}
+              className={`relative rounded-lg overflow-hidden aspect-video border-2 transition-all ${
+                background === bg.id
+                  ? 'border-purple-500 shadow-lg shadow-purple-500/50'
+                  : 'border-white/20 hover:border-white/40'
+              }`}
+            >
+              <img
+                src={bg.poster}
+                alt={bg.name}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <span className="text-white text-xs font-medium">{bg.name}</span>
+              </div>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
       {/* Audio Player */}
       {currentTrack && (

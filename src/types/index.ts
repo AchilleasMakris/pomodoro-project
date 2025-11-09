@@ -67,6 +67,15 @@ export interface AmbientSound {
   volume: number;
 }
 
+export interface Background {
+  id: string;
+  name: string;
+  file: string;
+  poster: string;
+  type: 'video';
+  orientation: 'vertical' | 'horizontal';
+}
+
 export type TimerType = 'pomodoro' | 'shortBreak' | 'longBreak';
 
 export interface TimerState {

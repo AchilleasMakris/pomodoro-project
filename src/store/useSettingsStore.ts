@@ -1,9 +1,28 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Settings } from '../types';
-import { DEFAULT_SETTINGS, USERNAME_EDIT_COOLDOWN, USERNAME_EDIT_COST } from '../data/constants';
+import { DEFAULT_SETTINGS, USERNAME_EDIT_COOLDOWN, USERNAME_EDIT_COST, getDefaultBackground, BACKGROUNDS } from '../data/constants';
 import { MAX_LEVEL, XP_PER_MINUTE, getXPNeeded } from '../data/levels';
 import { getMilestoneForDay, type MilestoneReward } from '../data/milestones';
+
+// Helper to detect device type
+const getIsMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768 || window.matchMedia('(orientation: portrait)').matches;
+};
+
+// Helper to validate background compatibility
+const getValidBackgroundForDevice = (backgroundId: string, isMobile: boolean): string => {
+  const background = BACKGROUNDS.find(bg => bg.id === backgroundId);
+  if (!background) return getDefaultBackground(isMobile);
+
+  const requiredOrientation = isMobile ? 'vertical' : 'horizontal';
+  if (background.orientation !== requiredOrientation) {
+    return getDefaultBackground(isMobile);
+  }
+
+  return backgroundId;
+};
 
 interface SettingsStore extends Settings {
   // Timer actions
@@ -47,8 +66,9 @@ interface SettingsStore extends Settings {
 export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set, get) => ({
-      // Initial state from defaults
+      // Initial state from defaults with device-aware background
       ...DEFAULT_SETTINGS,
+      background: getValidBackgroundForDevice(DEFAULT_SETTINGS.background, getIsMobile()),
 
       // Timer actions
       setPomodoroDuration: (minutes) =>
@@ -264,6 +284,16 @@ export const useSettingsStore = create<SettingsStore>()(
     }),
     {
       name: 'pomodoroSettings',
+      onRehydrateStorage: () => (state) => {
+        // After loading from localStorage, validate background compatibility
+        if (state) {
+          const isMobile = getIsMobile();
+          const validBackground = getValidBackgroundForDevice(state.background, isMobile);
+          if (validBackground !== state.background) {
+            state.background = validBackground;
+          }
+        }
+      },
     }
   )
 );

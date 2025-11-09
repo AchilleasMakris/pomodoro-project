@@ -1,5 +1,6 @@
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BACKGROUNDS } from '../../data/constants';
+import { useDeviceType } from '../../hooks/useDeviceType';
 
 interface BackgroundSelectorProps {
   show: boolean;
@@ -8,8 +9,13 @@ interface BackgroundSelectorProps {
 
 export function BackgroundSelector({ show, onClose }: BackgroundSelectorProps) {
   const { background, setBackground } = useSettingsStore();
+  const { isMobile } = useDeviceType();
 
   if (!show) return null;
+
+  // Filter backgrounds based on device type
+  const targetOrientation = isMobile ? 'vertical' : 'horizontal';
+  const filteredBackgrounds = BACKGROUNDS.filter(bg => bg.orientation === targetOrientation);
 
   const handleSelect = (bgId: string) => {
     setBackground(bgId);
@@ -20,7 +26,7 @@ export function BackgroundSelector({ show, onClose }: BackgroundSelectorProps) {
     <div className="fixed bottom-20 right-4 bg-black/80 backdrop-blur-xl rounded-xl p-4 border border-white/10 w-80">
       <h3 className="text-white font-bold mb-3">Select Background</h3>
       <div className="grid grid-cols-2 gap-3">
-        {BACKGROUNDS.map((bg) => (
+        {filteredBackgrounds.map((bg) => (
           <button
             key={bg.id}
             onClick={() => handleSelect(bg.id)}

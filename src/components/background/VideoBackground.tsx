@@ -1,12 +1,27 @@
 import { useEffect, useRef } from 'react';
 import { useSettingsStore } from '../../store/useSettingsStore';
-import { BACKGROUNDS } from '../../data/constants';
+import { BACKGROUNDS, getDefaultBackground } from '../../data/constants';
+import { useDeviceType } from '../../hooks/useDeviceType';
 
 export function VideoBackground() {
-  const background = useSettingsStore((state) => state.background);
+  const { background, setBackground } = useSettingsStore();
+  const { isMobile } = useDeviceType();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const currentBg = BACKGROUNDS.find((bg) => bg.id === background);
+
+  // Validate background compatibility and fallback if needed
+  useEffect(() => {
+    if (currentBg) {
+      const requiredOrientation = isMobile ? 'vertical' : 'horizontal';
+      if (currentBg.orientation !== requiredOrientation) {
+        // Background doesn't match device - switch to appropriate default
+        const defaultBg = getDefaultBackground(isMobile);
+        console.warn(`Background ${currentBg.name} (${currentBg.orientation}) incompatible with ${isMobile ? 'mobile' : 'desktop'} device. Switching to default.`);
+        setBackground(defaultBg);
+      }
+    }
+  }, [currentBg, isMobile, setBackground]);
 
   useEffect(() => {
     if (videoRef.current) {
