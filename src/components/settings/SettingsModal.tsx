@@ -195,7 +195,7 @@ export function SettingsModal() {
   };
 
   const tabs = [
-    { id: 'timer', label: 'Timer' },
+    { id: 'timer', label: 'General' },
     { id: 'appearance', label: 'Appearance' },
     { id: 'sounds', label: 'Sounds' },
     { id: 'music', label: 'Music' },
@@ -445,6 +445,48 @@ export function SettingsModal() {
                     [&::-moz-range-thumb]:border-0"
                 />
               </div>
+
+              <div>
+                <h3 className="text-white font-bold text-lg mb-3">🔔 Notifications</h3>
+                <p className="text-gray-400 text-sm mb-3">
+                  Enable browser notifications to get notified when your timer completes.
+                </p>
+                {('Notification' in window) ? (
+                  <>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-white text-sm">Status:</span>
+                      <span className={`text-sm font-medium ${
+                        Notification.permission === 'granted' ? 'text-green-400' :
+                        Notification.permission === 'denied' ? 'text-red-400' :
+                        'text-yellow-400'
+                      }`}>
+                        {Notification.permission === 'granted' ? '✓ Enabled' :
+                         Notification.permission === 'denied' ? '✗ Blocked' :
+                         '⚠ Not enabled'}
+                      </span>
+                    </div>
+                    {Notification.permission === 'default' && (
+                      <button
+                        onClick={() => {
+                          Notification.requestPermission();
+                        }}
+                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        Enable Notifications
+                      </button>
+                    )}
+                    {Notification.permission === 'denied' && (
+                      <p className="text-red-400 text-xs">
+                        Notifications are blocked. Please enable them in your browser settings.
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-gray-400 text-sm">
+                    Notifications are not supported in this browser.
+                  </p>
+                )}
+              </div>
               </motion.div>
             )}
 
@@ -595,48 +637,6 @@ export function SettingsModal() {
                     />
                   </div>
                 ))}
-              </div>
-
-              <div>
-                <h3 className="text-white font-bold text-lg mb-3">🔔 Notifications</h3>
-                <p className="text-gray-400 text-sm mb-3">
-                  Enable browser notifications to get notified when your timer completes.
-                </p>
-                {('Notification' in window) ? (
-                  <>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-white text-sm">Status:</span>
-                      <span className={`text-sm font-medium ${
-                        Notification.permission === 'granted' ? 'text-green-400' :
-                        Notification.permission === 'denied' ? 'text-red-400' :
-                        'text-yellow-400'
-                      }`}>
-                        {Notification.permission === 'granted' ? '✓ Enabled' :
-                         Notification.permission === 'denied' ? '✗ Blocked' :
-                         '⚠ Not enabled'}
-                      </span>
-                    </div>
-                    {Notification.permission === 'default' && (
-                      <button
-                        onClick={() => {
-                          Notification.requestPermission();
-                        }}
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                      >
-                        Enable Notifications
-                      </button>
-                    )}
-                    {Notification.permission === 'denied' && (
-                      <p className="text-red-400 text-xs">
-                        Notifications are blocked. Please enable them in your browser settings.
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-gray-400 text-sm">
-                    Notifications are not supported in this browser.
-                  </p>
-                )}
               </div>
               </motion.div>
             )}
