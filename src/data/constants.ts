@@ -16,13 +16,65 @@ export const AMBIENT_SOUNDS = [
 ];
 
 export const BACKGROUNDS = [
-  { id: 'road-video', name: 'Road', file: `${R2_BACKGROUNDS_BASE_URL}/road.mp4`, type: 'video' as const },
-  { id: 'room-video', name: 'Room', file: `${R2_BACKGROUNDS_BASE_URL}/room.mp4`, type: 'video' as const },
-  { id: 'eyes-video', name: 'Eyes', file: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4`, type: 'video' as const },
-  { id: 'anime-video', name: 'Anime', file: `${R2_BACKGROUNDS_BASE_URL}/anime.mp4`, type: 'video' as const },
-  { id: 'forest-video', name: 'Forest', file: `${R2_BACKGROUNDS_BASE_URL}/forest.mp4`, type: 'video' as const },
-  { id: 'landscape-video', name: 'Landscape', file: `${R2_BACKGROUNDS_BASE_URL}/landscape.mp4`, type: 'video' as const },
+  {
+    id: 'road-video',
+    name: 'Road',
+    file: `${R2_BACKGROUNDS_BASE_URL}/road.mp4`,
+    poster: `${R2_BACKGROUNDS_BASE_URL}/backgrounds_road-poster.webp`,
+    type: 'video' as const,
+    orientation: 'horizontal' as const
+  },
+  {
+    id: 'room-video',
+    name: 'Room',
+    file: `${R2_BACKGROUNDS_BASE_URL}/room.mp4`,
+    poster: `${R2_BACKGROUNDS_BASE_URL}/backgrounds_room-poster.webp`,
+    type: 'video' as const,
+    orientation: 'horizontal' as const
+  },
+  {
+    id: 'eyes-video',
+    name: 'Eyes',
+    file: `${R2_BACKGROUNDS_BASE_URL}/eyes-wallpaper.mp4`,
+    poster: `${R2_BACKGROUNDS_BASE_URL}/backgrounds_eyes-wallpaper-poster.webp`,
+    type: 'video' as const,
+    orientation: 'horizontal' as const
+  },
+  {
+    id: 'anime-video',
+    name: 'Anime',
+    file: `${R2_BACKGROUNDS_BASE_URL}/anime.mp4`,
+    poster: `${R2_BACKGROUNDS_BASE_URL}/backgrounds_anime-poster.webp`,
+    type: 'video' as const,
+    orientation: 'vertical' as const
+  },
+  {
+    id: 'forest-video',
+    name: 'Forest',
+    file: `${R2_BACKGROUNDS_BASE_URL}/forest.mp4`,
+    poster: `${R2_BACKGROUNDS_BASE_URL}/backgrounds_forest-poster.webp`,
+    type: 'video' as const,
+    orientation: 'vertical' as const
+  },
+  {
+    id: 'landscape-video',
+    name: 'Landscape',
+    file: `${R2_BACKGROUNDS_BASE_URL}/landscape.mp4`,
+    poster: `${R2_BACKGROUNDS_BASE_URL}/backgrounds_landscape-poster.webp`,
+    type: 'video' as const,
+    orientation: 'vertical' as const
+  },
 ];
+
+// Helper function to get backgrounds by orientation
+export const getBackgroundsByOrientation = (orientation: 'vertical' | 'horizontal') => {
+  return BACKGROUNDS.filter(bg => bg.orientation === orientation);
+};
+
+// Helper function to get device-appropriate default background
+export const getDefaultBackground = (isMobile: boolean) => {
+  return isMobile ? 'anime-video' : 'room-video';
+};
 
 export const BELL_SOUND = `${R2_EFFECTS_BASE_URL}/bell.mp3`;
 
