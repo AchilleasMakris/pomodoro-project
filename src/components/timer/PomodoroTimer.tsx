@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { useSettingsStore } from '../../store/useSettingsStore';
+import { BELL_SOUND } from '../../data/constants';
 import type { TimerType } from '../../types';
 
 export function PomodoroTimer() {
   const [timerType, setTimerType] = useState<TimerType>('pomodoro');
   const [pomodoroCount, setPomodoroCount] = useState(0);
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+  const [isFlashing, setIsFlashing] = useState(false);
 
   const {
     timers,
@@ -14,6 +16,8 @@ export function PomodoroTimer() {
     autoStartBreaks,
     autoStartPomodoros,
     addXP,
+    soundEnabled,
+    volume,
   } = useSettingsStore();
 
   const getTimerDuration = (type: TimerType) => {
@@ -67,6 +71,34 @@ export function PomodoroTimer() {
     }
   }, [timers]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input field
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (e.key.toLowerCase()) {
+        case ' ':
+          e.preventDefault();
+          if (isRunning) {
+            pause();
+          } else {
+            start();
+          }
+          break;
+        case 'r':
+          e.preventDefault();
+          handleReset();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isRunning, start, pause]);
+
   const showNotification = (type: TimerType) => {
     if ('Notification' in window && notificationPermission === 'granted') {
       const titles = {
@@ -85,8 +117,7 @@ export function PomodoroTimer() {
         body: bodies[type],
         icon: '/vite.svg',
         badge: '/vite.svg',
-        tag: 'pomodoro-timer',
-        renotify: true
+        tag: 'pomodoro-timer'
       });
     }
   };
@@ -94,6 +125,17 @@ export function PomodoroTimer() {
   const handleTimerComplete = () => {
     // Show notification
     showNotification(timerType);
+
+    // Play completion sound
+    if (soundEnabled) {
+      const audio = new Audio(BELL_SOUND);
+      audio.volume = volume / 100;
+      audio.play().catch(e => console.log('Audio playback failed:', e));
+    }
+
+    // Visual flash effect
+    setIsFlashing(true);
+    setTimeout(() => setIsFlashing(false), 1000);
 
     // Award XP if it was a Pomodoro
     if (timerType === 'pomodoro') {
@@ -191,7 +233,9 @@ export function PomodoroTimer() {
 
       {/* Timer Display */}
       <div
-        className="text-6xl md:text-9xl font-bold text-white tracking-wider"
+        className={`text-6xl md:text-9xl font-bold text-white tracking-wider transition-all duration-300 ${
+          isFlashing ? 'scale-110 text-yellow-400 drop-shadow-[0_0_20px_rgba(250,204,21,0.5)]' : ''
+        }`}
         role="timer"
         aria-live="off"
         aria-label={`${formatTime(minutes, seconds)} remaining`}

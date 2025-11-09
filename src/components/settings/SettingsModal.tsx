@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, Settings as SettingsIcon } from 'lucide-react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { BACKGROUNDS, AMBIENT_SOUNDS } from '../../data/constants';
@@ -222,8 +223,16 @@ export function SettingsModal() {
 
         {/* Content - Scrollable */}
         <div className={`flex-1 overflow-y-auto ${isMobile ? 'p-4' : 'p-6'}`}>
-          {activeTab === 'timer' && (
-            <div className="space-y-6">
+          <AnimatePresence mode="wait">
+            {activeTab === 'timer' && (
+              <motion.div
+                key="timer"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Timer Durations (minutes)</h3>
 
@@ -389,11 +398,18 @@ export function SettingsModal() {
                     [&::-moz-range-thumb]:border-0"
                 />
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'appearance' && (
-            <div className="space-y-4">
+            {activeTab === 'appearance' && (
+              <motion.div
+                key="appearance"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4"
+              >
               <h3 className="text-white font-bold text-lg">Background</h3>
               <div className="grid grid-cols-3 gap-3">
                 {filteredBackgrounds.map((bg) => (
@@ -418,11 +434,18 @@ export function SettingsModal() {
                   </button>
                 ))}
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'sounds' && (
-            <div className="space-y-6">
+            {activeTab === 'sounds' && (
+              <motion.div
+                key="sounds"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Volume Controls</h3>
 
@@ -520,11 +543,18 @@ export function SettingsModal() {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'music' && (
-            <div className="space-y-6">
+            {activeTab === 'music' && (
+              <motion.div
+                key="music"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-2">Music Credits</h3>
                 <p className="text-gray-400 text-sm mb-4">
@@ -545,11 +575,18 @@ export function SettingsModal() {
                   Contact: lexlarisa@protonmail.com
                 </button>
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {activeTab === 'progress' && (
-            <div className="space-y-6">
+            {activeTab === 'progress' && (
+              <motion.div
+                key="progress"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-6"
+              >
               <div>
                 <h3 className="text-white font-bold text-lg mb-4">Level Progress</h3>
 
@@ -638,8 +675,9 @@ export function SettingsModal() {
                   Reset All Progress
                 </button>
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Footer */}
