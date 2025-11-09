@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 // @ts-ignore - No types available for react-howler
 import ReactHowler from 'react-howler';
 import { AMBIENT_SOUNDS } from '../../data/constants';
@@ -8,7 +8,7 @@ interface AmbientSoundsPlayerProps {
   musicPlaying: boolean;
 }
 
-export function AmbientSoundsPlayer({ musicPlaying }: AmbientSoundsPlayerProps) {
+export const AmbientSoundsPlayer = memo(function AmbientSoundsPlayer({ musicPlaying }: AmbientSoundsPlayerProps) {
   const ambientVolumes = useSettingsStore((state) => state.ambientVolumes);
   const playerRefs = useRef<Record<string, any>>({});
 
@@ -34,4 +34,4 @@ export function AmbientSoundsPlayer({ musicPlaying }: AmbientSoundsPlayerProps) 
       })}
     </>
   );
-}
+});

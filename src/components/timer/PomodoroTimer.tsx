@@ -6,6 +6,7 @@ import type { TimerType } from '../../types';
 export function PomodoroTimer() {
   const [timerType, setTimerType] = useState<TimerType>('pomodoro');
   const [pomodoroCount, setPomodoroCount] = useState(0);
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
 
   const {
     timers,
@@ -45,6 +46,19 @@ export function PomodoroTimer() {
     autoStart: false,
   });
 
+  // Request notification permission
+  useEffect(() => {
+    if ('Notification' in window) {
+      setNotificationPermission(Notification.permission);
+
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+          setNotificationPermission(permission);
+        });
+      }
+    }
+  }, []);
+
   // Update timer display when settings change
   useEffect(() => {
     if (!isRunning) {
@@ -53,7 +67,34 @@ export function PomodoroTimer() {
     }
   }, [timers]);
 
+  const showNotification = (type: TimerType) => {
+    if ('Notification' in window && notificationPermission === 'granted') {
+      const titles = {
+        pomodoro: '🍅 Pomodoro Complete!',
+        shortBreak: '☕ Short Break Over!',
+        longBreak: '🎉 Long Break Over!'
+      };
+
+      const bodies = {
+        pomodoro: 'Great work! Time for a break.',
+        shortBreak: 'Break time is over. Ready to focus?',
+        longBreak: 'Feeling refreshed? Let\'s get back to work!'
+      };
+
+      new Notification(titles[type], {
+        body: bodies[type],
+        icon: '/vite.svg',
+        badge: '/vite.svg',
+        tag: 'pomodoro-timer',
+        renotify: true
+      });
+    }
+  };
+
   const handleTimerComplete = () => {
+    // Show notification
+    showNotification(timerType);
+
     // Award XP if it was a Pomodoro
     if (timerType === 'pomodoro') {
       addXP(timers.pomodoro);
@@ -106,9 +147,12 @@ export function PomodoroTimer() {
   return (
     <div className="flex flex-col items-center justify-center space-y-6">
       {/* Timer Type Selector */}
-      <div className="flex gap-3">
+      <div className="flex gap-3" role="tablist" aria-label="Timer type selector">
         <button
           onClick={() => switchTimer('pomodoro')}
+          role="tab"
+          aria-selected={timerType === 'pomodoro'}
+          aria-label="Pomodoro timer"
           className={`px-6 py-2 rounded-lg font-medium transition-all ${
             timerType === 'pomodoro'
               ? 'bg-white text-gray-900 shadow-lg'
@@ -119,6 +163,9 @@ export function PomodoroTimer() {
         </button>
         <button
           onClick={() => switchTimer('shortBreak')}
+          role="tab"
+          aria-selected={timerType === 'shortBreak'}
+          aria-label="Short break timer"
           className={`px-6 py-2 rounded-lg font-medium transition-all ${
             timerType === 'shortBreak'
               ? 'bg-white text-gray-900 shadow-lg'
@@ -129,6 +176,9 @@ export function PomodoroTimer() {
         </button>
         <button
           onClick={() => switchTimer('longBreak')}
+          role="tab"
+          aria-selected={timerType === 'longBreak'}
+          aria-label="Long break timer"
           className={`px-6 py-2 rounded-lg font-medium transition-all ${
             timerType === 'longBreak'
               ? 'bg-white text-gray-900 shadow-lg'
@@ -140,7 +190,12 @@ export function PomodoroTimer() {
       </div>
 
       {/* Timer Display */}
-      <div className="text-6xl md:text-9xl font-bold text-white tracking-wider">
+      <div
+        className="text-6xl md:text-9xl font-bold text-white tracking-wider"
+        role="timer"
+        aria-live="off"
+        aria-label={`${formatTime(minutes, seconds)} remaining`}
+      >
         {formatTime(minutes, seconds)}
       </div>
 
@@ -148,12 +203,14 @@ export function PomodoroTimer() {
       <div className="flex gap-4">
         <button
           onClick={isRunning ? pause : start}
+          aria-label={isRunning ? 'Pause timer' : 'Start timer'}
           className="px-8 py-3 bg-white text-gray-900 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg"
         >
           {isRunning ? 'Pause' : 'Start'}
         </button>
         <button
           onClick={handleReset}
+          aria-label="Reset timer"
           className="px-8 py-3 bg-white/20 text-white rounded-lg font-bold text-lg hover:bg-white/30 transition-colors backdrop-blur-sm"
         >
           Reset

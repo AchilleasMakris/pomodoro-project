@@ -186,26 +186,27 @@ export function SettingsModal() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden border border-white/10 shadow-2xl flex flex-col">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm ${isMobile ? 'p-2' : 'p-4'}`}>
+      <div className={`bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl flex flex-col ${isMobile ? 'max-h-[95vh]' : ''}`}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10 shrink-0">
-          <h2 className="text-2xl font-bold text-white">Settings</h2>
+        <div className={`flex items-center justify-between ${isMobile ? 'p-4' : 'p-6'} border-b border-white/10 shrink-0`}>
+          <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white`}>Settings</h2>
           <button
             onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            aria-label="Close settings"
           >
-            <X size={24} className="text-white" />
+            <X size={isMobile ? 20 : 24} className="text-white" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 px-4 pt-4 border-b border-white/10 shrink-0">
+        <div className={`flex ${isMobile ? 'gap-0 overflow-x-auto' : 'gap-1'} px-4 pt-4 border-b border-white/10 shrink-0`}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 font-medium transition-colors relative ${
+              className={`${isMobile ? 'px-3 py-2 text-sm whitespace-nowrap' : 'px-4 py-2'} font-medium transition-colors relative ${
                 activeTab === tab.id
                   ? 'text-white'
                   : 'text-gray-400 hover:text-gray-300'
@@ -220,7 +221,7 @@ export function SettingsModal() {
         </div>
 
         {/* Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className={`flex-1 overflow-y-auto ${isMobile ? 'p-4' : 'p-6'}`}>
           {activeTab === 'timer' && (
             <div className="space-y-6">
               <div>

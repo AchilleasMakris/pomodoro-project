@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { useDeviceType } from '../../hooks/useDeviceType';
 import {
@@ -10,7 +11,7 @@ import {
 import { getNextMilestone } from '../../data/milestones';
 import { Gift } from 'lucide-react';
 
-export function LevelDisplay() {
+export const LevelDisplay = memo(function LevelDisplay() {
   const {
     level,
     xp,
@@ -131,4 +132,4 @@ export function LevelDisplay() {
       </div>
     </div>
   );
-}
+});
