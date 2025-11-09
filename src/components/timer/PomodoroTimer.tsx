@@ -62,16 +62,10 @@ export const PomodoroTimer = memo(function PomodoroTimer() {
     restart(getExpiryTimestamp(duration), false);
   }, [timerType, getTimerDuration, getExpiryTimestamp, restart]);
 
-  // Request notification permission
+  // Read notification permission (don't request automatically)
   useEffect(() => {
     if ('Notification' in window) {
       setNotificationPermission(Notification.permission);
-
-      if (Notification.permission === 'default') {
-        Notification.requestPermission().then(permission => {
-          setNotificationPermission(permission);
-        });
-      }
     }
   }, []);
 
