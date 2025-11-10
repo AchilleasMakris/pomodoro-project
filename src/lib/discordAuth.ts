@@ -66,8 +66,6 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
         client_id: import.meta.env.VITE_DISCORD_CLIENT_ID,
         response_type: 'code',
         state: '',
-        // @ts-ignore
-        prompt: 'consent', // Show auth modal to new users
         scope: [
           'identify', // User ID, username, avatar
           'guilds', // Server list
