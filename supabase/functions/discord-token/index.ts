@@ -22,7 +22,7 @@ serve(async (req) => {
 
     // Determine environment based on origin or use staging credentials if available
     const origin = req.headers.get('origin') || ''
-    const isStaging = origin.includes('study-saga.com') || origin.includes('vercel.app')
+    const isStaging = origin.includes('vercel.app')
 
     // Use staging credentials if available and request is from staging, otherwise use production
     const clientId = isStaging && Deno.env.get('DISCORD_CLIENT_ID_STAGING')
