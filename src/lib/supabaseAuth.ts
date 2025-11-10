@@ -180,7 +180,49 @@ async function fetchOrCreateAppUser(authUser: User): Promise<AppUser> {
     return updatedUser as AppUser
   }
 
-  // User doesn't exist - should have been created by trigger, but create manually if needed
+  // User doesn't exist by auth_user_id - check for legacy account with discord_id
+  console.log('[Supabase Auth] No user found by auth_user_id, checking for legacy account...')
+
+  // Try to backfill legacy account (discord_id exists but auth_user_id is NULL)
+  try {
+    const { data: backfilled, error: backfillError } = await supabase.rpc(
+      'backfill_auth_user_id',
+      {
+        p_discord_id: discordId,
+        p_auth_user_id: authUser.id
+      }
+    )
+
+    if (backfillError) {
+      console.error('[Supabase Auth] Backfill RPC error:', backfillError)
+      // If error is NOT "no rows found", throw it
+      if (!backfillError.message.includes('not found')) {
+        throw new Error(`Failed to backfill legacy account: ${backfillError.message}`)
+      }
+      // Otherwise, no legacy account exists - proceed to create new
+    } else if (backfilled) {
+      console.log('[Supabase Auth] Successfully linked legacy account')
+
+      // Fetch the newly linked user
+      const { data: linkedUser, error: fetchError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('auth_user_id', authUser.id)
+        .single()
+
+      if (fetchError || !linkedUser) {
+        console.error('[Supabase Auth] Error fetching linked user:', fetchError)
+        throw new Error('Failed to fetch linked user profile')
+      }
+
+      return linkedUser as AppUser
+    }
+  } catch (error) {
+    console.error('[Supabase Auth] Backfill attempt failed:', error)
+    // Log but continue to create new user
+  }
+
+  // No existing user found - create new profile
   console.log('[Supabase Auth] Creating new user profile...')
 
   const { data: newUser, error: createError } = await supabase
