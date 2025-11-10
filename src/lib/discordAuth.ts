@@ -60,9 +60,10 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
   console.log('[Discord Auth] Authorization successful, exchanging code...')
 
   // Step 4: Exchange code for access token
-  // Call our Supabase Edge Function
+  // Use Discord proxy to avoid CSP blocking
+  // Discord URL Mapping: /proxy/supabase → btjhclvebbtjxmdnprwz.supabase.co
   const tokenResponse = await fetch(
-    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/discord-token`,
+    '/proxy/supabase/functions/v1/discord-token',
     {
       method: 'POST',
       headers: {
