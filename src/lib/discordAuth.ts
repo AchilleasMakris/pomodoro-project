@@ -45,17 +45,36 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
 
   // Step 3: Authorize with Discord
   // prompt: "none" enables auto-login for users who have already authorized
-  const { code } = await discordSdk.commands.authorize({
-    client_id: import.meta.env.VITE_DISCORD_CLIENT_ID,
-    response_type: 'code',
-    state: '',
-    prompt: 'none', // Auto-login for returning users
-    scope: [
-      'identify',                // User ID, username, avatar
-      'guilds',                  // Server list
-      'guilds.members.read',    // Member info
-    ],
-  })
+  // We need to catch the error and re-prompt with "consent" for first-time users
+  const { code } = await discordSdk.commands
+    .authorize({
+      client_id: import.meta.env.VITE_DISCORD_CLIENT_ID,
+      response_type: 'code',
+      state: '',
+      prompt: 'none', // Auto-login for returning users
+      scope: [
+        'identify', // User ID, username, avatar
+        'guilds', // Server list
+        'guilds.members.read', // Member info
+      ],
+    })
+    .catch(async (err) => {
+      console.warn('[Discord Auth] `prompt: "none"` failed, re-prompting with `prompt: "consent"`', err)
+      // If the user has not authorized before, `prompt: 'none'` will fail.
+      // We catch this and re-run with `prompt: 'consent'` to show the auth modal.
+      return discordSdk.commands.authorize({
+        client_id: import.meta.env.VITE_DISCORD_CLIENT_ID,
+        response_type: 'code',
+        state: '',
+        // @ts-ignore
+        prompt: 'consent', // Show auth modal to new users
+        scope: [
+          'identify', // User ID, username, avatar
+          'guilds', // Server list
+          'guilds.members.read', // Member info
+        ],
+      })
+    })
 
   console.log('[Discord Auth] Authorization successful, exchanging code...')
 
