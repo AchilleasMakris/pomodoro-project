@@ -16,9 +16,28 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
+DECLARE
+  v_auth_user_id UUID;
 BEGIN
+  -- SECURITY: Verify caller is updating their own data
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Authentication required';
+  END IF;
+
+  -- Verify the user_id matches the caller's auth_user_id
+  SELECT auth_user_id INTO v_auth_user_id
+  FROM public.users
+  WHERE id = p_user_id;
+
+  IF v_auth_user_id IS NULL THEN
+    RAISE EXCEPTION 'User with id % not found', p_user_id;
+  END IF;
+
+  IF auth.uid() != v_auth_user_id THEN
+    RAISE EXCEPTION 'Unauthorized: Cannot update another user''s XP';
+  END IF;
+
   -- Update XP for the specified user
-  -- RLS policies ensure users can only update their own data
   UPDATE public.users
   SET xp = xp + p_xp_amount,
       updated_at = NOW()
@@ -42,9 +61,28 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
+DECLARE
+  v_auth_user_id UUID;
 BEGIN
+  -- SECURITY: Verify caller is updating their own data
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Authentication required';
+  END IF;
+
+  -- Verify the user_id matches the caller's auth_user_id
+  SELECT auth_user_id INTO v_auth_user_id
+  FROM public.users
+  WHERE id = p_user_id;
+
+  IF v_auth_user_id IS NULL THEN
+    RAISE EXCEPTION 'User with id % not found', p_user_id;
+  END IF;
+
+  IF auth.uid() != v_auth_user_id THEN
+    RAISE EXCEPTION 'Unauthorized: Cannot update another user''s stats';
+  END IF;
+
   -- Update pomodoro statistics
-  -- RLS policies ensure users can only update their own data
   UPDATE public.users
   SET
     total_pomodoros = total_pomodoros + p_pomodoro_count,
