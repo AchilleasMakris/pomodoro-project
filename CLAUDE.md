@@ -1,0 +1,1 @@
+- always read @PROJECT.md to take context of our codebase so you can always build correctly
