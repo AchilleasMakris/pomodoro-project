@@ -261,10 +261,36 @@ export const useSettingsStore = create<SettingsStore>()(
           : 1;
         const newTotalLoginDays = state.totalLoginDays + 1;
 
+        // Award XP for daily gift (days 1-9 get 10 XP each)
+        let newXP = state.xp;
+        let newLevel = state.level;
+        let newPrestigeLevel = state.prestigeLevel;
+
+        if (newConsecutiveDays >= 1 && newConsecutiveDays <= 9) {
+          const xpGained = 10;
+          newXP = state.xp + xpGained;
+
+          // Check for level ups
+          while (newLevel < MAX_LEVEL && newXP >= getXPNeeded(newLevel)) {
+            newXP -= getXPNeeded(newLevel);
+            newLevel++;
+          }
+
+          // Check for prestige
+          if (newLevel >= MAX_LEVEL && newXP > 0) {
+            newPrestigeLevel++;
+            newLevel = 1;
+            // XP continues to accumulate
+          }
+        }
+
         set({
           lastLoginDate: today,
           consecutiveLoginDays: newConsecutiveDays,
           totalLoginDays: newTotalLoginDays,
+          xp: newXP,
+          level: newLevel,
+          prestigeLevel: newPrestigeLevel,
         });
 
         return {
