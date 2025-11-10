@@ -1,24 +1,24 @@
--- CRITICAL FIX: Handle NULL auth_user_id during migration
--- Existing users have NULL auth_user_id and would be locked out by strict RLS policies
+-- CRITICAL FIX: Secure RLS policies for auth migration
+-- Migration handled ONLY via backfill_auth_user_id RPC (SECURITY DEFINER bypasses RLS)
+-- This prevents account hijacking and data exposure during migration
 
 -- Drop the strict policies that don't handle NULL
 DROP POLICY IF EXISTS "Users can view own profile" ON public.users;
 DROP POLICY IF EXISTS "Users can insert own profile" ON public.users;
 DROP POLICY IF EXISTS "Users can update own profile" ON public.users;
 
--- Create migration-safe policies that handle NULL auth_user_id
--- These allow access during the transition period
+-- Create SECURE policies - no NULL allowances to prevent hijacking/exposure
+-- Unmigrated users must use backfill_auth_user_id RPC to link their account first
 
-CREATE POLICY "Users can view own profile (migration-safe)"
+CREATE POLICY "Users can view own profile"
   ON public.users
   FOR SELECT
   TO authenticated
   USING (
     auth.uid() = auth_user_id
-    OR auth_user_id IS NULL -- Allow access to unmigrated users
   );
 
-CREATE POLICY "Users can insert own profile (migration-safe)"
+CREATE POLICY "Users can insert own profile"
   ON public.users
   FOR INSERT
   TO authenticated
@@ -26,23 +26,22 @@ CREATE POLICY "Users can insert own profile (migration-safe)"
     auth.uid() = auth_user_id
   );
 
-CREATE POLICY "Users can update own profile (migration-safe)"
+CREATE POLICY "Users can update own profile"
   ON public.users
   FOR UPDATE
   TO authenticated
   USING (
     auth.uid() = auth_user_id
-    OR auth_user_id IS NULL -- Allow updates during migration
   )
   WITH CHECK (
     auth.uid() = auth_user_id
   );
 
--- For completed_pomodoros, also handle users table NULL references
+-- For completed_pomodoros - strict policies with no NULL allowances
 DROP POLICY IF EXISTS "Users can view own pomodoros" ON public.completed_pomodoros;
 DROP POLICY IF EXISTS "Users can insert own pomodoros" ON public.completed_pomodoros;
 
-CREATE POLICY "Users can view own pomodoros (migration-safe)"
+CREATE POLICY "Users can view own pomodoros"
   ON public.completed_pomodoros
   FOR SELECT
   TO authenticated
@@ -50,14 +49,11 @@ CREATE POLICY "Users can view own pomodoros (migration-safe)"
     EXISTS (
       SELECT 1 FROM public.users
       WHERE users.id = completed_pomodoros.user_id
-      AND (
-        users.auth_user_id = auth.uid()
-        OR users.auth_user_id IS NULL -- Allow during migration
-      )
+      AND users.auth_user_id = auth.uid()
     )
   );
 
-CREATE POLICY "Users can insert own pomodoros (migration-safe)"
+CREATE POLICY "Users can insert own pomodoros"
   ON public.completed_pomodoros
   FOR INSERT
   TO authenticated
@@ -102,8 +98,8 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 GRANT EXECUTE ON FUNCTION public.backfill_auth_user_id(TEXT, UUID) TO authenticated;
 
-COMMENT ON POLICY "Users can view own profile (migration-safe)" ON public.users IS
-  'Allows access during auth migration. Remove NULL check after all users migrated.';
+COMMENT ON POLICY "Users can view own profile" ON public.users IS
+  'Users can only view their own profile. Unmigrated users must call backfill_auth_user_id RPC first.';
 
 COMMENT ON FUNCTION public.backfill_auth_user_id(TEXT, UUID) IS
-  'Backfills auth_user_id for existing users during Supabase Auth migration.';
+  'SECURITY DEFINER function to backfill auth_user_id for existing users. Bypasses RLS to link Discord accounts safely.';

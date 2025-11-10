@@ -242,8 +242,8 @@ export function onAuthStateChange(callback: (session: Session | null) => void) {
  */
 export function getAvatarUrl(user: AppUser, size: number = 128): string {
   if (!user.avatar) {
-    // Default Discord avatar
-    const discriminator = parseInt(user.discord_id) % 5
+    // Default Discord avatar (Discord has 6 default avatars: 0-5)
+    const discriminator = parseInt(user.discord_id) % 6
     return `https://cdn.discordapp.com/embed/avatars/${discriminator}.png`
   }
 
