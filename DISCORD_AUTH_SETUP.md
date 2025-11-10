@@ -73,7 +73,14 @@ VITE_DISCORD_CLIENT_ID=your_actual_client_id_here
    supabase link --project-ref btjhclvebbtjxmdnprwz
    ```
 
-4. **Set Edge Function secrets:**
+4. **Push config to disable JWT verification:**
+   ```bash
+   supabase functions deploy discord-token --no-verify-jwt
+   ```
+
+   **Note:** The `--no-verify-jwt` flag allows the function to be called without authentication headers, which is necessary for Discord Activities. The config.toml already has `verify_jwt = false` configured for this function.
+
+5. **Set Edge Function secrets:**
    ```bash
    # Production credentials
    supabase secrets set DISCORD_CLIENT_ID=your_client_id_here
@@ -84,9 +91,9 @@ VITE_DISCORD_CLIENT_ID=your_actual_client_id_here
    supabase secrets set DISCORD_CLIENT_SECRET_STAGING=your_staging_client_secret_here
    ```
 
-5. **Deploy the edge function:**
+6. **Deploy the edge function with --no-verify-jwt flag:**
    ```bash
-   supabase functions deploy discord-token
+   supabase functions deploy discord-token --no-verify-jwt
    ```
 
 ### Step 5: Run Database Migrations

@@ -81,19 +81,23 @@ supabase secrets set DISCORD_CLIENT_SECRET_STAGING=your_staging_client_secret
 
 ## ⚠️ IMPORTANT: Deploy After Setting Secrets
 
-After setting the Supabase secrets, you MUST redeploy the edge function:
+After setting the Supabase secrets, you MUST redeploy the edge function **with the --no-verify-jwt flag**:
 
 ### Option A: Via Supabase CLI
 ```bash
-supabase functions deploy discord-token
+supabase functions deploy discord-token --no-verify-jwt
 ```
 
-### Option B: Via Supabase Dashboard
+**Why --no-verify-jwt?** This flag disables JWT authentication for the function, allowing Discord Activities to call it without authentication headers. This is safe for OAuth code exchange because Discord validates the code server-side.
+
+### Option B: Via Supabase Dashboard (Recommended if you don't have CLI)
 1. Go to: https://supabase.com/dashboard/project/btjhclvebbtjxmdnprwz/functions
-2. Click `discord-token`
-3. Go to **Code** tab
-4. Copy contents from: `/home/user/pomodoro-staging/supabase/functions/discord-token/index.ts`
-5. Paste and click **Deploy**
+2. Click `discord-token` function
+3. Go to **Settings** tab
+4. Find **JWT Verification** setting
+5. **Disable** JWT verification (uncheck the box)
+6. Save settings
+7. Go to **Code** tab and redeploy the function
 
 ---
 
