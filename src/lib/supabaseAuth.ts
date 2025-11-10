@@ -160,18 +160,16 @@ async function fetchOrCreateAppUser(authUser: User): Promise<AppUser> {
   if (existingUser) {
     console.log('[Supabase Auth] Found existing user:', existingUser.username)
 
-    // Update last login and Discord data
-    const { data: updatedUser, error: updateError } = await supabase
-      .from('users')
-      .update({
-        username,
-        avatar,
-        last_login: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .eq('auth_user_id', authUser.id)
-      .select()
-      .single()
+    // Update last login and Discord data using RPC (maintains auth checks)
+    const { data: updatedUser, error: updateError } = await supabase.rpc(
+      'sync_discord_user_data',
+      {
+        p_auth_user_id: authUser.id,
+        p_discord_id: discordId,
+        p_username: username,
+        p_avatar: avatar
+      }
+    )
 
     if (updateError) {
       console.error('[Supabase Auth] Error updating user:', updateError)

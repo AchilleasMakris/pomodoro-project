@@ -171,7 +171,11 @@ BEGIN
   )
   ON CONFLICT (discord_id)
   DO UPDATE SET
-    auth_user_id = COALESCE(EXCLUDED.auth_user_id, users.auth_user_id),
+    -- Only update auth_user_id if it's currently NULL (prevent account hijacking)
+    auth_user_id = CASE
+      WHEN users.auth_user_id IS NULL THEN EXCLUDED.auth_user_id
+      ELSE users.auth_user_id
+    END,
     username = EXCLUDED.username,
     avatar = EXCLUDED.avatar,
     last_login = EXCLUDED.last_login,

@@ -79,6 +79,15 @@ RETURNS BOOLEAN AS $$
 DECLARE
   v_updated BOOLEAN;
 BEGIN
+  -- SECURITY: Verify caller is updating their own account
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Authentication required';
+  END IF;
+
+  IF auth.uid() != p_auth_user_id THEN
+    RAISE EXCEPTION 'Unauthorized: Cannot backfill another user''s auth_user_id';
+  END IF;
+
   -- Update existing user with their auth_user_id
   UPDATE public.users
   SET auth_user_id = p_auth_user_id,

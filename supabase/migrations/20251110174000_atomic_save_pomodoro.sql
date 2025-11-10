@@ -12,7 +12,6 @@ CREATE OR REPLACE FUNCTION public.atomic_save_completed_pomodoro(
 RETURNS UUID AS $$
 DECLARE
   v_pomodoro_id UUID;
-  v_auth_user_id UUID;
 BEGIN
   -- SECURITY: Verify caller is updating their own data
   IF auth.uid() IS NULL THEN
@@ -28,17 +27,13 @@ BEGIN
     RAISE EXCEPTION 'duration_minutes must be positive';
   END IF;
 
-  -- Verify the user_id matches the caller's auth_user_id
-  SELECT auth_user_id INTO v_auth_user_id
-  FROM public.users
-  WHERE id = p_user_id;
-
-  IF v_auth_user_id IS NULL THEN
-    RAISE EXCEPTION 'User with id % not found', p_user_id;
-  END IF;
-
-  IF auth.uid() != v_auth_user_id THEN
-    RAISE EXCEPTION 'Unauthorized: Cannot save pomodoro for another user';
+  -- Verify the user_id matches the caller's auth_user_id using EXISTS
+  IF NOT EXISTS (
+    SELECT 1 FROM public.users
+    WHERE id = p_user_id
+    AND auth_user_id = auth.uid()
+  ) THEN
+    RAISE EXCEPTION 'Unauthorized: User not found or cannot save pomodoro for another user';
   END IF;
 
   -- Insert completed pomodoro (returns ID)
