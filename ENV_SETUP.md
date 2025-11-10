@@ -51,7 +51,6 @@ These secrets are **server-side only** and used by your edge function.
 |-------------|----------------|
 | `DISCORD_CLIENT_ID` | Discord Developer Portal → Your App → OAuth2 → Client ID |
 | `DISCORD_CLIENT_SECRET` | Discord Developer Portal → Your App → OAuth2 → Client Secret |
-| `SUPABASE_ANON_KEY` | Supabase Dashboard → Settings → API → anon public key |
 | `DISCORD_CLIENT_ID_STAGING` | (Optional) Separate Discord app for staging |
 | `DISCORD_CLIENT_SECRET_STAGING` | (Optional) Separate Discord app for staging |
 
@@ -72,7 +71,6 @@ These secrets are **server-side only** and used by your edge function.
 # If you have Supabase CLI installed:
 supabase secrets set DISCORD_CLIENT_ID=your_client_id_here
 supabase secrets set DISCORD_CLIENT_SECRET=your_client_secret_here
-supabase secrets set SUPABASE_ANON_KEY=your_anon_key_here
 
 # Optional: Staging credentials
 supabase secrets set DISCORD_CLIENT_ID_STAGING=your_staging_client_id
@@ -104,7 +102,7 @@ supabase functions deploy discord-token
 - [ ] Create `.env` file in project root with 3 variables
 - [ ] Get Discord Client ID from Discord Developer Portal
 - [ ] Get Supabase anon key from Supabase Dashboard
-- [ ] Set 3 Supabase secrets (DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, SUPABASE_ANON_KEY)
+- [ ] Set 2 Supabase secrets (DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET)
 - [ ] Deploy the edge function
 - [ ] Deploy your frontend (npm run build + upload)
 - [ ] Test authentication in Discord Activity
@@ -121,7 +119,6 @@ supabase functions deploy discord-token
 **Backend (Supabase secrets):**
 - `DISCORD_CLIENT_ID` - Discord app ID (server-side)
 - `DISCORD_CLIENT_SECRET` - Discord secret (KEEP SECRET!)
-- `SUPABASE_ANON_KEY` - Supabase anon key (for validation)
 
 ---
 

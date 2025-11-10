@@ -78,14 +78,11 @@ VITE_DISCORD_CLIENT_ID=your_actual_client_id_here
    # Production credentials
    supabase secrets set DISCORD_CLIENT_ID=your_client_id_here
    supabase secrets set DISCORD_CLIENT_SECRET=your_client_secret_here
-   supabase secrets set SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
    # Optional: Staging credentials (if you have separate staging Discord app)
    supabase secrets set DISCORD_CLIENT_ID_STAGING=your_staging_client_id_here
    supabase secrets set DISCORD_CLIENT_SECRET_STAGING=your_staging_client_secret_here
    ```
-
-   **Note:** You can find your `SUPABASE_ANON_KEY` in your Supabase Dashboard → Settings → API
 
 5. **Deploy the edge function:**
    ```bash
