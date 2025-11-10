@@ -167,7 +167,8 @@ export async function updateLoginStreak(userId: string): Promise<void> {
 }
 
 /**
- * Save completed pomodoro
+ * Save completed pomodoro atomically
+ * Uses atomic database function to prevent inconsistent state
  */
 export async function saveCompletedPomodoro(
   userId: string,
@@ -178,32 +179,29 @@ export async function saveCompletedPomodoro(
     task_name?: string
     notes?: string
   }
-): Promise<void> {
+): Promise<string> {
   console.log(`[User Sync] Saving pomodoro for user ${userId}`)
 
-  const { error } = await supabase
-    .from('completed_pomodoros')
-    .insert({
-      user_id: userId,
-      discord_id: discordId,
-      ...data,
-      completed_at: new Date().toISOString()
-    })
+  // Use atomic RPC function to save pomodoro and update stats in one transaction
+  const { data: pomodoroId, error } = await supabase.rpc(
+    'atomic_save_completed_pomodoro',
+    {
+      p_user_id: userId,
+      p_discord_id: discordId,
+      p_duration_minutes: data.duration_minutes,
+      p_xp_earned: data.xp_earned,
+      p_task_name: data.task_name || null,
+      p_notes: data.notes || null
+    }
+  )
 
   if (error) {
     console.error('[User Sync] Error saving pomodoro:', error)
-    throw new Error('Failed to save pomodoro')
+    throw new Error(`Failed to save pomodoro: ${error.message}`)
   }
 
-  console.log('[User Sync] Pomodoro saved successfully')
-
-  // Update totals
-  await incrementPomodoroTotals(userId, 1, data.duration_minutes)
-
-  // Update XP if earned
-  if (data.xp_earned > 0) {
-    await incrementUserXP(userId, data.xp_earned)
-  }
+  console.log('[User Sync] Pomodoro saved successfully:', pomodoroId)
+  return pomodoroId as string
 }
 
 /**
@@ -239,7 +237,7 @@ export async function getUserStats(userId: string): Promise<{
 }> {
   const { data: user, error } = await supabase
     .from('users')
-    .select('total_pomodoros, total_study_minutes, consecutive_login_days')
+    .select('total_pomodoros, total_study_minutes, consecutive_login_days, total_unique_days')
     .eq('id', userId)
     .single()
 
@@ -248,9 +246,9 @@ export async function getUserStats(userId: string): Promise<{
     throw new Error('Failed to fetch statistics')
   }
 
-  // Calculate average (rough estimate based on total unique days)
+  // Calculate average based on total unique days (not consecutive days)
   const averagePerDay = user.total_pomodoros > 0
-    ? Math.round(user.total_pomodoros / Math.max(1, user.consecutive_login_days))
+    ? Math.round(user.total_pomodoros / Math.max(1, user.total_unique_days))
     : 0
 
   return {

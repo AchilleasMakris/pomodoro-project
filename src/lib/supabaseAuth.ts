@@ -97,8 +97,9 @@ export async function authenticateWithSupabase(): Promise<AuthResult> {
 export async function signInWithDiscord(): Promise<void> {
   console.log('[Supabase Auth] Initiating Discord OAuth flow...')
 
-  // Get the current URL for redirect
-  const redirectTo = window.location.origin + window.location.pathname
+  // Get the current URL for redirect, preserving Discord query params
+  // Discord Activities require frame_id/instance_id to be preserved
+  const redirectTo = window.location.origin + window.location.pathname + window.location.search
 
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',

@@ -140,6 +140,19 @@ RETURNS public.users AS $$
 DECLARE
   v_user public.users;
 BEGIN
+  -- SECURITY: Verify caller is updating their own profile
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Authentication required';
+  END IF;
+
+  IF p_auth_user_id IS NULL THEN
+    RAISE EXCEPTION 'auth_user_id cannot be NULL';
+  END IF;
+
+  IF auth.uid() != p_auth_user_id THEN
+    RAISE EXCEPTION 'Unauthorized: Cannot update another user''s profile';
+  END IF;
+
   -- Upsert user data
   INSERT INTO public.users (
     auth_user_id,
