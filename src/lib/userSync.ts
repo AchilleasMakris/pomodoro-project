@@ -143,29 +143,26 @@ export async function syncDiscordUserToSupabase(
 
 /**
  * Update user XP and level
+ * Uses atomic RPC function to prevent race conditions
  */
 export async function updateUserProgress(
   discordId: string,
   xpToAdd: number
 ): Promise<void> {
-  const { data: user } = await supabase
-    .from('users')
-    .select('xp, level')
-    .eq('discord_id', discordId)
-    .single()
+  const { error } = await supabase.rpc('increment_user_xp', {
+    p_discord_id: discordId,
+    p_xp_delta: xpToAdd
+  })
 
-  if (!user) return
-
-  const newXp = user.xp + xpToAdd
-
-  await supabase
-    .from('users')
-    .update({ xp: newXp })
-    .eq('discord_id', discordId)
+  if (error) {
+    console.error('[User Sync] Error updating XP:', error)
+    throw new Error('Failed to update user progress')
+  }
 }
 
 /**
  * Log completed pomodoro to database
+ * Uses atomic RPC function to prevent race conditions in totals
  */
 export async function logCompletedPomodoro(
   userId: string,
@@ -175,7 +172,8 @@ export async function logCompletedPomodoro(
   taskName?: string,
   notes?: string
 ): Promise<void> {
-  const { error } = await supabase.from('completed_pomodoros').insert({
+  // Insert the completed pomodoro record
+  const { error: insertError } = await supabase.from('completed_pomodoros').insert({
     user_id: userId,
     discord_id: discordId,
     duration_minutes: durationMinutes,
@@ -184,25 +182,21 @@ export async function logCompletedPomodoro(
     notes: notes,
   })
 
-  if (error) {
-    console.error('[User Sync] Error logging pomodoro:', error)
+  if (insertError) {
+    console.error('[User Sync] Error logging pomodoro:', insertError)
+    throw new Error('Failed to log pomodoro')
   }
 
-  // Also update user totals
-  const { data: user } = await supabase
-    .from('users')
-    .select('total_pomodoros, total_study_minutes')
-    .eq('discord_id', discordId)
-    .single()
+  // Atomically update user totals to prevent race conditions
+  const { error: rpcError } = await supabase.rpc('increment_pomodoro_totals', {
+    p_discord_id: discordId,
+    p_duration_minutes: durationMinutes
+  })
 
-  if (user) {
-    await supabase
-      .from('users')
-      .update({
-        total_pomodoros: user.total_pomodoros + 1,
-        total_study_minutes: user.total_study_minutes + durationMinutes,
-      })
-      .eq('discord_id', discordId)
+  if (rpcError) {
+    console.error('[User Sync] Error updating totals:', rpcError)
+    // Note: pomodoro was logged, but totals weren't updated
+    // The pomodoro record is still saved, user can see it in history
   }
 }
 
