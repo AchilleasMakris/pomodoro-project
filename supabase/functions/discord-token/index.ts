@@ -20,6 +20,21 @@ serve(async (req) => {
       )
     }
 
+    // Determine environment based on origin or use staging credentials if available
+    const origin = req.headers.get('origin') || ''
+    const isStaging = origin.includes('study-saga.com') || origin.includes('vercel.app')
+
+    // Use staging credentials if available and request is from staging, otherwise use production
+    const clientId = isStaging && Deno.env.get('DISCORD_CLIENT_ID_STAGING')
+      ? Deno.env.get('DISCORD_CLIENT_ID_STAGING')!
+      : Deno.env.get('DISCORD_CLIENT_ID')!
+
+    const clientSecret = isStaging && Deno.env.get('DISCORD_CLIENT_SECRET_STAGING')
+      ? Deno.env.get('DISCORD_CLIENT_SECRET_STAGING')!
+      : Deno.env.get('DISCORD_CLIENT_SECRET')!
+
+    console.log('[Discord Token] Using', isStaging ? 'STAGING' : 'PRODUCTION', 'credentials for origin:', origin)
+
     // Exchange code for access token
     const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
       method: 'POST',
@@ -27,8 +42,8 @@ serve(async (req) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
-        client_id: Deno.env.get('DISCORD_CLIENT_ID')!,
-        client_secret: Deno.env.get('DISCORD_CLIENT_SECRET')!,
+        client_id: clientId,
+        client_secret: clientSecret,
         grant_type: 'authorization_code',
         code: code,
       }),
