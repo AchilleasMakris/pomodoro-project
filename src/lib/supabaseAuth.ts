@@ -104,7 +104,8 @@ export async function signInWithDiscord(): Promise<void> {
     provider: 'discord',
     options: {
       redirectTo,
-      scopes: 'identify email guilds',
+      scopes: 'identify guilds', // Email is optional - not all users share it
+      skipBrowserRedirect: false,
     }
   })
 
@@ -124,12 +125,21 @@ async function fetchOrCreateAppUser(authUser: User): Promise<AppUser> {
   console.log('[Supabase Auth] Fetching app user for auth ID:', authUser.id)
 
   // Extract Discord data from user metadata
-  const discordId = authUser.user_metadata?.provider_id || authUser.id
+  // Discord OAuth may use different field names
+  const discordId = authUser.user_metadata?.provider_id ||
+                    authUser.user_metadata?.sub ||
+                    authUser.id
+
   const username = authUser.user_metadata?.full_name ||
+                   authUser.user_metadata?.name ||
                    authUser.user_metadata?.user_name ||
+                   authUser.user_metadata?.username ||
                    authUser.email?.split('@')[0] ||
-                   'Discord User'
-  const avatar = authUser.user_metadata?.avatar_url || null
+                   `Discord User ${discordId.substring(0, 8)}`
+
+  const avatar = authUser.user_metadata?.avatar_url ||
+                 authUser.user_metadata?.picture ||
+                 null
 
   console.log('[Supabase Auth] Discord data:', { discordId, username, avatar })
 

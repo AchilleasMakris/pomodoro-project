@@ -39,10 +39,20 @@ This guide walks you through implementing proper security with Supabase Auth + D
 4. Enter your credentials:
    - **Discord Client ID**: `1437441890713604096`
    - **Discord Client Secret**: (paste your secret from Discord)
-5. **Scopes** (leave default or add): `identify email guilds`
-6. Click **Save**
+5. **⚠️ CRITICAL: Check "Skip nonce check"** - Required for Discord Activities
+6. **⚠️ CRITICAL: Check "Allow users without email"** - Discord doesn't always provide email
+7. **Scopes**: `identify guilds` (email is optional)
+8. Click **Save**
 
-### Verify Auth Settings
+### Configure Auth Settings
+
+1. Go to: https://supabase.com/dashboard/project/btjhclvebbtjxmdnprwz/auth/configuration
+2. Find **Email Auth** section:
+   - **Enable email confirmations**: ❌ **DISABLE** (Discord handles verification)
+   - **Confirm email**: ❌ **DISABLE**
+3. Click **Save**
+
+### Configure URL Settings
 
 1. Go to: https://supabase.com/dashboard/project/btjhclvebbtjxmdnprwz/auth/url-configuration
 2. **Site URL**: Set to `https://1437441890713604096.discordsays.com`

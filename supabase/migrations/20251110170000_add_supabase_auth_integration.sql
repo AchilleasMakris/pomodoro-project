@@ -67,9 +67,37 @@ CREATE POLICY "Users can insert own pomodoros"
   );
 
 -- Function to automatically create user profile on signup
+-- Handles Discord OAuth without email requirement
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+  v_discord_id TEXT;
+  v_username TEXT;
+  v_avatar TEXT;
 BEGIN
+  -- Extract Discord ID from metadata (provider uses different fields)
+  v_discord_id := COALESCE(
+    NEW.raw_user_meta_data->>'provider_id',
+    NEW.raw_user_meta_data->>'sub',
+    NEW.id::text
+  );
+
+  -- Extract username (Discord users may not have full_name)
+  v_username := COALESCE(
+    NEW.raw_user_meta_data->>'full_name',
+    NEW.raw_user_meta_data->>'name',
+    NEW.raw_user_meta_data->>'user_name',
+    NEW.raw_user_meta_data->>'username',
+    'Discord User ' || substring(v_discord_id, 1, 8)
+  );
+
+  -- Extract avatar URL
+  v_avatar := COALESCE(
+    NEW.raw_user_meta_data->>'avatar_url',
+    NEW.raw_user_meta_data->>'picture'
+  );
+
+  -- Insert user profile
   INSERT INTO public.users (
     auth_user_id,
     discord_id,
@@ -79,13 +107,16 @@ BEGIN
     updated_at
   ) VALUES (
     NEW.id,
-    NEW.raw_user_meta_data->>'provider_id',
-    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'user_name', 'Discord User'),
-    NEW.raw_user_meta_data->>'avatar_url',
+    v_discord_id,
+    v_username,
+    v_avatar,
     NOW(),
     NOW()
   )
-  ON CONFLICT (auth_user_id) DO NOTHING;
+  ON CONFLICT (auth_user_id) DO UPDATE SET
+    username = EXCLUDED.username,
+    avatar = EXCLUDED.avatar,
+    updated_at = NOW();
 
   RETURN NEW;
 END;
