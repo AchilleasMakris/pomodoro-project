@@ -128,8 +128,12 @@ async function fetchOrCreateAppUser(authUser: User): Promise<AppUser> {
   // Extract Discord data from user metadata
   // Discord OAuth may use different field names
   const discordId = authUser.user_metadata?.provider_id ||
-                    authUser.user_metadata?.sub ||
-                    authUser.id
+                    authUser.user_metadata?.sub
+  
+  if (!discordId) {
+    console.error('[Supabase Auth] Missing Discord ID in user metadata:', authUser.user_metadata)
+    throw new Error('Discord authentication failed: missing Discord user ID')
+  }
 
   const username = authUser.user_metadata?.full_name ||
                    authUser.user_metadata?.name ||
