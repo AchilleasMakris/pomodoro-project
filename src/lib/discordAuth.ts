@@ -78,9 +78,10 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
 
   // Step 4: Exchange code for access token
   // Use Discord proxy to avoid CSP blocking
-  // Discord URL Mapping: /proxy/supabase → btjhclvebbtjxmdnprwz.supabase.co
+  // Discord URL Mapping: /supabase → btjhclvebbtjxmdnprwz.supabase.co
+  // The /.proxy prefix tells Discord CSP to allow this external request
   const tokenResponse = await fetch(
-    '/proxy/supabase/functions/v1/discord-token',
+    '/.proxy/supabase/functions/v1/discord-token',
     {
       method: 'POST',
       headers: {
