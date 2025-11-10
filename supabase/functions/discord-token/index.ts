@@ -8,6 +8,21 @@ serve(async (req) => {
   }
 
   try {
+    // Verify the request has valid Supabase anon key
+    const apikey = req.headers.get('apikey')
+    const expectedAnonKey = Deno.env.get('SUPABASE_ANON_KEY')
+
+    if (!apikey || !expectedAnonKey || apikey !== expectedAnonKey) {
+      console.error('[Discord Token] Invalid or missing API key')
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
     const { code } = await req.json()
 
     if (!code) {
