@@ -79,9 +79,10 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
   // Step 4: Exchange code for access token
   // Use Discord proxy to avoid CSP blocking
   // Discord URL Mapping: /supabase → btjhclvebbtjxmdnprwz.supabase.co
-  // The /.proxy prefix tells Discord CSP to allow this external request
+  // patchUrlMappings (in main.tsx) automatically transforms this to /.proxy/supabase/...
+  console.log('[Discord Auth] Exchanging code for token...')
   const tokenResponse = await fetch(
-    '/.proxy/supabase/functions/v1/discord-token',
+    '/supabase/functions/v1/discord-token',
     {
       method: 'POST',
       headers: {
@@ -92,6 +93,9 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
     }
   )
 
+  console.log('[Discord Auth] Response status:', tokenResponse.status, tokenResponse.statusText)
+  console.log('[Discord Auth] Response URL:', tokenResponse.url)
+
   if (!tokenResponse.ok) {
     const error = await tokenResponse.text()
     console.error('[Discord Auth] Token exchange failed:', error)
@@ -99,6 +103,7 @@ export async function authenticateDiscordUser(): Promise<AuthResult> {
   }
 
   const { access_token } = await tokenResponse.json()
+  console.log('[Discord Auth] Token received successfully')
 
   console.log('[Discord Auth] Token received, authenticating SDK...')
 
