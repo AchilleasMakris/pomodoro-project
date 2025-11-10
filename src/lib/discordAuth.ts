@@ -15,10 +15,24 @@ export interface AuthResult {
 }
 
 /**
+ * Check if running inside Discord iframe
+ */
+function isInDiscord(): boolean {
+  const params = new URLSearchParams(window.location.search)
+  return params.has('frame_id') || params.has('instance_id')
+}
+
+/**
  * Initialize and authenticate with Discord Embedded SDK
  * Implements auto-login for returning users with prompt: "none"
  */
 export async function authenticateDiscordUser(): Promise<AuthResult> {
+  // Check if we're in Discord's iframe context
+  if (!isInDiscord()) {
+    console.warn('[Discord Auth] Not running in Discord context, using mock mode')
+    throw new Error('Discord Activities must be launched from Discord. Please open this app from Discord\'s Activities menu.')
+  }
+
   // Step 1: Initialize Discord SDK
   const discordSdk = new DiscordSDK(import.meta.env.VITE_DISCORD_CLIENT_ID)
 
