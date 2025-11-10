@@ -29,7 +29,7 @@ function isInDiscord(): boolean {
 export async function authenticateDiscordUser(): Promise<AuthResult> {
   // Check if we're in Discord's iframe context
   if (!isInDiscord()) {
-    console.warn('[Discord Auth] Not running in Discord context, using mock mode')
+    console.error('[Discord Auth] Not running in Discord context - authentication will fail')
     throw new Error('Discord Activities must be launched from Discord. Please open this app from Discord\'s Activities menu.')
   }
 

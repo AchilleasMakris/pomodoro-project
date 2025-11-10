@@ -7,6 +7,48 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 }
 
+/**
+ * Get required environment variable or throw error
+ */
+function getRequiredEnv(name: string): string {
+  const value = Deno.env.get(name)
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`)
+  }
+  return value
+}
+
+/**
+ * Get credentials based on server-side environment configuration
+ */
+function getCredentials(): { clientId: string; clientSecret: string; environment: string } {
+  // Determine environment from server-side configuration
+  // Defaults to 'production' if not set
+  const environment = Deno.env.get('SUPABASE_ENV') || Deno.env.get('DENO_DEPLOYMENT_ID') ? 'production' : 'production'
+
+  // Check if staging credentials are configured
+  const stagingClientId = Deno.env.get('DISCORD_CLIENT_ID_STAGING')
+  const stagingClientSecret = Deno.env.get('DISCORD_CLIENT_SECRET_STAGING')
+
+  // If SUPABASE_ENV is explicitly set to 'staging' and staging credentials exist, use them
+  const isStaging = Deno.env.get('SUPABASE_ENV') === 'staging' && stagingClientId && stagingClientSecret
+
+  if (isStaging) {
+    return {
+      clientId: stagingClientId!,
+      clientSecret: stagingClientSecret!,
+      environment: 'staging'
+    }
+  }
+
+  // Otherwise use production credentials (required)
+  return {
+    clientId: getRequiredEnv('DISCORD_CLIENT_ID'),
+    clientSecret: getRequiredEnv('DISCORD_CLIENT_SECRET'),
+    environment: 'production'
+  }
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -26,20 +68,10 @@ serve(async (req) => {
       )
     }
 
-    // Determine environment based on origin or use staging credentials if available
-    const origin = req.headers.get('origin') || ''
-    const isStaging = origin.includes('study-saga.com') || origin.includes('vercel.app')
+    // Get credentials from server-side environment configuration
+    const { clientId, clientSecret, environment } = getCredentials()
 
-    // Use staging credentials if available and request is from staging, otherwise use production
-    const clientId = isStaging && Deno.env.get('DISCORD_CLIENT_ID_STAGING')
-      ? Deno.env.get('DISCORD_CLIENT_ID_STAGING')!
-      : Deno.env.get('DISCORD_CLIENT_ID')!
-
-    const clientSecret = isStaging && Deno.env.get('DISCORD_CLIENT_SECRET_STAGING')
-      ? Deno.env.get('DISCORD_CLIENT_SECRET_STAGING')!
-      : Deno.env.get('DISCORD_CLIENT_SECRET')!
-
-    console.log('[Discord Token] Using', isStaging ? 'STAGING' : 'PRODUCTION', 'credentials for origin:', origin)
+    console.log('[Discord Token] Using', environment.toUpperCase(), 'credentials')
 
     // Exchange code for access token
     const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
