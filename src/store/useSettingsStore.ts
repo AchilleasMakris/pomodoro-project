@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Settings } from '../types';
-import { DEFAULT_SETTINGS, USERNAME_EDIT_COOLDOWN, USERNAME_EDIT_COST, getDefaultBackground, BACKGROUNDS } from '../data/constants';
+import { DEFAULT_SETTINGS, USERNAME_EDIT_COOLDOWN, USERNAME_EDIT_COST, getDefaultBackground, BACKGROUNDS, DAILY_GIFT_REWARDS, MAX_CONSECUTIVE_DAYS } from '../data/constants';
 import { MAX_LEVEL, XP_PER_MINUTE, getXPNeeded } from '../data/levels';
 import { getMilestoneForDay, type MilestoneReward } from '../data/milestones';
 
@@ -56,7 +56,7 @@ interface SettingsStore extends Settings {
   simulateUniqueDay: () => void; // Dev-only function to test milestones
 
   // Login tracking
-  trackLogin: () => { isNewDay: boolean; currentDay: number };
+  trackLogin: () => { isNewDay: boolean; currentDay: number; xpAwarded: number; streakBroken: boolean };
 
   // Computed
   canEditUsername: () => boolean;
@@ -245,7 +245,9 @@ export const useSettingsStore = create<SettingsStore>()(
           // Same day, no updates needed
           return {
             isNewDay: false,
-            currentDay: state.consecutiveLoginDays,
+            currentDay: state.consecutiveLoginDays || 1,
+            xpAwarded: 0,
+            streakBroken: false,
           };
         }
 
@@ -256,32 +258,49 @@ export const useSettingsStore = create<SettingsStore>()(
 
         // Check if login is consecutive
         const isConsecutive = state.lastLoginDate === yesterdayStr;
-        const newConsecutiveDays = isConsecutive
-          ? Math.min(state.consecutiveLoginDays + 1, 12)
-          : 1;
+        const streakBroken = state.lastLoginDate !== null && !isConsecutive;
+
+        // Calculate new consecutive days
+        let newConsecutiveDays: number;
+        if (!state.lastLoginDate) {
+          // First time login
+          newConsecutiveDays = 1;
+        } else if (isConsecutive) {
+          // Consecutive login
+          if (state.consecutiveLoginDays >= MAX_CONSECUTIVE_DAYS) {
+            // Completed full cycle, restart from day 1
+            newConsecutiveDays = 1;
+          } else {
+            // Continue streak
+            newConsecutiveDays = state.consecutiveLoginDays + 1;
+          }
+        } else {
+          // Streak broken, restart
+          newConsecutiveDays = 1;
+        }
+
         const newTotalLoginDays = state.totalLoginDays + 1;
 
-        // Award XP for daily gift (days 1-9 get 10 XP each)
-        let newXP = state.xp;
+        // Get reward for current day
+        const dayReward = DAILY_GIFT_REWARDS[newConsecutiveDays as keyof typeof DAILY_GIFT_REWARDS];
+        const xpGained = dayReward?.xp || 0;
+
+        // Calculate XP and level changes
+        let newXP = state.xp + xpGained;
         let newLevel = state.level;
         let newPrestigeLevel = state.prestigeLevel;
 
-        if (newConsecutiveDays >= 1 && newConsecutiveDays <= 9) {
-          const xpGained = 10;
-          newXP = state.xp + xpGained;
+        // Check for level ups
+        while (newLevel < MAX_LEVEL && newXP >= getXPNeeded(newLevel)) {
+          newXP -= getXPNeeded(newLevel);
+          newLevel++;
+        }
 
-          // Check for level ups
-          while (newLevel < MAX_LEVEL && newXP >= getXPNeeded(newLevel)) {
-            newXP -= getXPNeeded(newLevel);
-            newLevel++;
-          }
-
-          // Check for prestige
-          if (newLevel >= MAX_LEVEL && newXP > 0) {
-            newPrestigeLevel++;
-            newLevel = 1;
-            // XP continues to accumulate
-          }
+        // Check for prestige
+        if (newLevel >= MAX_LEVEL && newXP > 0) {
+          newPrestigeLevel++;
+          newLevel = 1;
+          // XP continues to accumulate
         }
 
         set({
@@ -296,6 +315,8 @@ export const useSettingsStore = create<SettingsStore>()(
         return {
           isNewDay: true,
           currentDay: newConsecutiveDays,
+          xpAwarded: xpGained,
+          streakBroken,
         };
       },
 

@@ -121,3 +121,21 @@ export const DEFAULT_SETTINGS = {
 
 export const USERNAME_EDIT_COOLDOWN = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 export const USERNAME_EDIT_COST = 50; // XP cost to edit early
+
+// Daily Gift Rewards
+export const DAILY_GIFT_REWARDS = {
+  1: { xp: 10, label: '+10xp' },
+  2: { xp: 10, label: '+10xp' },
+  3: { xp: 10, label: '+10xp' },
+  4: { xp: 10, label: '+10xp' },
+  5: { xp: 10, label: '+10xp' },
+  6: { xp: 10, label: '+10xp' },
+  7: { xp: 10, label: '+10xp' },
+  8: { xp: 10, label: '+10xp' },
+  9: { xp: 10, label: '+10xp' },
+  10: { xp: 50, label: '+50xp', special: true }, // Special tomato
+  11: { xp: 25, label: '+25xp' },
+  12: { xp: 100, label: '+100xp' }, // Completion bonus
+} as const;
+
+export const MAX_CONSECUTIVE_DAYS = 12;

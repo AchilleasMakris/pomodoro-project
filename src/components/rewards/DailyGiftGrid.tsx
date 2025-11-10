@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gift } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { DAILY_GIFT_REWARDS } from '../../data/constants';
 
 interface DailyGiftGridProps {
   show: boolean;
@@ -20,21 +21,21 @@ interface GiftBox {
 
 export function DailyGiftGrid({ show, onClose, currentDay }: DailyGiftGridProps) {
   // Initialize 12 gift boxes (6x2 grid)
-  // Days 1-9 are regular XP, day 10 is special tomato, days 11-12 are gifts
+  // Days 1-9 are regular XP, day 10 is special tomato with bonus, days 11-12 are bonus gifts
   const initializeGifts = (day: number): GiftBox[] => {
     const baseGifts: Omit<GiftBox, 'isRevealed' | 'isSelected'>[] = [
-      { id: 1, type: 'xp', value: '+10xp' },
-      { id: 2, type: 'xp', value: '+10xp' },
-      { id: 3, type: 'xp', value: '+10xp' },
-      { id: 4, type: 'xp', value: '+10xp' },
-      { id: 5, type: 'xp', value: '+10xp' },
-      { id: 6, type: 'xp', value: '+10xp' },
-      { id: 7, type: 'xp', value: '+10xp' },
-      { id: 8, type: 'xp', value: '+10xp' },
-      { id: 9, type: 'xp', value: '+10xp' },
+      { id: 1, type: 'xp', value: DAILY_GIFT_REWARDS[1].label },
+      { id: 2, type: 'xp', value: DAILY_GIFT_REWARDS[2].label },
+      { id: 3, type: 'xp', value: DAILY_GIFT_REWARDS[3].label },
+      { id: 4, type: 'xp', value: DAILY_GIFT_REWARDS[4].label },
+      { id: 5, type: 'xp', value: DAILY_GIFT_REWARDS[5].label },
+      { id: 6, type: 'xp', value: DAILY_GIFT_REWARDS[6].label },
+      { id: 7, type: 'xp', value: DAILY_GIFT_REWARDS[7].label },
+      { id: 8, type: 'xp', value: DAILY_GIFT_REWARDS[8].label },
+      { id: 9, type: 'xp', value: DAILY_GIFT_REWARDS[9].label },
       { id: 10, type: 'special', value: '🍅' },
-      { id: 11, type: 'gift', value: '' },
-      { id: 12, type: 'gift', value: '' },
+      { id: 11, type: 'gift', value: DAILY_GIFT_REWARDS[11].label },
+      { id: 12, type: 'reward', value: DAILY_GIFT_REWARDS[12].label },
     ];
 
     return baseGifts.map(gift => ({
@@ -211,30 +212,54 @@ function GiftCard({ gift, index }: GiftCardProps) {
 
         {/* Special tomato gift with animation when revealed */}
         {gift.type === 'special' && gift.isRevealed && (
-          <motion.span
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 10, -10, 0],
-            }}
-            transition={{
-              duration: 0.5,
-              repeat: Infinity,
-              repeatDelay: 1
-            }}
-            className="text-5xl"
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="flex flex-col items-center justify-center gap-1"
           >
-            {gift.value}
-          </motion.span>
+            <motion.span
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 10, -10, 0],
+              }}
+              transition={{
+                duration: 0.5,
+                repeat: Infinity,
+                repeatDelay: 1
+              }}
+              className="text-4xl"
+            >
+              {gift.value}
+            </motion.span>
+            <span className="text-white text-sm font-bold">
+              {DAILY_GIFT_REWARDS[10].label}
+            </span>
+          </motion.div>
         )}
 
-        {/* Revealed gift boxes show gift icon */}
+        {/* Revealed gift boxes (day 11) show gift icon with XP */}
         {gift.type === 'gift' && gift.isRevealed && (
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 200 }}
+            className="flex flex-col items-center justify-center gap-1"
+          >
+            <Gift className="w-8 h-8 text-yellow-400" />
+            <span className="text-white text-sm font-bold">{gift.value}</span>
+          </motion.div>
+        )}
+
+        {/* Revealed reward boxes (day 12) show special gift with large XP */}
+        {gift.type === 'reward' && gift.isRevealed && (
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 200 }}
+            className="flex flex-col items-center justify-center gap-1"
           >
             <Gift className="w-10 h-10 text-yellow-400" />
+            <span className="text-white text-lg font-bold">{gift.value}</span>
           </motion.div>
         )}
       </div>

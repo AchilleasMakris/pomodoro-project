@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Toaster } from 'sonner';
+import { Toaster, toast } from 'sonner';
 import { VideoBackground } from './components/background/VideoBackground';
 import { PomodoroTimer } from './components/timer/PomodoroTimer';
 import { MusicPlayer } from './components/music/MusicPlayer';
@@ -22,11 +22,34 @@ function App() {
 
   // Check if user visited today and show daily gift
   useEffect(() => {
-    const { isNewDay } = trackLogin();
+    const { isNewDay, currentDay, xpAwarded, streakBroken } = trackLogin();
 
     if (isNewDay) {
       // Show the daily gift for the current day
       setShowDailyGift(true);
+
+      // Show notification after a delay (let the gift animation play first)
+      setTimeout(() => {
+        if (streakBroken) {
+          toast.warning('Login streak broken! Starting from day 1', {
+            duration: 3000,
+          });
+        }
+
+        if (xpAwarded > 0) {
+          const messages = {
+            10: `🍅 Special Tomato Bonus! +${xpAwarded} XP`,
+            12: `🎉 12-Day Streak Complete! +${xpAwarded} XP`,
+          };
+
+          const message = messages[currentDay as keyof typeof messages] ||
+            `Day ${currentDay} reward claimed! +${xpAwarded} XP`;
+
+          toast.success(message, {
+            duration: 3000,
+          });
+        }
+      }, 2600); // Show after gift animation completes
     }
   }, [trackLogin]);
 
