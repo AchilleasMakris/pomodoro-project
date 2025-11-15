@@ -11,8 +11,10 @@ import { OnlinePresenceCounter } from './components/presence/OnlinePresenceCount
 import { DailyGiftGrid } from './components/rewards/DailyGiftGrid';
 import { useLevelNotifications } from './hooks/useLevelNotifications';
 import { useSettingsStore } from './store/useSettingsStore';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
-function App() {
+function AppContent() {
+  const { authenticated, loading, error } = useAuth();
   const { showLevelUp, levelUpData } = useLevelNotifications();
   const trackLogin = useSettingsStore((state) => state.trackLogin);
   const consecutiveLoginDays = useSettingsStore((state) => state.consecutiveLoginDays);
@@ -30,6 +32,69 @@ function App() {
     }
   }, [trackLogin]);
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="relative min-h-screen overflow-hidden">
+        <VideoBackground />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white mb-4"></div>
+            <p className="text-white text-xl font-medium">Connecting to Discord...</p>
+            <p className="text-white/60 text-sm mt-2">Please wait while we authenticate your account</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !authenticated) {
+    const isDiscordError = error?.includes('Discord Activities must be launched from Discord')
+
+    return (
+      <div className="relative min-h-screen overflow-hidden">
+        <VideoBackground />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center max-w-md mx-auto px-4">
+            <div className="text-6xl mb-4">{isDiscordError ? '🎮' : '⚠️'}</div>
+            <h1 className="text-white text-2xl font-bold mb-2">
+              {isDiscordError ? 'Launch from Discord' : 'Authentication Failed'}
+            </h1>
+            <p className="text-white/80 mb-4">
+              {isDiscordError ? (
+                <>
+                  This app must be launched from Discord's Activities menu.
+                  <br /><br />
+                  <strong>How to launch:</strong>
+                  <br />
+                  1. Open Discord
+                  <br />
+                  2. Go to any server or DM
+                  <br />
+                  3. Click the rocket icon (🚀)
+                  <br />
+                  4. Select this Activity
+                </>
+              ) : (
+                error || 'Unable to connect to Discord. Please try again.'
+              )}
+            </p>
+            {!isDiscordError && (
+              <button
+                onClick={() => window.location.reload()}
+                className="px-6 py-3 bg-white text-gray-900 rounded-lg font-bold hover:bg-gray-100 transition-colors"
+              >
+                Retry
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Authenticated - show main app
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Video Background */}
@@ -74,6 +139,15 @@ function App() {
       {/* Toaster for notifications */}
       <Toaster position="top-center" />
     </div>
+  );
+}
+
+// Wrapper component with AuthProvider
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
